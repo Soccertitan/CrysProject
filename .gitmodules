@@ -1,0 +1,15 @@
+[submodule "Plugins/CrimBlueprintStatics"]
+	path = Plugins/CrimBlueprintStatics
+	url = https://github.com/Soccertitan/CrimBlueprintStatics
+[submodule "Plugins/CrimAbilitySystem"]
+	path = Plugins/CrimAbilitySystem
+	url = https://github.com/Soccertitan/CrimAbilitySystem
+[submodule "Plugins/GameplayMessageRouter"]
+	path = Plugins/GameplayMessageRouter
+	url = https://github.com/Soccertitan/GameplayMessageRouter
+[submodule "Plugins/CrimWidgetPoolSystem"]
+	path = Plugins/CrimWidgetPoolSystem
+	url = https://github.com/Soccertitan/CrimWidgetPoolSystem
+[submodule "Plugins/InventorySystem"]
+	path = Plugins/InventorySystem
+	url = https://github.com/Soccertitan/InventorySystem

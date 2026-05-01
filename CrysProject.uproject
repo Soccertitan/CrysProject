@@ -33,6 +33,31 @@
 		{
 			"Name": "TargetingSystem",
 			"Enabled": true
+		},
+		{
+			"Name": "UINavigation",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/b9ee9669c98146cd8433a62ea7f23699"
+		},
+		{
+			"Name": "CrimAbilitySystem",
+			"Enabled": true
+		},
+		{
+			"Name": "CrimBlueprintStatics",
+			"Enabled": true
+		},
+		{
+			"Name": "CrimWidgetPoolSystem",
+			"Enabled": true
+		},
+		{
+			"Name": "GameplayMessageRouter",
+			"Enabled": true
+		},
+		{
+			"Name": "InventorySystem",
+			"Enabled": true
 		}
 	]
 }

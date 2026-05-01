@@ -8,9 +8,44 @@ public class CrysProject : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput" });
+		PublicDependencyModuleNames.AddRange(new string[]
+		{
+			"Core", 
+			"CoreUObject", 
+			"Engine", 
+			"InputCore",
+			"DeveloperSettings", 
+			"EnhancedInput", 
+			"GameplayAbilities",
+			"UMG",
+			"StateTreeModule",
+			"ModelViewViewModel",
+			"UINavigation",
+			"CrimAbilitySystem",
+			"InventorySystem",
+			"CrimBlueprintStatics"
+		});
 
-		PrivateDependencyModuleNames.AddRange(new string[] {  });
+		PrivateDependencyModuleNames.AddRange(new string[]
+		{
+			"GameplayTags",
+			"GameplayTasks",
+			"NavigationSystem",
+			"Niagara",
+			"AnimGraphRuntime",
+			"NetCore",
+			"JsonUtilities",
+			"Json",
+			"GameplayMessageRuntime",
+			"SlateCore",
+			"AIModule",
+			"TargetingSystem",
+			"CrimBlueprintStatics", 
+			// "InteractionSystem",
+			"CrimAbilitySystem", 
+			"InventorySystem",
+			// "CrimEnhancedInputSystem"
+		});
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
