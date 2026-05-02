@@ -43,8 +43,8 @@ public class CrysProject : ModuleRules
 			"CrimBlueprintStatics", 
 			// "InteractionSystem",
 			"CrimAbilitySystem", 
-			"InventorySystem",
-			// "CrimEnhancedInputSystem"
+			"InventorySystem", 
+			"CrimEnhancedInputSystem"
 		});
 
 		// Uncomment if you are using Slate UI

@@ -17,22 +17,6 @@ struct FAttributeTagInfo
 
 	UPROPERTY(EditAnywhere, meta = (Categories = "Attribute"))
 	FGameplayTag AttributeTag;
-
-	/** The normal name of the attribute. */
-	UPROPERTY(EditAnywhere)
-	FText Name;
-	
-	/** The short name of the attribute. */
-	UPROPERTY(EditAnywhere)
-	FText ShortName;
-
-	/** Description of the attribute. */
-	UPROPERTY(EditAnywhere, meta = (MultiLine=true))
-	FText Description;
-
-	/** Icon for this attribute. */
-	UPROPERTY(EditAnywhere)
-	TSoftObjectPtr<UTexture2D> Icon;
 	
 	/** Set to true to display the value as a percent. i.e. 0.12 will display as 12.*/
 	UPROPERTY(EditAnywhere)
@@ -70,6 +54,6 @@ public:
 	FAttributeTagInfo FindAttributeTagInfo(const FGameplayTag& AttributeTag, bool bLogNotFound = false) const;
 
 protected:
-	UPROPERTY(EditDefaultsOnly, meta = (Categories = "Attribute", NoResetToDefault, ForceInlineRow, TitleProperty = "{AttributeTag}"))
+	UPROPERTY(EditDefaultsOnly, meta = (Categories = "Attribute", NoResetToDefault, NoElementDuplicate, ForceInlineRow, TitleProperty = "{AttributeTag}"))
 	TArray<FAttributeTagInfo> AttributeTags;
 };

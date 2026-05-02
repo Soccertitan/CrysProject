@@ -13,3 +13,6 @@
 [submodule "Plugins/InventorySystem"]
 	path = Plugins/InventorySystem
 	url = https://github.com/Soccertitan/InventorySystem
+[submodule "Plugins/CrimEnhancedInputSystem"]
+	path = Plugins/CrimEnhancedInputSystem
+	url = https://github.com/Soccertitan/CrimEnhancedInputSystem
