@@ -3,30 +3,76 @@
 
 #include "Character/CrysCharacter.h"
 
+#include "AI/CrysAIController.h"
+#include "Character/CrysCharacterMovementComponent.h"
+#include "Character/CrysSkeletalMeshComponent.h"
+#include "Net/UnrealNetwork.h"
 
-// Sets default values
-ACrysCharacter::ACrysCharacter()
+
+ACrysCharacter::ACrysCharacter(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer.
+		SetDefaultSubobjectClass<UCrysCharacterMovementComponent>(CharacterMovementComponentName).
+		SetDefaultSubobjectClass<UCrysSkeletalMeshComponent>(MeshComponentName))
 {
-	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	bReplicates = true;
+	bUseControllerRotationYaw = false;
+
+	AIControllerClass = ACrysAIController::StaticClass();
 }
 
-// Called when the game starts or when spawned
+void ACrysCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	
+	DOREPLIFETIME_CONDITION_NOTIFY(ThisClass, CharacterName, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(ThisClass, SkeletalMeshMergeParams, COND_None, REPNOTIFY_Always);
+}
+
 void ACrysCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	MergeSkeletalMeshes();
 }
 
-// Called every frame
-void ACrysCharacter::Tick(float DeltaTime)
+void ACrysCharacter::PossessedBy(AController* NewController)
 {
-	Super::Tick(DeltaTime);
+	Super::PossessedBy(NewController);
+	
+	MergeSkeletalMeshes();
+	OnRep_SkeletalMeshMergeParams();
 }
 
-// Called to bind functionality to input
-void ACrysCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void ACrysCharacter::SetCharacterName(const FText Name)
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	if (HasAuthority())
+	{
+		CharacterName = Name;
+		OnCharacterNameUpdatedDelegate.Broadcast(CharacterName);
+		OnRep_CharacterName();
+	}
 }
+
+void ACrysCharacter::OnRep_CharacterName() const
+{
+	OnCharacterNameUpdatedDelegate.Broadcast(CharacterName);
+}
+
+void ACrysCharacter::OnRep_SkeletalMeshMergeParams()
+{
+	MergeSkeletalMeshes();
+}
+
+void ACrysCharacter::MergeSkeletalMeshes()
+{
+	if (SkeletalMeshMergeParams.BaseMeshesToMerge.Num() > 0 ||
+		SkeletalMeshMergeParams.DynamicMeshesToMerge.Num() > 0)
+	{
+		if (USkeletalMesh* MergedMesh = UMeshMergeFunctionLibrary::MergeMeshes(SkeletalMeshMergeParams))
+		{
+			GetMesh()->SetSkeletalMesh(MergedMesh, false);
+		}
+	}
+}
+
 

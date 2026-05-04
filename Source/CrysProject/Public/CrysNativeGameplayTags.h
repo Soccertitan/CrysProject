@@ -7,6 +7,13 @@
 
 namespace Crys::NativeGameplayTag
 {
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_State_MovementRooted);
+	
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_GameplayEvent_Damage_ManaPoints);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_GameplayEvent_Healing_ManaPoints);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_GameplayEvent_Damage_TacticalPoints);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_GameplayEvent_Healing_TacticalPoints);
+	
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(EnhancedInput_UI);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(EnhancedInput_AbilityTargeting);
 }

@@ -1,0 +1,59 @@
+﻿// Copyright Soccertitan 2026
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "AbilitySystemComponent.h"
+#include "Attribute/CrimAttributeSet.h"
+#include "TacticalPointsAttributeSet.generated.h"
+
+/**
+ * A resource to activate weapon skills and activate other abilities.
+ */
+UCLASS()
+class CRYSPROJECT_API UTacticalPointsAttributeSet : public UCrimAttributeSet
+{
+	GENERATED_BODY()
+	
+public:
+	UTacticalPointsAttributeSet();
+	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
+	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
+	virtual void PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue) override;
+
+	ATTRIBUTE_ACCESSORS(ThisClass, CurrentPoints);
+	ATTRIBUTE_ACCESSORS(ThisClass, MaxPoints);
+	ATTRIBUTE_ACCESSORS(ThisClass, Healing);
+	ATTRIBUTE_ACCESSORS(ThisClass, Damage);
+
+protected:
+	UFUNCTION()
+	void OnRep_CurrentPoints(const FGameplayAttributeData& OldValue);
+	UFUNCTION()
+	void OnRep_MaxPoints(const FGameplayAttributeData& OldValue);
+
+	virtual void ClampAttribute(const FGameplayAttribute& Attribute, float& NewValue) const override;
+
+	virtual void HandleDamage(const FGameplayEffectModCallbackData& Data, float Magnitude);
+	virtual void HandleHealing(const FGameplayEffectModCallbackData& Data, float Magnitude);
+
+private:
+	/** The CurrentPoints Attribute is clamped between 0.f and MaxPoints. */
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_CurrentPoints, Category = "Attribute", Meta = (AllowPrivateAccess = true))
+	FGameplayAttributeData CurrentPoints;
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxPoints, Category = "Attribute", Meta = (AllowPrivateAccess = true))
+	FGameplayAttributeData MaxPoints;
+
+	// -------------------------------------------------------------------
+	//	Meta Attribute (please keep attributes that aren't 'stateful' below 
+	// -------------------------------------------------------------------
+
+	// Incoming healing. If negative, will cause damage instead.
+	UPROPERTY(BlueprintReadOnly, Category="Attribute", Meta=(AllowPrivateAccess=true))
+	FGameplayAttributeData Healing;
+
+	// Incoming damage. If negative will cause healing instead.
+	UPROPERTY(BlueprintReadOnly, Category="Attribute", Meta=(AllowPrivateAccess=true))
+	FGameplayAttributeData Damage;
+};
