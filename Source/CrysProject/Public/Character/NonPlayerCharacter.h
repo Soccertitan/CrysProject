@@ -4,16 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
-#include "CrysPlayerState.h"
+#include "CrysCharacter.h"
 #include "GameplayTagAssetInterface.h"
 #include "GenericTeamAgentInterface.h"
-#include "InventorySystemInterface.h"
-#include "HeroPlayerState.generated.h"
+#include "NonPlayerCharacter.generated.h"
 
+class UJobAttributeSet;
 class UAbilitySet;
 class UHitPointsComponent;
 class UMovementAttributeSet;
-class UJobAttributeSet;
 class UDefenderAttributeSet;
 class UAttackerAttributeSet;
 class UAbilityAttributeSet;
@@ -23,12 +22,9 @@ class UManaPointsAttributeSet;
 class UCrysHitPointsAttributeSet;
 class UCrimAbilitySystemComponent;
 
-/**
- * All hero's should use this player state. As this will restore and save data for the player.
- */
 UCLASS()
-class CRYSPROJECT_API AHeroPlayerState : public ACrysPlayerState, public IAbilitySystemInterface,
-	public IInventorySystemInterface, public IGenericTeamAgentInterface, public IGameplayTagAssetInterface
+class CRYSPROJECT_API ANonPlayerCharacter : public ACrysCharacter, public IAbilitySystemInterface,
+	public IGenericTeamAgentInterface, public IGameplayTagAssetInterface
 {
 	GENERATED_BODY()
 	
@@ -55,18 +51,13 @@ class CRYSPROJECT_API AHeroPlayerState : public ACrysPlayerState, public IAbilit
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "HitPointsComponent", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UHitPointsComponent> HitPointsComponent;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "InventoryManager", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UInventoryManagerComponent> InventoryManagerComponent;
-		
+
 public:
-	AHeroPlayerState();
+	ANonPlayerCharacter(const FObjectInitializer& ObjectInitializer);
 	virtual void PostInitializeComponents() override;
-	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	
 	/** IAbilitySystemInterface */
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
-	/** IInventorySystemInterface */
-	virtual UInventoryManagerComponent* GetInventoryManagerComponent_Implementation() const override;
 	
 	// IGenericTeamAgentInterface
 	virtual FGenericTeamId GetGenericTeamId() const override;
@@ -78,16 +69,13 @@ public:
 	virtual bool HasAllMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const override;
 	virtual bool HasAnyMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const override;
 	
-protected:
-
-	
 private:
-	/** Using a value of 1 for Heroes. */
-	UPROPERTY(VisibleAnywhere, Category = "Hero")
+	/** A value of 1 is a hero. Use 2 for enemies. */
+	UPROPERTY(EditAnywhere, Category = "Character")
 	FGenericTeamId GenericTeamId;
 	
 	/** Abilities, attributes, and gameplay effects to grant. */
-	UPROPERTY(EditDefaultsOnly, Category = "Hero")
+	UPROPERTY(EditAnywhere, Category = "Character")
 	TArray<TObjectPtr<UAbilitySet>> AbilitySets;
 	
 	void GrantAbilitySets();

@@ -19,6 +19,13 @@ public:
 	UAbilityAttributeSet();
 	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
 	
+	ATTRIBUTE_ACCESSORS(ThisClass, OutPotency);
+	ATTRIBUTE_ACCESSORS(ThisClass, OutProbability);
+	ATTRIBUTE_ACCESSORS(ThisClass, OutCriticalChance);
+	ATTRIBUTE_ACCESSORS(ThisClass, OutCriticalBonus);
+	
+	ATTRIBUTE_ACCESSORS(ThisClass, CriticalEffectChance);
+	ATTRIBUTE_ACCESSORS(ThisClass, CriticalEffectBonus);
 	ATTRIBUTE_ACCESSORS(ThisClass, PotencyMultiplier);
 	ATTRIBUTE_ACCESSORS(ThisClass, CastSpeedMultiplier);
 	ATTRIBUTE_ACCESSORS(ThisClass, AbilityCooldownMultiplier);
@@ -40,6 +47,30 @@ protected:
 	void OnRep_MagicSkill(const FGameplayAttributeData& OldValue);
 	
 private:
+	/** Potency. A generic attribute for base effectiveness of abilities. */
+	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	FGameplayAttributeData OutPotency;
+	
+	/** Base likelihood of an ability landing or an effect happening. */
+	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	FGameplayAttributeData OutProbability;
+	
+	/** Base likelihood of an ability having a bonus effect. */
+	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	FGameplayAttributeData OutCriticalChance;
+	
+	/** Base bonus when a critical effect occurs. */
+	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	FGameplayAttributeData OutCriticalBonus;
+	
+	/** Chance for a generic effect to have a bonus effect. */
+	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	FGameplayAttributeData CriticalEffectChance;
+
+	/** The bonus when a critical effect occurs. */
+	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	FGameplayAttributeData CriticalEffectBonus;
+	
 	/** Potency. A generic attribute for multiplying the effectiveness of abilities. */
 	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = true))
 	FGameplayAttributeData PotencyMultiplier;

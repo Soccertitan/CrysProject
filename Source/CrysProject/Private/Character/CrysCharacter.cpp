@@ -16,7 +16,8 @@ ACrysCharacter::ACrysCharacter(const FObjectInitializer& ObjectInitializer)
 {
 	bReplicates = true;
 	bUseControllerRotationYaw = false;
-
+	bReplicateUsingRegisteredSubObjectList = true;
+	
 	AIControllerClass = ACrysAIController::StaticClass();
 }
 

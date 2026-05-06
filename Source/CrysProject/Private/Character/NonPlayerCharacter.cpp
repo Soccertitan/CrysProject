@@ -1,11 +1,10 @@
 ﻿// Copyright Soccertitan 2026
 
 
-#include "Player/HeroPlayerState.h"
+#include "Character/NonPlayerCharacter.h"
 
 #include "AbilitySet.h"
 #include "CrimAbilitySystemComponent.h"
-#include "InventoryManagerComponent.h"
 #include "AbilitySystem/AttributeSet/AbilityAttributeSet.h"
 #include "AbilitySystem/AttributeSet/AttackerAttributeSet.h"
 #include "AbilitySystem/AttributeSet/CrysHitPointsAttributeSet.h"
@@ -17,13 +16,15 @@
 #include "AbilitySystem/AttributeSet/TacticalPointsAttributeSet.h"
 #include "Attribute/HitPointsComponent.h"
 
-AHeroPlayerState::AHeroPlayerState()
+
+ANonPlayerCharacter::ANonPlayerCharacter(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
 {
 	SetNetUpdateFrequency(100.f);
 	
 	AbilitySystemComponent = CreateDefaultSubobject<UCrimAbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
-	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Full);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 	
 	HitPointsAttributeSet = CreateDefaultSubobject<UCrysHitPointsAttributeSet>("HitPointsAttributeSet");
 	ManaPointsAttributeSet = CreateDefaultSubobject<UManaPointsAttributeSet>("ManaPointsAttributeSet");
@@ -37,67 +38,52 @@ AHeroPlayerState::AHeroPlayerState()
 	
 	HitPointsComponent = CreateDefaultSubobject<UHitPointsComponent>(TEXT("HitPointsComponent"));
 	
-	InventoryManagerComponent = CreateDefaultSubobject<UInventoryManagerComponent>("InventoryManagerComponent");
-	InventoryManagerComponent->SetIsReplicated(true);
-	bReplicateUsingRegisteredSubObjectList = true;
-	
-	GenericTeamId = FGenericTeamId(1);
+	GenericTeamId = FGenericTeamId(2);
 }
 
-void AHeroPlayerState::PostInitializeComponents()
+void ANonPlayerCharacter::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 	
 	GrantAbilitySets();
 }
 
-void AHeroPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
-{
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-}
-
-UAbilitySystemComponent* AHeroPlayerState::GetAbilitySystemComponent() const
+UAbilitySystemComponent* ANonPlayerCharacter::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
 }
 
-UInventoryManagerComponent* AHeroPlayerState::GetInventoryManagerComponent_Implementation() const
-{
-	return InventoryManagerComponent;
-}
-
-FGenericTeamId AHeroPlayerState::GetGenericTeamId() const
+FGenericTeamId ANonPlayerCharacter::GetGenericTeamId() const
 {
 	return GenericTeamId;
 }
 
-void AHeroPlayerState::SetGenericTeamId(const FGenericTeamId& TeamID)
+void ANonPlayerCharacter::SetGenericTeamId(const FGenericTeamId& TeamID)
 {
-	// Prevent changing the team ID. Currently want to force hero's to always be a value of 1.
-	// IGenericTeamAgentInterface::SetGenericTeamId(TeamID);
+	// GenericTeamId = TeamID;
 }
 
-void AHeroPlayerState::GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const
+void ANonPlayerCharacter::GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const
 {
 	AbilitySystemComponent->GetOwnedGameplayTags(TagContainer);
 }
 
-bool AHeroPlayerState::HasMatchingGameplayTag(FGameplayTag TagToCheck) const
+bool ANonPlayerCharacter::HasMatchingGameplayTag(FGameplayTag TagToCheck) const
 {
 	return AbilitySystemComponent->HasMatchingGameplayTag(TagToCheck);
 }
 
-bool AHeroPlayerState::HasAllMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const
+bool ANonPlayerCharacter::HasAllMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const
 {
 	return AbilitySystemComponent->HasAllMatchingGameplayTags(TagContainer);
 }
 
-bool AHeroPlayerState::HasAnyMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const
+bool ANonPlayerCharacter::HasAnyMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const
 {
 	return AbilitySystemComponent->HasAnyMatchingGameplayTags(TagContainer);
 }
 
-void AHeroPlayerState::GrantAbilitySets()
+void ANonPlayerCharacter::GrantAbilitySets()
 {
 	if (HasAuthority())
 	{
@@ -110,3 +96,6 @@ void AHeroPlayerState::GrantAbilitySets()
 		}
 	}
 }
+
+
+

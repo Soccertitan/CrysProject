@@ -3,29 +3,57 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AbilitySystemInterface.h"
 #include "CrysCharacter.h"
+#include "GameplayTagAssetInterface.h"
+#include "GenericTeamAgentInterface.h"
+#include "InventorySystemInterface.h"
 #include "HeroCharacter.generated.h"
+
+class USpringArmComponent;
+class UCameraComponent;
+class UCrimAbilitySystemComponent;
 
 /**
  * Player's will use this class to control their Hero.
  */
 UCLASS()
-class CRYSPROJECT_API AHeroCharacter : public ACrysCharacter
+class CRYSPROJECT_API AHeroCharacter : public ACrysCharacter, public IAbilitySystemInterface, public IGameplayTagAssetInterface,
+	public IGenericTeamAgentInterface, public IInventorySystemInterface
 {
 	GENERATED_BODY()
+	
+	/** Camera boom positioning the camera behind the character */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<USpringArmComponent> CameraBoom;
+
+	/** Follow camera */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UCameraComponent> FollowCamera;
 
 public:
-	// Sets default values for this character's properties
 	AHeroCharacter(const FObjectInitializer& ObjectInitializer);
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void OnRep_PlayerState() override;
 
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	virtual UInventoryManagerComponent* GetInventoryManagerComponent_Implementation() const override;
+	
+	// IGenericTeamAgentInterface
+	virtual FGenericTeamId GetGenericTeamId() const override;
+	virtual void SetGenericTeamId(const FGenericTeamId& TeamID) override;
+	
+	// Implements IGameplayTagAssetInterface
+	virtual void GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const override;
+	virtual bool HasMatchingGameplayTag(FGameplayTag TagToCheck) const override;
+	virtual bool HasAllMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const override;
+	virtual bool HasAnyMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const override;
+	
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void InitAbilitySystem();
+	
+private:
+	/** Cached ASC from the PlayerState. */
+	UPROPERTY()
+	TObjectPtr<UCrimAbilitySystemComponent> AbilitySystemComponent;
 };

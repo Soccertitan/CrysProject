@@ -21,9 +21,9 @@ public:
 	
 	ATTRIBUTE_ACCESSORS(ThisClass, Attack);
 	ATTRIBUTE_ACCESSORS(ThisClass, Accuracy);
-
 	ATTRIBUTE_ACCESSORS(ThisClass, DefencePierce);
 	ATTRIBUTE_ACCESSORS(ThisClass, AttackDefenceRatioCap);
+	ATTRIBUTE_ACCESSORS(ThisClass, HitChance);
 	ATTRIBUTE_ACCESSORS(ThisClass, CriticalHitChance);
 	ATTRIBUTE_ACCESSORS(ThisClass, CriticalHitBonus);
 	
@@ -54,8 +54,12 @@ private:
 	/** Limits the damage multiplier when Attack/Defence. */
 	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = true))
 	FGameplayAttributeData AttackDefenceRatioCap;
-
-	/** Chance to critically hit */
+	
+	/** Increases the chance to hit. */
+	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	FGameplayAttributeData HitChance;
+	
+	/** Increases the chance to critically hit */
 	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = true))
 	FGameplayAttributeData CriticalHitChance;
 
