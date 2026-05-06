@@ -17,7 +17,7 @@ UCrysAnimInstance::UCrysAnimInstance(const FObjectInitializer& ObjectInitializer
 {
 }
 
-void UCrysAnimInstance::InitializeWithAbilitySystem_Implementation(UCrimAbilitySystemComponent* AbilitySystemComponent)
+void UCrysAnimInstance::SetCrimAbilitySystem_Implementation(UCrimAbilitySystemComponent* AbilitySystemComponent)
 {
 	check(AbilitySystemComponent);
 	GameplayTagPropertyMap.Initialize(this, AbilitySystemComponent);
@@ -43,7 +43,7 @@ void UCrysAnimInstance::NativeInitializeAnimation()
 	{
 		if (UCrimAbilitySystemComponent* AbilitySystemComponent = UCrimAbilitySystemBlueprintFunctionLibrary::GetAbilitySystemComponent(OwningActor))
 		{
-			ICrimAbilitySystemInterface::Execute_InitializeWithAbilitySystem(this, AbilitySystemComponent);
+			ICrimAbilitySystemInterface::Execute_SetCrimAbilitySystem(this, AbilitySystemComponent);
 		}
 	}
 }

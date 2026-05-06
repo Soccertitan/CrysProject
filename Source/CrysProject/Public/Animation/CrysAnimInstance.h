@@ -21,7 +21,7 @@ public:
 	UCrysAnimInstance(const FObjectInitializer& ObjectInitializer);
 
 	//ICrimAbilitySystemInterface
-	virtual void InitializeWithAbilitySystem_Implementation(UCrimAbilitySystemComponent* AbilitySystemComponent) override;
+	virtual void SetCrimAbilitySystem_Implementation(UCrimAbilitySystemComponent* AbilitySystemComponent) override;
 
 #if WITH_EDITOR
 	virtual EDataValidationResult IsDataValid(class FDataValidationContext& Context) const override;

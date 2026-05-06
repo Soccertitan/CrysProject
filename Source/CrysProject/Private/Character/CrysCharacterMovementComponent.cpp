@@ -34,33 +34,36 @@ FRotator UCrysCharacterMovementComponent::GetDeltaRotation(float DeltaTime) cons
 	return Super::GetDeltaRotation(DeltaTime);
 }
 
-void UCrysCharacterMovementComponent::InitializeWithAbilitySystem_Implementation(UCrimAbilitySystemComponent* NewAbilitySystemComponent)
+void UCrysCharacterMovementComponent::SetCrimAbilitySystem_Implementation(UCrimAbilitySystemComponent* InAbilitySystemComponent)
 {
-	if (AbilitySystemComponent)
+	if (AbilitySystemComponent != InAbilitySystemComponent)
 	{
-		AbilitySystemComponent->RegisterGameplayTagEvent(
-			Crys::NativeGameplayTag::Ability_State_MovementRooted,
-			EGameplayTagEventType::NewOrRemoved).RemoveAll(this);
-	}
+		if (AbilitySystemComponent)
+		{
+			AbilitySystemComponent->RegisterGameplayTagEvent(
+				Crys::NativeGameplayTag::Ability_State_MovementRooted,
+				EGameplayTagEventType::NewOrRemoved).RemoveAll(this);
+		}
 
-	AbilitySystemComponent = NewAbilitySystemComponent;
-	MovementSpeedMultiplier = 1.f;
+		AbilitySystemComponent = InAbilitySystemComponent;
+		MovementSpeedMultiplier = 1.f;
 	
-	if (AbilitySystemComponent)
-	{
-		AbilitySystemComponent->RegisterGameplayTagEvent(
-		   Crys::NativeGameplayTag::Ability_State_MovementRooted,
-		   EGameplayTagEventType::NewOrRemoved).AddUObject(this, &UCrysCharacterMovementComponent::OnGameplayTagMovementRootedUpdated);
+		if (AbilitySystemComponent)
+		{
+			AbilitySystemComponent->RegisterGameplayTagEvent(
+			   Crys::NativeGameplayTag::Ability_State_MovementRooted,
+			   EGameplayTagEventType::NewOrRemoved).AddUObject(this, &UCrysCharacterMovementComponent::OnGameplayTagMovementRootedUpdated);
 		
-		bMovementRooted = AbilitySystemComponent->HasMatchingGameplayTag(Crys::NativeGameplayTag::Ability_State_MovementRooted);
+			bMovementRooted = AbilitySystemComponent->HasMatchingGameplayTag(Crys::NativeGameplayTag::Ability_State_MovementRooted);
 		
-		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMovementAttributeSet::GetMovementSpeedMultiplierAttribute())
-			.AddUObject(this, &UCrysCharacterMovementComponent::OnMovementSpeedMultiplierUpdated);
+			AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMovementAttributeSet::GetMovementSpeedMultiplierAttribute())
+				.AddUObject(this, &UCrysCharacterMovementComponent::OnMovementSpeedMultiplierUpdated);
 		
-		bool bFound = false;
-		MovementSpeedMultiplier = AbilitySystemComponent->GetGameplayAttributeValue(
-			UMovementAttributeSet::GetMovementSpeedMultiplierAttribute(), bFound);
-		MovementSpeedMultiplier = bFound ? MovementSpeedMultiplier : 1.f;
+			bool bFound = false;
+			MovementSpeedMultiplier = AbilitySystemComponent->GetGameplayAttributeValue(
+				UMovementAttributeSet::GetMovementSpeedMultiplierAttribute(), bFound);
+			MovementSpeedMultiplier = bFound ? MovementSpeedMultiplier : 1.f;
+		}
 	}
 }
 

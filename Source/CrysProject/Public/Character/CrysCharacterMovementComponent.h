@@ -23,7 +23,7 @@ public:
 	virtual FRotator GetDeltaRotation(float DeltaTime) const override;
 
 	// ICrimAbilitySystemInterface
-	virtual void InitializeWithAbilitySystem_Implementation(UCrimAbilitySystemComponent* NewAbilitySystemComponent) override;
+	virtual void SetCrimAbilitySystem_Implementation(UCrimAbilitySystemComponent* AbilitySystemComponent) override;
 	
 private:
 	// Cached ASC from the owner.

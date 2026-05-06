@@ -17,5 +17,5 @@ class CRYSPROJECT_API UCrysSkeletalMeshComponent : public USkeletalMeshComponent
 	
 public:
 	// ICrimAbilitySystemInterface
-	virtual void InitializeWithAbilitySystem_Implementation(UCrimAbilitySystemComponent* NewAbilitySystemComponent) override;
+	virtual void SetCrimAbilitySystem_Implementation(UCrimAbilitySystemComponent* NewAbilitySystemComponent) override;
 };
