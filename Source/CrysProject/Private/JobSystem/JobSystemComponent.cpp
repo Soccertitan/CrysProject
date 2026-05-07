@@ -3,7 +3,10 @@
 
 #include "JobSystem/JobSystemComponent.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
+#include "CrimAbilitySystemBlueprintFunctionLibrary.h"
 #include "CrimAbilitySystemComponent.h"
+#include "GameplayEffectExtension.h"
 #include "AbilitySystem/AttributeSet/JobAttributeSet.h"
 #include "AbilitySystem/AttributeSet/ManaPointsAttributeSet.h"
 #include "AbilitySystem/AttributeSet/PrimaryAttributeSet.h"
@@ -13,17 +16,6 @@
 #include "JobSystem/JobTypes.h"
 #include "Net/UnrealNetwork.h"
 
-
-FJobParams::FJobParams(const FJobInfo& Info)
-{
-	Race = Info.Race;
-	RaceLevel = Info.RaceLevel;
-	MainJob = Info.MainJob;
-	MainJobLevel = Info.MainJobLevel;
-	SubJob = Info.SubJob;
-	SubJobLevel = Info.SubJobLevel;
-	SubJobEffectiveness = Info.SubJobEffectiveness;
-}
 
 UJobSystemComponent::UJobSystemComponent()
 {
@@ -94,14 +86,7 @@ void UJobSystemComponent::SetJobs(FJobParams JobParams)
 		OverrideBaseAttribute(JobParams.SubJobEffectiveness, UJobAttributeSet::GetSubJobEffectivenessAttribute());
 		
 		ApplyBaseAttributes();
-		
-		RemoveActiveGameplayEffects(RaceActiveGameplayEffectHandles);
-		RemoveActiveGameplayEffects(MainJobActiveGameplayEffectHandles);
-		RemoveActiveGameplayEffects(SubJobActiveGameplayEffectHandles);
-		
-		GrantGameplayEffects(Race, JobParams.RaceLevel, RaceActiveGameplayEffectHandles);
-		GrantGameplayEffects(MainJob, JobParams.MainJobLevel, MainJobActiveGameplayEffectHandles);
-		GrantGameplayEffects(SubJob, JobParams.SubJobLevel, SubJobActiveGameplayEffectHandles);
+		ApplyGameplayEffects();
 		
 		if (JobParams.bMaximizeHpMp)
 		{
@@ -113,22 +98,22 @@ void UJobSystemComponent::SetJobs(FJobParams JobParams)
 	OnChangingJobsDelegate.Broadcast(bChangingJobs);
 }
 
-FJobInfo UJobSystemComponent::GetJobs() const
+FJobParams UJobSystemComponent::MakeJobParams() const
 {
-	FJobInfo Info;
-	Info.Race = Race;
-	Info.MainJob = MainJob;
-	Info.SubJob = SubJob;
+	FJobParams Result;
+	Result.Race = Race;
+	Result.MainJob = MainJob;
+	Result.SubJob = SubJob;
 	
 	if (AbilitySystemComponent)
 	{
-		Info.RaceLevel = AbilitySystemComponent->GetNumericAttributeBase(UPrimaryAttributeSet::GetLevelAttribute());
-		Info.MainJobLevel = AbilitySystemComponent->GetNumericAttributeBase(UJobAttributeSet::GetMainJobLevelAttribute());
-		Info.SubJobLevel = AbilitySystemComponent->GetNumericAttributeBase(UJobAttributeSet::GetSubJobLevelAttribute());
-		Info.SubJobEffectiveness = AbilitySystemComponent->GetNumericAttributeBase(UJobAttributeSet::GetSubJobEffectivenessAttribute());
+		Result.RaceLevel = AbilitySystemComponent->GetNumericAttributeBase(UPrimaryAttributeSet::GetLevelAttribute());
+		Result.MainJobLevel = AbilitySystemComponent->GetNumericAttributeBase(UJobAttributeSet::GetMainJobLevelAttribute());
+		Result.SubJobLevel = AbilitySystemComponent->GetNumericAttributeBase(UJobAttributeSet::GetSubJobLevelAttribute());
+		Result.SubJobEffectiveness = AbilitySystemComponent->GetNumericAttributeBase(UJobAttributeSet::GetSubJobEffectivenessAttribute());
 	}
 	
-	return Info;
+	return Result;
 }
 
 void UJobSystemComponent::SetCrimAbilitySystem_Implementation(UCrimAbilitySystemComponent* InAbilitySystemComponent)
@@ -153,11 +138,14 @@ void UJobSystemComponent::SetCrimAbilitySystem_Implementation(UCrimAbilitySystem
 	{
 		BindToAttributeDelegates();
 		ApplyBaseAttributes();
-		GrantGameplayEffects(Race, AbilitySystemComponent->GetNumericAttributeBase(UPrimaryAttributeSet::GetLevelAttribute()), RaceActiveGameplayEffectHandles);
-		GrantGameplayEffects(MainJob, AbilitySystemComponent->GetNumericAttributeBase(UJobAttributeSet::GetMainJobLevelAttribute()), MainJobActiveGameplayEffectHandles);
-		GrantGameplayEffects(SubJob, AbilitySystemComponent->GetNumericAttributeBase(UJobAttributeSet::GetSubJobLevelAttribute()), SubJobActiveGameplayEffectHandles);
+		ApplyGameplayEffects();
 		MaximizeHpMpAttributes();
 	}
+}
+
+UCrimAbilitySystemComponent* UJobSystemComponent::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
 }
 
 bool UJobSystemComponent::HasAuthority() const
@@ -208,7 +196,12 @@ void UJobSystemComponent::OnAttributeChanged(const FOnAttributeChangeData& Data)
 {
 	if (!bChangingJobs)
 	{
-		ApplyBaseAttributes();
+		if (Data.NewValue != Data.OldValue)
+		{
+			ApplyBaseAttributes();
+			
+			//TODO Update Granted GEs when base level changes.
+		}
 	}
 }
 
@@ -291,6 +284,17 @@ void UJobSystemComponent::ApplyBaseAttributes() const
 	AbilitySystemComponent->ApplyGameplayEffectToSelf(BaseStats, 1.0f, AbilitySystemComponent->MakeEffectContext());
 }
 
+void UJobSystemComponent::ApplyGameplayEffects()
+{
+	RemoveActiveGameplayEffects(RaceActiveGameplayEffectHandles);
+	RemoveActiveGameplayEffects(MainJobActiveGameplayEffectHandles);
+	RemoveActiveGameplayEffects(SubJobActiveGameplayEffectHandles);
+		
+	GrantGameplayEffects(Race, UPrimaryAttributeSet::GetLevelAttribute(), RaceActiveGameplayEffectHandles);
+	GrantGameplayEffects(MainJob, UJobAttributeSet::GetMainJobLevelAttribute(), MainJobActiveGameplayEffectHandles);
+	GrantGameplayEffects(SubJob, UJobAttributeSet::GetSubJobLevelAttribute(), SubJobActiveGameplayEffectHandles);
+}
+
 void UJobSystemComponent::MaximizeHpMpAttributes()
 {
 	UGameplayEffect* GameplayEffect = NewObject<UGameplayEffect>(GetTransientPackage(), FName(TEXT("MaximizeAttributes")));
@@ -317,10 +321,15 @@ void UJobSystemComponent::CacheIsNetSimulated()
 	bCachedIsNetSimulated = IsNetSimulating();
 }
 
-void UJobSystemComponent::GrantGameplayEffects(const UJobDefinition* Job, const int32 Level, TArray<FActiveGameplayEffectHandle>& OutHandles)
+void UJobSystemComponent::GrantGameplayEffects(const UJobDefinition* Job, const FGameplayAttribute& Attribute, TArray<FActiveGameplayEffectHandle>& OutHandles)
 {
 	if (Job)
 	{
+		bool bSuccess = false;
+		/** Get the "base" level from channel 0. */
+		int32 Level = UCrimAbilitySystemBlueprintFunctionLibrary::EvaluateAttributeValueWithTagsUpToChannel(
+			AbilitySystemComponent, Attribute, EGameplayModEvaluationChannel::Channel0, FGameplayTagContainer(), FGameplayTagContainer(), bSuccess);
+		
 		TArray<FSoftObjectPath> GameplayEffectsToLoad;
 		for (const FJobGameplayEffects& Effect : Job->GameplayEffects)
 		{

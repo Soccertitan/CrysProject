@@ -6,7 +6,37 @@
 #include "ScalableFloat.h"
 #include "JobTypes.generated.h"
 
+class UJobSystemComponent;
 class UJobDefinition;
+
+/** Used by JobSystem in SetJobs. */
+USTRUCT(BlueprintType)
+struct FJobParams
+{
+	GENERATED_BODY()
+	
+	FJobParams(){}
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UJobDefinition> Race;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 RaceLevel = 0;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UJobDefinition> MainJob;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 MainJobLevel = 0;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UJobDefinition> SubJob;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 SubJobLevel = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float SubJobEffectiveness = 0.f;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bMaximizeHpMp = false;
+};
 
 /** The base attributes to grant the character. */
 USTRUCT()

@@ -16,4 +16,6 @@ namespace Crys::NativeGameplayTag
 	
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(EnhancedInput_UI);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(EnhancedInput_AbilityTargeting);
+	
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Job);
 }
