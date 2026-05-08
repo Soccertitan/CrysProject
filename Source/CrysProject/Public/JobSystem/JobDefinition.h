@@ -16,7 +16,7 @@ struct FJobDefinitionGameplayEffects
 {
 	GENERATED_BODY()
 	
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, meta = (ClampMin = 0))
 	int32 Level = 0;
 	
 	UPROPERTY(EditAnywhere)
