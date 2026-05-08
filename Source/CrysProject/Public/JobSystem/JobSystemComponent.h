@@ -20,7 +20,9 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FJobSystemComponentBoolSignature, bo
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FJobSystemComponentJobSignature, UJobDefinition*, Definition);
 
 /**
- * Applies GameplayEffects and set Attributes based on the Jobs, Race, and levels.
+ * Applies GameplayEffects and set Attributes based on the Jobs, Race, and levels. The Primary attributes are set to 
+ * a base level anytime Level,MainJob,SubJob,SubJobEffectiveness value changes. The GameplayEffects are updated depending
+ * on if the "base" channel0 is different.
  */
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class CRYSPROJECT_API UJobSystemComponent : public UActorComponent, public ICrimAbilitySystemInterface

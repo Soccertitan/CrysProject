@@ -45,6 +45,10 @@ struct FJobSystemActiveGameplayEffectHandles
 {
 	GENERATED_BODY()
 	
+	/** The base attribute value that was used to grant the gameplay effects. */
+	int32 GrantedLevel = -1;
+	
+	/** The Active gameplay effects for each distinct level. */
 	TMap<int32, TArray<FActiveGameplayEffectHandle>> ActiveGameplayEffectHandlesForLevels;
 };
 

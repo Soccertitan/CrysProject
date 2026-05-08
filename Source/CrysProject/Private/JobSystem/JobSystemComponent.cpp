@@ -199,19 +199,19 @@ void UJobSystemComponent::OnAttributeChanged(const FOnAttributeChangeData& Data)
 		if (Data.NewValue != Data.OldValue)
 		{
 			ApplyBaseAttributes();
-			
-			if (Data.Attribute == UPrimaryAttributeSet::GetLevelAttribute())
-			{
-				UpdateActiveGameplayEffects(Race, UPrimaryAttributeSet::GetLevelAttribute(), ActiveGameplayEffects.RaceActiveGameplayEffectHandles);
-			}
-			else if (Data.Attribute == UJobAttributeSet::GetMainJobLevelAttribute())
-			{
-				UpdateActiveGameplayEffects(MainJob, UJobAttributeSet::GetMainJobLevelAttribute(), ActiveGameplayEffects.MainJobActiveGameplayEffectHandles);
-			}
-			else if (Data.Attribute == UJobAttributeSet::GetSubJobLevelAttribute())
-			{
-				UpdateActiveGameplayEffects(SubJob, UJobAttributeSet::GetSubJobLevelAttribute(), ActiveGameplayEffects.SubJobActiveGameplayEffectHandles);
-			}
+		}
+		
+		if (Data.Attribute == UPrimaryAttributeSet::GetLevelAttribute())
+		{
+			UpdateActiveGameplayEffects(Race, UPrimaryAttributeSet::GetLevelAttribute(), ActiveGameplayEffects.RaceActiveGameplayEffectHandles);
+		}
+		else if (Data.Attribute == UJobAttributeSet::GetMainJobLevelAttribute())
+		{
+			UpdateActiveGameplayEffects(MainJob, UJobAttributeSet::GetMainJobLevelAttribute(), ActiveGameplayEffects.MainJobActiveGameplayEffectHandles);
+		}
+		else if (Data.Attribute == UJobAttributeSet::GetSubJobLevelAttribute())
+		{
+			UpdateActiveGameplayEffects(SubJob, UJobAttributeSet::GetSubJobLevelAttribute(), ActiveGameplayEffects.SubJobActiveGameplayEffectHandles);
 		}
 	}
 }
@@ -344,6 +344,14 @@ void UJobSystemComponent::UpdateActiveGameplayEffects(const UJobDefinition* Job,
 	int32 Level = UCrimAbilitySystemBlueprintFunctionLibrary::EvaluateAttributeValueWithTagsUpToChannel(
 		AbilitySystemComponent, Attribute, EGameplayModEvaluationChannel::Channel0, FGameplayTagContainer(), FGameplayTagContainer(), bSuccess);
 	
+	if (InHandles.GrantedLevel == Level)
+	{
+		// The base level never changed from before, we skip adding/remove/update GameplayEffects.
+		return;
+	}
+	
+	InHandles.GrantedLevel = Level;
+	
 	for (const FJobDefinitionGameplayEffects& Effect : Job->GameplayEffectsForLevels)
 	{
 		if (Level >= Effect.Level)
@@ -405,5 +413,6 @@ void UJobSystemComponent::RemoveActiveGameplayEffects(FJobSystemActiveGameplayEf
 			AbilitySystemComponent->RemoveActiveGameplayEffect(Handle, 1);
 		}
 	}
+	InHandles.GrantedLevel = -1;
 	InHandles.ActiveGameplayEffectHandlesForLevels.Empty();
 }
