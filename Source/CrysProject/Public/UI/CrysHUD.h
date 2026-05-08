@@ -27,6 +27,8 @@ public:
 			"'T' template parameter to FindOrCreateViewModel must be derived from CrysViewModel");
 		return (T*)FindOrCreateViewModel(T::StaticClass());
 	}
+	
+	UCrysViewModel* FindOrCreateViewModel(const TSubclassOf<UCrysViewModel> ViewModelClass);
 
 	/** Creates the HUDWidget from the class and adds it to the viewport. */
 	virtual void CreateHUDWidget();
@@ -45,6 +47,4 @@ private:
 	/** Stores a collection of CrysViewModels. Each view model in the array is unique. */
 	UPROPERTY()
 	TArray<TWeakObjectPtr<UCrysViewModel>> ViewModels;
-	
-	UCrysViewModel* FindOrCreateViewModel(const TSubclassOf<UCrysViewModel> ViewModelClass);
 };

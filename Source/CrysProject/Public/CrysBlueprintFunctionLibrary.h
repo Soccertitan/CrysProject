@@ -9,9 +9,11 @@
 #include "UI/UITagRelationship.h"
 #include "CrysBlueprintFunctionLibrary.generated.h"
 
+class UCrysViewModel;
 class ACrysCharacter;
 class ACrysPlayerState;
 class ACrysPlayerController;
+
 /**
  * 
  */
@@ -32,6 +34,13 @@ public:
 	/** Returns the Character, will check if it's a Character or try and retrieve from the PlayerState or PlayerController. */
 	UFUNCTION(BlueprintPure, Category = "CrysFunctionLibrary", meta = (DefaultToSelf = Actor))
 	static ACrysCharacter* GetCrysCharacter(AActor* Actor);
+	
+	/**
+	 * If a ViewModel of class already exists returns that ViewModel. Otherwise, creates a new ViewModel of
+	 * the class type. Then initializes the ViewModel with the owning HUD's PlayerController.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "CrysFunctionLibrary", meta=(DeterminesOutputType=ViewModelClass))
+	static UCrysViewModel* FindOrCreateViewModel(const TSubclassOf<UCrysViewModel> ViewModelClass, APlayerController* PlayerController);
 	
 	// /** Returns an Actor that is targeted if the source Actor implements the AbilityTargetInterface */
 	// UFUNCTION(BlueprintPure, Category = "CrysFunctionLibrary", meta = (DefaultToSelf = Actor))

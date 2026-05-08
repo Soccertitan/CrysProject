@@ -10,6 +10,8 @@
 #include "Player/CrysPlayerState.h"
 #include "Settings/CrysGameData.h"
 #include "System/CrysAssetManager.h"
+#include "UI/CrysHUD.h"
+#include "UI/ViewModel/CrysViewModel.h"
 
 ACrysPlayerController* UCrysBlueprintFunctionLibrary::GetCrysPlayerController(AActor* Actor)
 {
@@ -76,6 +78,18 @@ ACrysCharacter* UCrysBlueprintFunctionLibrary::GetCrysCharacter(AActor* Actor)
 	}
 	
 	return Result;
+}
+
+UCrysViewModel* UCrysBlueprintFunctionLibrary::FindOrCreateViewModel(const TSubclassOf<UCrysViewModel> ViewModelClass, APlayerController* PlayerController)
+{
+	if (IsValid(PlayerController) && ViewModelClass)
+	{
+		if (ACrysHUD* HUD = Cast<ACrysHUD>(PlayerController->GetHUD()))
+		{
+			return HUD->FindOrCreateViewModel(ViewModelClass);
+		}
+	}
+	return nullptr;
 }
 
 FAttributeTagInfo UCrysBlueprintFunctionLibrary::FindAttributeTagInfo(const FGameplayTag& Tag, bool bLogNotFound)
