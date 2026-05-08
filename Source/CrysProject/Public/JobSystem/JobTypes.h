@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ActiveGameplayEffectHandle.h"
 #include "ScalableFloat.h"
 #include "JobTypes.generated.h"
 
@@ -36,6 +37,25 @@ struct FJobParams
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bMaximizeHpMp = false;
+};
+
+/** Used by the JobSystemComponent to track which GameplayEffects have been granted for level. */
+USTRUCT()
+struct FJobSystemActiveGameplayEffectHandles
+{
+	GENERATED_BODY()
+	
+	TMap<int32, TArray<FActiveGameplayEffectHandle>> ActiveGameplayEffectHandlesForLevels;
+};
+
+USTRUCT()
+struct FJobSystemActiveGameplayEffects
+{
+	GENERATED_BODY()
+	
+	FJobSystemActiveGameplayEffectHandles RaceActiveGameplayEffectHandles;
+	FJobSystemActiveGameplayEffectHandles MainJobActiveGameplayEffectHandles;
+	FJobSystemActiveGameplayEffectHandles SubJobActiveGameplayEffectHandles;
 };
 
 /** The base attributes to grant the character. */

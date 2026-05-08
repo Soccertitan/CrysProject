@@ -12,7 +12,7 @@
 class UGameplayEffect;
 
 USTRUCT()
-struct FJobGameplayEffects
+struct FJobDefinitionGameplayEffects
 {
 	GENERATED_BODY()
 	
@@ -56,7 +56,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Job")
 	FPrimaryAttributes BaseAttributes;
 
-	/** GameplayEffects to apply if the base level is greater than or equal to the effect. The effects are granted at the base level. */
-	UPROPERTY(EditDefaultsOnly, Category = "Job", meta = (AssetBundles = "Ability", TitleProperty = "Level: {}"))
-	TArray<FJobGameplayEffects> GameplayEffects;
+	/** GameplayEffects to apply if the Channel0 (Base) level is greater than or equal to the effect. The effects are granted at the level. */
+	UPROPERTY(EditDefaultsOnly, Category = "Job", meta = (AssetBundles = "Ability", TitleProperty = "Level: {Level}"))
+	TArray<FJobDefinitionGameplayEffects> GameplayEffectsForLevels;
 };

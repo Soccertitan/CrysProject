@@ -127,9 +127,9 @@ void UJobSystemComponent::SetCrimAbilitySystem_Implementation(UCrimAbilitySystem
 	{
 		RemoveBindingToAttributeDelegates();
 		
-		RemoveActiveGameplayEffects(RaceActiveGameplayEffectHandles);
-		RemoveActiveGameplayEffects(MainJobActiveGameplayEffectHandles);
-		RemoveActiveGameplayEffects(SubJobActiveGameplayEffectHandles);
+		RemoveActiveGameplayEffects(ActiveGameplayEffects.RaceActiveGameplayEffectHandles);
+		RemoveActiveGameplayEffects(ActiveGameplayEffects.MainJobActiveGameplayEffectHandles);
+		RemoveActiveGameplayEffects(ActiveGameplayEffects.SubJobActiveGameplayEffectHandles);
 	}
 	
 	AbilitySystemComponent = InAbilitySystemComponent;
@@ -200,7 +200,18 @@ void UJobSystemComponent::OnAttributeChanged(const FOnAttributeChangeData& Data)
 		{
 			ApplyBaseAttributes();
 			
-			//TODO Update Granted GEs when base level changes.
+			if (Data.Attribute == UPrimaryAttributeSet::GetLevelAttribute())
+			{
+				UpdateActiveGameplayEffects(Race, UPrimaryAttributeSet::GetLevelAttribute(), ActiveGameplayEffects.RaceActiveGameplayEffectHandles);
+			}
+			else if (Data.Attribute == UJobAttributeSet::GetMainJobLevelAttribute())
+			{
+				UpdateActiveGameplayEffects(MainJob, UJobAttributeSet::GetMainJobLevelAttribute(), ActiveGameplayEffects.MainJobActiveGameplayEffectHandles);
+			}
+			else if (Data.Attribute == UJobAttributeSet::GetSubJobLevelAttribute())
+			{
+				UpdateActiveGameplayEffects(SubJob, UJobAttributeSet::GetSubJobLevelAttribute(), ActiveGameplayEffects.SubJobActiveGameplayEffectHandles);
+			}
 		}
 	}
 }
@@ -286,13 +297,13 @@ void UJobSystemComponent::ApplyBaseAttributes() const
 
 void UJobSystemComponent::ApplyGameplayEffects()
 {
-	RemoveActiveGameplayEffects(RaceActiveGameplayEffectHandles);
-	RemoveActiveGameplayEffects(MainJobActiveGameplayEffectHandles);
-	RemoveActiveGameplayEffects(SubJobActiveGameplayEffectHandles);
+	RemoveActiveGameplayEffects(ActiveGameplayEffects.RaceActiveGameplayEffectHandles);
+	RemoveActiveGameplayEffects(ActiveGameplayEffects.MainJobActiveGameplayEffectHandles);
+	RemoveActiveGameplayEffects(ActiveGameplayEffects.SubJobActiveGameplayEffectHandles);
 		
-	GrantGameplayEffects(Race, UPrimaryAttributeSet::GetLevelAttribute(), RaceActiveGameplayEffectHandles);
-	GrantGameplayEffects(MainJob, UJobAttributeSet::GetMainJobLevelAttribute(), MainJobActiveGameplayEffectHandles);
-	GrantGameplayEffects(SubJob, UJobAttributeSet::GetSubJobLevelAttribute(), SubJobActiveGameplayEffectHandles);
+	UpdateActiveGameplayEffects(Race, UPrimaryAttributeSet::GetLevelAttribute(), ActiveGameplayEffects.RaceActiveGameplayEffectHandles);
+	UpdateActiveGameplayEffects(MainJob, UJobAttributeSet::GetMainJobLevelAttribute(), ActiveGameplayEffects.MainJobActiveGameplayEffectHandles);
+	UpdateActiveGameplayEffects(SubJob, UJobAttributeSet::GetSubJobLevelAttribute(), ActiveGameplayEffects.SubJobActiveGameplayEffectHandles);
 }
 
 void UJobSystemComponent::MaximizeHpMpAttributes()
@@ -321,71 +332,78 @@ void UJobSystemComponent::CacheIsNetSimulated()
 	bCachedIsNetSimulated = IsNetSimulating();
 }
 
-void UJobSystemComponent::GrantGameplayEffects(const UJobDefinition* Job, const FGameplayAttribute& Attribute, TArray<FActiveGameplayEffectHandle>& OutHandles)
+void UJobSystemComponent::UpdateActiveGameplayEffects(const UJobDefinition* Job, const FGameplayAttribute& Attribute, FJobSystemActiveGameplayEffectHandles& InHandles)
 {
-	if (Job)
+	if (Job == nullptr)
 	{
-		bool bSuccess = false;
-		/** Get the "base" level from channel 0. */
-		int32 Level = UCrimAbilitySystemBlueprintFunctionLibrary::EvaluateAttributeValueWithTagsUpToChannel(
-			AbilitySystemComponent, Attribute, EGameplayModEvaluationChannel::Channel0, FGameplayTagContainer(), FGameplayTagContainer(), bSuccess);
-		
-		TArray<FSoftObjectPath> GameplayEffectsToLoad;
-		for (const FJobGameplayEffects& Effect : Job->GameplayEffects)
+		return;
+	}
+	
+	bool bSuccess = false;
+	/** Get the "base" level from channel 0. */
+	int32 Level = UCrimAbilitySystemBlueprintFunctionLibrary::EvaluateAttributeValueWithTagsUpToChannel(
+		AbilitySystemComponent, Attribute, EGameplayModEvaluationChannel::Channel0, FGameplayTagContainer(), FGameplayTagContainer(), bSuccess);
+	
+	for (const FJobDefinitionGameplayEffects& Effect : Job->GameplayEffectsForLevels)
+	{
+		if (Level >= Effect.Level)
 		{
-			if (Level >= Effect.Level)
+			// Grants effects or update existing levels on granted effects exist.
+			if (TArray<FActiveGameplayEffectHandle>* ActiveHandles = InHandles.ActiveGameplayEffectHandlesForLevels.Find(Effect.Level))
 			{
-				GameplayEffectsToLoad.Reserve(GameplayEffectsToLoad.Num() + Effect.GameplayEffects.Num());
-				
+				// Have existing effects, update the level here.
+				for (const FActiveGameplayEffectHandle& Handle : *ActiveHandles)
+				{
+					AbilitySystemComponent->SetActiveGameplayEffectLevel(Handle, Level);
+				}
+			}
+			else
+			{
+				// Don't have active effects in the handle yet. Grant and add the handles now.
+				TArray<FSoftObjectPath> GameplayEffectsToLoad;
+				GameplayEffectsToLoad.Reserve(Effect.GameplayEffects.Num());
+				TArray<FActiveGameplayEffectHandle> ActiveGameplayEffectHandles;
+				ActiveGameplayEffectHandles.Reserve(Effect.GameplayEffects.Num());
 				for (const TSoftClassPtr<UGameplayEffect>& EffectClass : Effect.GameplayEffects)
 				{
 					GameplayEffectsToLoad.Add(EffectClass.ToSoftObjectPath());
 				}
+				UAssetManager::Get().LoadAssetList(GameplayEffectsToLoad)->WaitUntilComplete();
+				
+				for (const FSoftObjectPath& Path : GameplayEffectsToLoad)
+				{
+					if (const TSubclassOf<UGameplayEffect> GameplayEffectClass = Cast<UClass>(Path.ResolveObject()))
+					{
+						const UGameplayEffect* GameplayEffect = GameplayEffectClass->GetDefaultObject<UGameplayEffect>();
+						ActiveGameplayEffectHandles.Add(AbilitySystemComponent->ApplyGameplayEffectToSelf(GameplayEffect, Level, AbilitySystemComponent->MakeEffectContext()));
+					}
+				}
+				InHandles.ActiveGameplayEffectHandlesForLevels.Add(Effect.Level, ActiveGameplayEffectHandles);
 			}
 		}
-		
-		if (GameplayEffectsToLoad.Num() == 0)
+		else
 		{
-			return;
-		}
-		
-		OutHandles.Reserve(GameplayEffectsToLoad.Num());
-		// FStreamableDelegate DelegateToCall = FStreamableDelegate::CreateUObject(this, &UJobSystemComponent::OnGameplayEffectsLoaded, GameplayEffectsToLoad, Level, OutHandles);
-		UAssetManager::Get().LoadAssetList(GameplayEffectsToLoad)->WaitUntilComplete();
-		
-		for (const FSoftObjectPath& Path : GameplayEffectsToLoad)
-		{
-			if (TSubclassOf<UGameplayEffect> GameplayEffectClass = Cast<UClass>(Path.ResolveObject()))
+			// Remove granted effects.
+			if (TArray<FActiveGameplayEffectHandle>* ActiveHandles = InHandles.ActiveGameplayEffectHandlesForLevels.Find(Effect.Level))
 			{
-				const UGameplayEffect* GameplayEffect = GameplayEffectClass->GetDefaultObject<UGameplayEffect>();
-				const FActiveGameplayEffectHandle Handle = AbilitySystemComponent->ApplyGameplayEffectToSelf(GameplayEffect, Level, AbilitySystemComponent->MakeEffectContext());
-				OutHandles.Add(Handle);
+				for (const FActiveGameplayEffectHandle& Handle : *ActiveHandles)
+				{
+					AbilitySystemComponent->RemoveActiveGameplayEffect(Handle, 1);
+				}
+				InHandles.ActiveGameplayEffectHandlesForLevels.Remove(Effect.Level);
 			}
 		}
 	}
 }
 
-void UJobSystemComponent::RemoveActiveGameplayEffects(TArray<FActiveGameplayEffectHandle>& InHandles)
+void UJobSystemComponent::RemoveActiveGameplayEffects(FJobSystemActiveGameplayEffectHandles& InHandles)
 {
-	for (const FActiveGameplayEffectHandle& Handle : InHandles)
+	for (const TTuple<int, TArray<FActiveGameplayEffectHandle>> Pair : InHandles.ActiveGameplayEffectHandlesForLevels)
 	{
-		AbilitySystemComponent->RemoveActiveGameplayEffect(Handle, 1);
+		for (const FActiveGameplayEffectHandle Handle : Pair.Value)
+		{
+			AbilitySystemComponent->RemoveActiveGameplayEffect(Handle, 1);
+		}
 	}
-	InHandles.Empty();
+	InHandles.ActiveGameplayEffectHandlesForLevels.Empty();
 }
-
-// void UJobSystemComponent::OnGameplayEffectsLoaded(TArray<FSoftObjectPath> LoadedGameplayEffectClasses, const int32 Level, TArray<FActiveGameplayEffectHandle>* OutHandles)
-// {
-// 	if (AbilitySystemComponent)
-// 	{
-// 		for (const FSoftObjectPath& Path : LoadedGameplayEffectClasses)
-// 		{
-// 			if (TSubclassOf<UGameplayEffect> GameplayEffectClass = Cast<UClass>(Path.ResolveObject()))
-// 			{
-// 				const UGameplayEffect* GameplayEffect = GameplayEffectClass->GetDefaultObject<UGameplayEffect>();
-// 				const FActiveGameplayEffectHandle Handle = AbilitySystemComponent->ApplyGameplayEffectToSelf(GameplayEffect, Level, AbilitySystemComponent->MakeEffectContext());
-// 				OutHandles->Add(Handle);
-// 			}
-// 		}
-// 	}
-// }

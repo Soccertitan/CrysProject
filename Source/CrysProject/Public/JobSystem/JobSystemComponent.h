@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "CrimAbilitySystemInterface.h"
+#include "JobTypes.h"
 #include "Components/ActorComponent.h"
 #include "JobSystemComponent.generated.h"
 
@@ -11,7 +12,6 @@
 struct FJobParams;
 struct FStreamableHandle;
 struct FGameplayAttribute;
-struct FActiveGameplayEffectHandle;
 struct FOnAttributeChangeData;
 class UCrimAbilitySystemComponent;
 class UJobDefinition;
@@ -109,12 +109,7 @@ private:
 	UPROPERTY()
 	TObjectPtr<UCrimAbilitySystemComponent> AbilitySystemComponent;
 	
-	UPROPERTY()
-	TArray<FActiveGameplayEffectHandle> RaceActiveGameplayEffectHandles;
-	UPROPERTY()
-	TArray<FActiveGameplayEffectHandle> MainJobActiveGameplayEffectHandles;
-	UPROPERTY()
-	TArray<FActiveGameplayEffectHandle> SubJobActiveGameplayEffectHandles;
+	FJobSystemActiveGameplayEffects ActiveGameplayEffects;
 	
 	/** If true, the BaseAttribute will not be updated. This will be true when changing jobs and levels. */
 	bool bChangingJobs = false;
@@ -125,6 +120,10 @@ private:
 	 */
 	void ApplyBaseAttributes() const;
 
+	/** Cached value of whether our owner is a simulated Actor. */
+	bool bCachedIsNetSimulated = false;
+	void CacheIsNetSimulated();
+
 	/**
 	 * Applies gameplay effects for the Race and Jobs.
 	 */
@@ -133,12 +132,12 @@ private:
 	/** Sets the HP and MP attributes to the maximum value. */
 	void MaximizeHpMpAttributes();
 	
-	/** Cached value of whether our owner is a simulated Actor. */
-	bool bCachedIsNetSimulated = false;
-	void CacheIsNetSimulated();
+	/** 
+	 * Grants/Updates active gameplay effects that meet the level requirement. If it does not meet the level requirement, 
+	 * removes the gameplay effects granted for those levels.
+	 */
+	void UpdateActiveGameplayEffects(const UJobDefinition* Job, const FGameplayAttribute& Attribute, FJobSystemActiveGameplayEffectHandles& InHandles);
 	
-	/** Grants GameplayEffects for the job at the specified level. */
-	void GrantGameplayEffects(const UJobDefinition* Job, const FGameplayAttribute& Attribute, TArray<FActiveGameplayEffectHandle>& OutHandles);
-	
-	void RemoveActiveGameplayEffects(TArray<FActiveGameplayEffectHandle>& InHandles);
+	/** Removes all ActiveGameplayEffects */
+	void RemoveActiveGameplayEffects(FJobSystemActiveGameplayEffectHandles& InHandles);
 };
