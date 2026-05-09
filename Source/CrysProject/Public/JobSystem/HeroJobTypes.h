@@ -63,15 +63,6 @@ struct FJobProgressItem : public FFastArraySerializerItem
 
 	bool IsValid() const;
 
-	FORCEINLINE bool operator==(const UJobDefinition* Other) const
-	{
-		return Job == Other;
-	}
-	FORCEINLINE bool operator!=(const UJobDefinition* Other) const
-	{
-		return Job != Other;
-	}
-
 private:
 	friend struct FJobProgressContainer;
 	friend class UHeroJobSystemComponent;
