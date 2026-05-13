@@ -1,7 +1,7 @@
 ﻿// Copyright Soccertitan 2025
 
 
-#include "Input/GameplayAbilityInputActionListener.h"
+#include "Input/InputActionListener/GameplayAbilityInputActionListener.h"
 
 #include "CrimAbilitySystemBlueprintFunctionLibrary.h"
 #include "InputActionValue.h"

@@ -9,7 +9,7 @@
 #include "UINavPCComponent.h"
 #include "UINavWidget.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
-#include "Input/InputActionListenerMap.h"
+#include "Input/InputActionListener/InputActionListenerMap.h"
 #include "UI/CrysHUD.h"
 
 class UCrimEnhancedInputComponent;

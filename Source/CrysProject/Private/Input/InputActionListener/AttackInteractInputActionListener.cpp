@@ -1,7 +1,7 @@
 ﻿// Copyright Soccertitan 2025
 
 
-#include "Input/AttackInteractInputActionListener.h"
+#include "Input/InputActionListener/AttackInteractInputActionListener.h"
 
 #include "CrimAbilitySystemBlueprintFunctionLibrary.h"
 #include "CrimAbilitySystemComponent.h"
