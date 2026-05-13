@@ -6,6 +6,7 @@
 #include "Engine/DeveloperSettings.h"
 #include "CrysGameData.generated.h"
 
+class UGameplayEffect;
 class UUITagRelationship;
 class UAttributeTagRelationship;
 
@@ -21,6 +22,10 @@ public:
 	// Maps Gameplay tags to attributes. Used in the UI and for Gameplay Effects to set attributes.
 	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = "AbilitySystem")
 	TSoftObjectPtr<UAttributeTagRelationship> AttributeTagRelationship;
+	
+	// The default AutoAttack GE to use when one is not specified on the weapon.
+	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = "AbilitySystem")
+	TSoftClassPtr<UGameplayEffect> AutoAttackGameplayEffectClass;
 	
 	// Maps Gameplay tags to UI info.
 	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = "UI")

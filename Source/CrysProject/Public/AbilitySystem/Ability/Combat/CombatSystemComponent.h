@@ -6,23 +6,26 @@
 #include "CombatTypes.h"
 #include "CrimAbilitySystemInterface.h"
 #include "Components/ActorComponent.h"
-#include "CombatComponent.generated.h"
+#include "CombatSystemComponent.generated.h"
 
 struct FGameplayTag;
 struct FOnAttributeChangeData;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCombatAutoAttackingSignature, bool, bAutoAttacking);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCombatAutoAttackTargetUpdatedSignature, AActor*, TargetedActor);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCombatWeaponChangedSignature, const FCrysWeapon&, Weapon);
 
 /**
  * Handles basic combat functions like auto attacks, weapons, and auto attack delay.
  */
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class CRYSPROJECT_API UCombatComponent : public UActorComponent, public ICrimAbilitySystemInterface
+class CRYSPROJECT_API UCombatSystemComponent : public UActorComponent, public ICrimAbilitySystemInterface
 {
 	GENERATED_BODY()
 
+	friend class UAutoAttackGameplayAbility;
+	
 public:
-	UCombatComponent();
+	UCombatSystemComponent();
 	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void BeginPlay() override;
 	virtual void PreNetReceive() override;
@@ -66,6 +69,8 @@ public:
 	UPROPERTY(BlueprintAssignable, DisplayName = "OnSecondaryWeaponChanged")
 	FCombatWeaponChangedSignature OnSecondaryWeaponChangedDelegate;
 	
+	//TODO: Should we allow weapon changes while an auto attack is still active?
+	
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Combat")
 	void SetPrimaryWeaponOverride(const FCrysWeapon& Weapon);
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Combat")
@@ -74,6 +79,15 @@ public:
 	void ClearPrimaryWeaponOverride();
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Combat")
 	void ClearSecondaryWeaponOverride();
+	
+	UFUNCTION(BlueprintCallable, Category = "Combat")
+	void SetAutoAttackTarget(AActor* NewTarget);
+	
+	UFUNCTION(BlueprintPure, Category = "Combat")
+	AActor* GetAutoAttackTarget() const { return AutoAttackTarget; }
+	
+	UPROPERTY(BlueprintAssignable, DisplayName = "OnAutoAttackTargetChanged")
+	FCombatAutoAttackTargetUpdatedSignature OnAutoAttackTargetChangedDelegate;
 
 	UFUNCTION(BlueprintPure, Category = "Combat")
 	bool HasAuthority() const;
@@ -87,6 +101,8 @@ protected:
 	
 	UFUNCTION()
 	void OnRep_AutoAttacking();
+	UFUNCTION()
+	void OnRep_AutoAttackTarget();
 	
 	UFUNCTION()
 	void OnRep_PrimaryWeapon();
@@ -107,6 +123,10 @@ private:
 	UPROPERTY()
 	TObjectPtr<UCrimAbilitySystemComponent> AbilitySystemComponent;
 	
+	/** The actor to auto attack. */
+	UPROPERTY(ReplicatedUsing=OnRep_AutoAttackTarget)
+	TObjectPtr<AActor> AutoAttackTarget;
+	
 	UPROPERTY(ReplicatedUsing=OnRep_AutoAttacking)
 	bool bAutoAttacking = false;
 	
@@ -126,6 +146,9 @@ private:
 	
 	UFUNCTION()
 	void OnAutoAttackTimerCompleted();
+	
+	/** Called from the AutoAttack ability when the ability ends. */
+	void OnAutoAttackCompleted(bool bWasCancelled);
 	
 	/** True after the AutoAttackTimer is completed and is reset to false when all auto attacks have completed. */
 	bool bActivatingAutoAttacks = false;
@@ -149,4 +172,7 @@ private:
 	
 	UFUNCTION(Server, Reliable)
 	void Server_StopAutoAttack();
+	
+	UFUNCTION(Server, Reliable)
+	void Server_SetAutoAttackTarget(AActor* NewTarget);
 };

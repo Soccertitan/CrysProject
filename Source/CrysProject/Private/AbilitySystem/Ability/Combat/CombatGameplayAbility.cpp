@@ -5,6 +5,7 @@
 
 #include "AbilitySystemComponent.h"
 #include "CrysNativeGameplayTags.h"
+#include "AbilitySystem/Ability/Combat/CombatSystemComponent.h"
 
 void UCombatGameplayAbility::OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec)
 {
@@ -17,4 +18,6 @@ void UCombatGameplayAbility::OnGiveAbility(const FGameplayAbilityActorInfo* Acto
 			bDualWielding = NewCount > 0;
 		});
 	GetAbilitySystemComponentFromActorInfo()->RegisterAndCallGameplayTagEvent(DualWieldTag, Delegate);
+	
+	CombatComponent = GetOwningActorFromActorInfo()->FindComponentByClass<UCombatSystemComponent>();
 }

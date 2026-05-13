@@ -11,6 +11,20 @@
 
 class UGameplayEffect;
 
+USTRUCT(BlueprintType)
+struct FMultiAttackProbability
+{
+	GENERATED_BODY()
+	
+	/** The value will be scaled by Weapon Level. Should not be less than 0. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = 0.f))
+	FScalableFloat Probability = 0.f;
+	
+	/** The number of bonus attacks to do when this */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = 0))
+	int32 NumOfBonusAttacks = 0;
+};
+
 /** Runtime data used for combat/auto attacks. */
 USTRUCT(BlueprintType)
 struct FCrysWeapon
@@ -37,13 +51,9 @@ struct FCrysWeapon
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FScalableFloat AutoAttackDelay = 2.5f;
 	
-	/** This value is checked via a random number between 0.f and 1.f. */
+	/** The probabilities are added up and determine number of bonus attacks. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FScalableFloat MultiAttackChance;
-	
-	/** An index of 0 is 1 additional attack, every index after counts as 1 more attack. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = 0.f))
-	TArray<float> MultiAttackDistribution;
+	TArray<FMultiAttackProbability> MultiAttackProbabilities;
 	
 	/** The damage effect class to use during an auto attack. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -99,18 +109,19 @@ struct FCrysWeaponContainer
 	FCrysWeapon WeaponOverride;
 };
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct FAutoAttackParams
 {
 	GENERATED_BODY()
 	
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 	FCrysWeapon PrimaryWeapon;
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 	int32 PrimaryAttacks = 0;
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 	FCrysWeapon SecondaryWeapon;
+	UPROPERTY(BlueprintReadOnly)
 	int32 SecondaryAttacks = 0;
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 	FRandomStream RandomStream;
 };

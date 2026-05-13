@@ -1,7 +1,7 @@
 ﻿// Copyright Soccertitan 2026
 
 
-#include "AbilitySystem/Ability/Combat/CombatComponent.h"
+#include "AbilitySystem/Ability/Combat/CombatSystemComponent.h"
 
 #include "CrimAbilityNativeGameplayTags.h"
 #include "CrimAbilitySystemComponent.h"
@@ -12,7 +12,7 @@
 #include "Net/UnrealNetwork.h"
 
 
-UCombatComponent::UCombatComponent()
+UCombatSystemComponent::UCombatSystemComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
 	SetIsReplicatedByDefault(true);
@@ -22,7 +22,7 @@ UCombatComponent::UCombatComponent()
 	MultiAttackPriorities.Add(FMultiAttackPriority(Crys::NativeGameplayTag::Attribute_MultiAttackChance_Double, 1));
 }
 
-void UCombatComponent::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
+void UCombatSystemComponent::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	
@@ -34,21 +34,22 @@ void UCombatComponent::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty
 	Params.Condition = COND_None;
 	DOREPLIFETIME_WITH_PARAMS_FAST(ThisClass, PrimaryWeapon, Params);
 	DOREPLIFETIME_WITH_PARAMS_FAST(ThisClass, SecondaryWeapon, Params);
+	DOREPLIFETIME_WITH_PARAMS_FAST(ThisClass, AutoAttackTarget, Params);
 }
 
-void UCombatComponent::BeginPlay()
+void UCombatSystemComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	CacheIsNetSimulated();
 }
 
-void UCombatComponent::PreNetReceive()
+void UCombatSystemComponent::PreNetReceive()
 {
 	Super::PreNetReceive();
 	CacheIsNetSimulated();
 }
 
-void UCombatComponent::SetCrimAbilitySystem_Implementation(UCrimAbilitySystemComponent* NewAbilitySystemComponent)
+void UCombatSystemComponent::SetCrimAbilitySystem_Implementation(UCrimAbilitySystemComponent* NewAbilitySystemComponent)
 {
 	if (AbilitySystemComponent == NewAbilitySystemComponent)
 	{
@@ -75,36 +76,36 @@ void UCombatComponent::SetCrimAbilitySystem_Implementation(UCrimAbilitySystemCom
 		AutoAttackDelay = bFound ? Value : 1.f;
 		
 		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UAttackerAttributeSet::GetAutoAttackDelayAttribute()).
-			AddUObject(this, &UCombatComponent::OnAutoAttackDelayAttributeChanged);
+			AddUObject(this, &UCombatSystemComponent::OnAutoAttackDelayAttributeChanged);
 		
 		const FGameplayTag& PauseAutoAttack = Crys::NativeGameplayTag::Ability_State_AutoAttackPaused;
 		OnPauseAutoAttackTagChanged(PauseAutoAttack, AbilitySystemComponent->GetGameplayTagCount(PauseAutoAttack));
 		AbilitySystemComponent->RegisterGameplayTagEvent(PauseAutoAttack, EGameplayTagEventType::NewOrRemoved).
-			AddUObject(this, &UCombatComponent::OnPauseAutoAttackTagChanged);
+			AddUObject(this, &UCombatSystemComponent::OnPauseAutoAttackTagChanged);
 	
 		const FGameplayTag& CombatStance = Crys::NativeGameplayTag::Ability_State_CombatStance;
 		OnCombatStanceTagChanged(CombatStance, AbilitySystemComponent->GetGameplayTagCount(CombatStance));
 		AbilitySystemComponent->RegisterGameplayTagEvent(CombatStance, EGameplayTagEventType::NewOrRemoved).
-			AddUObject(this, &UCombatComponent::OnCombatStanceTagChanged);
+			AddUObject(this, &UCombatSystemComponent::OnCombatStanceTagChanged);
 		
 		const FGameplayTag& Death = CrimAbility::NativeGameplayTag::Ability_State_Death;
 		OnDeathTagChanged(Death, AbilitySystemComponent->GetGameplayTagCount(Death));
 		AbilitySystemComponent->RegisterGameplayTagEvent(Death, EGameplayTagEventType::NewOrRemoved).
-			AddUObject(this, &UCombatComponent::OnDeathTagChanged);
+			AddUObject(this, &UCombatSystemComponent::OnDeathTagChanged);
 		
 		const float Level = AbilitySystemComponent->GetNumericAttribute(UPrimaryAttributeSet::GetLevelAttribute());
 		PrimaryWeapon.DefaultWeapon.Level = Level;
 		SecondaryWeapon.DefaultWeapon.Level = Level;
 		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UPrimaryAttributeSet::GetLevelAttribute()).
-			AddUObject(this, &UCombatComponent::OnLevelAttributeChanged);
+			AddUObject(this, &UCombatSystemComponent::OnLevelAttributeChanged);
 		
 		bDualWielding = AbilitySystemComponent->GetGameplayTagCount(Crys::NativeGameplayTag::Ability_State_DualWielding) > 0;
-		AbilitySystemComponent->RegisterGameplayTagEvent(Crys::NativeGameplayTag::Ability_State_DualWielding).AddUObject(this, &UCombatComponent::OnDualWieldingTagCountUpdated);
+		AbilitySystemComponent->RegisterGameplayTagEvent(Crys::NativeGameplayTag::Ability_State_DualWielding).AddUObject(this, &UCombatSystemComponent::OnDualWieldingTagCountUpdated);
 		UpdateBaseAutoAttackDelay();
 	}
 }
 
-void UCombatComponent::StartAutoAttack()
+void UCombatSystemComponent::StartAutoAttack()
 {
 	if (IsAutoAttacking() || !CanAutoAttack())
 	{
@@ -123,7 +124,7 @@ void UCombatComponent::StartAutoAttack()
 
 	if (AutoAttackDelay > 0.f)
 	{
-		GetWorld()->GetTimerManager().SetTimer(AutoAttackTimer, this, &UCombatComponent::OnAutoAttackTimerCompleted, AutoAttackDelay, false);
+		GetWorld()->GetTimerManager().SetTimer(AutoAttackTimer, this, &UCombatSystemComponent::OnAutoAttackTimerCompleted, AutoAttackDelay, false);
 		if (bAutoAttackTimerPaused)
 		{
 			GetWorld()->GetTimerManager().PauseTimer(AutoAttackTimer);
@@ -135,7 +136,7 @@ void UCombatComponent::StartAutoAttack()
 	}
 }
 
-void UCombatComponent::StopAutoAttack()
+void UCombatSystemComponent::StopAutoAttack()
 {
 	if (!IsAutoAttacking())
 	{
@@ -153,11 +154,10 @@ void UCombatComponent::StopAutoAttack()
 	OnAutoAttackStateChangedDelegate.Broadcast(bAutoAttacking);
 	OnRep_AutoAttacking();
 	
-	//TODO: Clear the AutoAttackAbility Queue.
 	bActivatingAutoAttacks = false;
 }
 
-void UCombatComponent::RestartAutoAttackTimer()
+void UCombatSystemComponent::RestartAutoAttackTimer()
 {
 	if (IsAutoAttacking() && HasAuthority() && bActivatingAutoAttacks == false)
 	{
@@ -165,7 +165,7 @@ void UCombatComponent::RestartAutoAttackTimer()
 		
 		if (AutoAttackDelay > 0.f)
 		{
-			GetWorld()->GetTimerManager().SetTimer(AutoAttackTimer, this, &UCombatComponent::OnAutoAttackTimerCompleted, AutoAttackDelay, false);
+			GetWorld()->GetTimerManager().SetTimer(AutoAttackTimer, this, &UCombatSystemComponent::OnAutoAttackTimerCompleted, AutoAttackDelay, false);
 			if (bAutoAttackTimerPaused)
 			{
 				GetWorld()->GetTimerManager().PauseTimer(AutoAttackTimer);
@@ -178,12 +178,12 @@ void UCombatComponent::RestartAutoAttackTimer()
 	}
 }
 
-bool UCombatComponent::IsAutoAttacking() const
+bool UCombatSystemComponent::IsAutoAttacking() const
 {
 	return bAutoAttacking;
 }
 
-bool UCombatComponent::CanAutoAttack() const
+bool UCombatSystemComponent::CanAutoAttack() const
 {
 	if (bCombatStance && bAlive && AbilitySystemComponent)
 	{
@@ -192,7 +192,7 @@ bool UCombatComponent::CanAutoAttack() const
 	return false;
 }
 
-int32 UCombatComponent::GetBonusAttacks(const FCrysWeapon& Weapon) const
+int32 UCombatSystemComponent::GetBonusAttacks(const FCrysWeapon& Weapon) const
 {
 	int32 Result = 0;
 	if (AbilitySystemComponent)
@@ -213,25 +213,23 @@ int32 UCombatComponent::GetBonusAttacks(const FCrysWeapon& Weapon) const
 		
 		if (Result == 0)
 		{
-			const float MultiAttackChance = Weapon.MultiAttackChance.GetValueAtLevel(Weapon.Level);
-			 
-			if (MultiAttackChance > 0.f && MultiAttackChance >= FMath::RandRange(0.f, 1.f))
+			if (Weapon.MultiAttackProbabilities.Num() > 0)
 			{
 				float TotalProbability = 0;
-				for (const float& Probability : Weapon.MultiAttackDistribution)
+				for (const FMultiAttackProbability& Probability : Weapon.MultiAttackProbabilities)
 				{
-					TotalProbability += Probability;
+					TotalProbability += Probability.Probability.GetValueAtLevel(Weapon.Level);
 				}
 				
 				float HitValue = FMath::FRandRange(0.f, TotalProbability);
 				float RunningValue = 0.f;
-				for (int32 Index = 0; Index < Weapon.MultiAttackDistribution.Num(); Index++)
+				for (int32 Index = 0; Index < Weapon.MultiAttackProbabilities.Num(); Index++)
 				{
 					// Count up until we find the first item that exceeds the HitValue.
-					RunningValue += Weapon.MultiAttackDistribution[Index];
+					RunningValue += Weapon.MultiAttackProbabilities[Index].Probability.GetValueAtLevel(Weapon.Level);
 					if (HitValue <= RunningValue)
 					{
-						Result = Weapon.MultiAttackDistribution[Index] + 1;
+						Result = Weapon.MultiAttackProbabilities[Index].NumOfBonusAttacks;
 						break;
 					}
 				}
@@ -242,17 +240,17 @@ int32 UCombatComponent::GetBonusAttacks(const FCrysWeapon& Weapon) const
 	return Result;
 }
 
-const FCrysWeapon& UCombatComponent::GetPrimaryWeapon() const
+const FCrysWeapon& UCombatSystemComponent::GetPrimaryWeapon() const
 {
 	return PrimaryWeapon.bUseWeaponOverride ? PrimaryWeapon.WeaponOverride : PrimaryWeapon.DefaultWeapon;
 }
 
-const FCrysWeapon& UCombatComponent::GetSecondaryWeapon() const
+const FCrysWeapon& UCombatSystemComponent::GetSecondaryWeapon() const
 {
 	return SecondaryWeapon.bUseWeaponOverride ? SecondaryWeapon.WeaponOverride : SecondaryWeapon.DefaultWeapon;
 }
 
-void UCombatComponent::SetPrimaryWeaponOverride(const FCrysWeapon& Weapon)
+void UCombatSystemComponent::SetPrimaryWeaponOverride(const FCrysWeapon& Weapon)
 {
 	if (HasAuthority())
 	{
@@ -261,7 +259,7 @@ void UCombatComponent::SetPrimaryWeaponOverride(const FCrysWeapon& Weapon)
 	}
 }
 
-void UCombatComponent::SetSecondaryWeaponOverride(const FCrysWeapon& Weapon)
+void UCombatSystemComponent::SetSecondaryWeaponOverride(const FCrysWeapon& Weapon)
 {
 	if (HasAuthority())
 	{
@@ -270,7 +268,7 @@ void UCombatComponent::SetSecondaryWeaponOverride(const FCrysWeapon& Weapon)
 	}
 }
 
-void UCombatComponent::ClearPrimaryWeaponOverride()
+void UCombatSystemComponent::ClearPrimaryWeaponOverride()
 {
 	if (HasAuthority())
 	{
@@ -279,7 +277,7 @@ void UCombatComponent::ClearPrimaryWeaponOverride()
 	}
 }
 
-void UCombatComponent::ClearSecondaryWeaponOverride()
+void UCombatSystemComponent::ClearSecondaryWeaponOverride()
 {
 	if (HasAuthority())
 	{
@@ -288,47 +286,69 @@ void UCombatComponent::ClearSecondaryWeaponOverride()
 	}
 }
 
-bool UCombatComponent::HasAuthority() const
+void UCombatSystemComponent::SetAutoAttackTarget(AActor* NewTarget)
+{
+	if (AutoAttackTarget != NewTarget)
+	{
+		AutoAttackTarget = NewTarget;
+		if (HasAuthority())
+		{
+			OnRep_AutoAttackTarget();
+		}
+		else
+		{
+			Server_SetAutoAttackTarget(NewTarget);
+		}
+		OnAutoAttackTargetChangedDelegate.Broadcast(NewTarget);
+	}
+}
+
+bool UCombatSystemComponent::HasAuthority() const
 {
 	return !bCachedIsNetSimulated;
 }
 
-void UCombatComponent::OnRegister()
+void UCombatSystemComponent::OnRegister()
 {
 	Super::OnRegister();
 	
 	CacheIsNetSimulated();
 }
 
-void UCombatComponent::OnRep_AutoAttacking()
+void UCombatSystemComponent::OnRep_AutoAttacking()
 {
 	OnAutoAttackStateChangedDelegate.Broadcast(bAutoAttacking);
 }
 
-void UCombatComponent::OnRep_PrimaryWeapon()
+void UCombatSystemComponent::OnRep_AutoAttackTarget()
+{
+	OnAutoAttackTargetChangedDelegate.Broadcast(AutoAttackTarget);
+}
+
+void UCombatSystemComponent::OnRep_PrimaryWeapon()
 {
 	OnPrimaryWeaponChangedDelegate.Broadcast(PrimaryWeapon.bUseWeaponOverride ? PrimaryWeapon.WeaponOverride : PrimaryWeapon.DefaultWeapon);
 }
 
-void UCombatComponent::OnRep_SecondaryWeapon()
+void UCombatSystemComponent::OnRep_SecondaryWeapon()
 {
 	OnSecondaryWeaponChangedDelegate.Broadcast(SecondaryWeapon.bUseWeaponOverride ? SecondaryWeapon.WeaponOverride : SecondaryWeapon.DefaultWeapon);
 }
 
-void UCombatComponent::OnWeaponChanged(const FCrysWeapon& Weapon)
+void UCombatSystemComponent::OnWeaponChanged(const FCrysWeapon& Weapon)
 {
 	RestartAutoAttackTimer();
 }
 
-void UCombatComponent::CacheIsNetSimulated()
+void UCombatSystemComponent::CacheIsNetSimulated()
 {
 	bCachedIsNetSimulated = IsNetSimulating();
 }
 
-void UCombatComponent::OnAutoAttackTimerCompleted()
+void UCombatSystemComponent::OnAutoAttackTimerCompleted()
 {
 #if WITH_SERVER_CODE
-	if (AbilitySystemComponent)
+	if (AbilitySystemComponent && AutoAttackTarget)
 	{
 		FScopedPredictionWindow NewScopedWindow(AbilitySystemComponent, true);
 		
@@ -350,7 +370,7 @@ void UCombatComponent::OnAutoAttackTimerCompleted()
 		FGameplayEventData Payload;
 		Payload.EventTag = Crys::NativeGameplayTag::Ability_GameplayEvent_AutoAttack;
 		Payload.Instigator = AbilitySystemComponent->GetAvatarActor();
-		Payload.Target = nullptr; //TODO Get Target UCrysBlueprintFunctionLibrary::GetAbilityTarget(AbilitySystemComponent->GetOwner(), Crys::NativeGameplayTag::Ability_GameplayEvent_AutoAttack.GetTag().GetSingleTagContainer());
+		Payload.Target = AutoAttackTarget;
 		Payload.TargetData.Add(Data);
 		
 		AbilitySystemComponent->HandleGameplayEvent(Payload.EventTag, &Payload);
@@ -358,12 +378,18 @@ void UCombatComponent::OnAutoAttackTimerCompleted()
 #endif // #if WITH_SERVER_CODE
 }
 
-void UCombatComponent::OnAutoAttackDelayAttributeChanged(const FOnAttributeChangeData& Data)
+void UCombatSystemComponent::OnAutoAttackCompleted(bool bWasCancelled)
+{
+	bActivatingAutoAttacks = false;
+	RestartAutoAttackTimer();
+}
+
+void UCombatSystemComponent::OnAutoAttackDelayAttributeChanged(const FOnAttributeChangeData& Data)
 {
 	AutoAttackDelay = Data.NewValue;
 }
 
-void UCombatComponent::OnLevelAttributeChanged(const FOnAttributeChangeData& Data)
+void UCombatSystemComponent::OnLevelAttributeChanged(const FOnAttributeChangeData& Data)
 {
 	if (PrimaryWeapon.DefaultWeapon.Level != Data.NewValue)
 	{
@@ -378,7 +404,7 @@ void UCombatComponent::OnLevelAttributeChanged(const FOnAttributeChangeData& Dat
 	}
 }
 
-void UCombatComponent::OnPauseAutoAttackTagChanged(const FGameplayTag Tag, int32 NewCount)
+void UCombatSystemComponent::OnPauseAutoAttackTagChanged(const FGameplayTag Tag, int32 NewCount)
 {
 	if (NewCount > 0)
 	{
@@ -398,7 +424,7 @@ void UCombatComponent::OnPauseAutoAttackTagChanged(const FGameplayTag Tag, int32
 	}
 }
 
-void UCombatComponent::OnCombatStanceTagChanged(const FGameplayTag Tag, int32 NewCount)
+void UCombatSystemComponent::OnCombatStanceTagChanged(const FGameplayTag Tag, int32 NewCount)
 {
 	bCombatStance = NewCount > 0;
 	if (!bCombatStance)
@@ -410,7 +436,7 @@ void UCombatComponent::OnCombatStanceTagChanged(const FGameplayTag Tag, int32 Ne
 	}
 }
 
-void UCombatComponent::OnDeathTagChanged(const FGameplayTag Tag, int32 NewCount)
+void UCombatSystemComponent::OnDeathTagChanged(const FGameplayTag Tag, int32 NewCount)
 {
 	bAlive = NewCount == 0;
 	if (!bAlive)
@@ -422,7 +448,7 @@ void UCombatComponent::OnDeathTagChanged(const FGameplayTag Tag, int32 NewCount)
 	}
 }
 
-void UCombatComponent::OnDualWieldingTagCountUpdated(const FGameplayTag Tag, int32 NewCount)
+void UCombatSystemComponent::OnDualWieldingTagCountUpdated(const FGameplayTag Tag, int32 NewCount)
 {
 	if (bDualWielding != NewCount > 0)
 	{
@@ -431,7 +457,7 @@ void UCombatComponent::OnDualWieldingTagCountUpdated(const FGameplayTag Tag, int
 	}
 }
 
-void UCombatComponent::UpdateBaseAutoAttackDelay() const
+void UCombatSystemComponent::UpdateBaseAutoAttackDelay() const
 {
 	if (!HasAuthority())
 	{
@@ -474,7 +500,7 @@ void UCombatComponent::UpdateBaseAutoAttackDelay() const
 	AbilitySystemComponent->ApplyGameplayEffectToSelf(AttackDelayGE, 1.0f, AbilitySystemComponent->MakeEffectContext());
 }
 
-void UCombatComponent::SetWeaponOverrideInternal(FCrysWeaponContainer& WeaponContainer, const FCrysWeapon& Weapon,
+void UCombatSystemComponent::SetWeaponOverrideInternal(FCrysWeaponContainer& WeaponContainer, const FCrysWeapon& Weapon,
 	const FCombatWeaponChangedSignature& Delegate)
 {
 	WeaponContainer.bUseWeaponOverride = true;
@@ -489,7 +515,7 @@ void UCombatComponent::SetWeaponOverrideInternal(FCrysWeaponContainer& WeaponCon
 	Delegate.Broadcast(Weapon);
 }
 
-void UCombatComponent::ClearWeaponOverrideInternal(FCrysWeaponContainer& WeaponContainer, const FCombatWeaponChangedSignature& Delegate)
+void UCombatSystemComponent::ClearWeaponOverrideInternal(FCrysWeaponContainer& WeaponContainer, const FCombatWeaponChangedSignature& Delegate)
 {
 	WeaponContainer.bUseWeaponOverride = false;
 	WeaponContainer.WeaponOverride = FCrysWeapon();
@@ -503,12 +529,17 @@ void UCombatComponent::ClearWeaponOverrideInternal(FCrysWeaponContainer& WeaponC
 	Delegate.Broadcast(WeaponContainer.DefaultWeapon);
 }
 
-void UCombatComponent::Server_StartAutoAttack_Implementation()
+void UCombatSystemComponent::Server_SetAutoAttackTarget_Implementation(AActor* NewTarget)
+{
+	SetAutoAttackTarget(NewTarget);
+}
+
+void UCombatSystemComponent::Server_StartAutoAttack_Implementation()
 {
 	StartAutoAttack();
 }
 
-void UCombatComponent::Server_StopAutoAttack_Implementation()
+void UCombatSystemComponent::Server_StopAutoAttack_Implementation()
 {
 	StopAutoAttack();
 }
