@@ -28,6 +28,7 @@ public:
 	ATTRIBUTE_ACCESSORS(ThisClass, CriticalHitBonus);
 	
 	ATTRIBUTE_ACCESSORS(ThisClass, AutoAttackDelay);
+	ATTRIBUTE_ACCESSORS(ThisClass, MultiAttackChance);
 	
 protected:
 	virtual void ClampAttribute(const FGameplayAttribute& Attribute, float& NewValue) const override;
@@ -70,4 +71,8 @@ private:
 	/** The amount of time between auto attacks in seconds. */
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing=OnRep_AutoAttackDelay, meta = (AllowPrivateAccess = true))
 	FGameplayAttributeData AutoAttackDelay;
+	
+	/** The chance to trigger multiple attacks. Uses gameplay tags to distinguish between multi attack types. */
+	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	FGameplayAttributeData MultiAttackChance;
 };

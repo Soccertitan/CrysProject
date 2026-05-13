@@ -9,19 +9,42 @@ namespace Crys::NativeGameplayTag
 {
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_State_MovementRooted);
 	
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_GameplayEvent_AutoAttack);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_GameplayEvent_Damage_ManaPoints);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_GameplayEvent_Healing_ManaPoints);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_GameplayEvent_Damage_TacticalPoints);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_GameplayEvent_Healing_TacticalPoints);
 	
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_State_AutoAttackPaused);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_State_Block);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_State_CombatStance);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_State_DualWield);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_State_DualWielding);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_State_Guard);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_State_Ignore_Evasion);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_State_Parry);
 	
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Level);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Strength);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Vitality);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Dexterity);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Agility);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Intelligence);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Mind);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Charisma);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_MultiAttackChance);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_MultiAttackChance_Double);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_MultiAttackChance_Triple);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_MultiAttackChance_Quadruple);
+	
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(EnhancedInput_UI);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(EnhancedInput_AbilityTargeting);
+	
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(EquipSlot);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(EquipSlot_Hand);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(EquipSlot_Hand_Main);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(EquipSlot_Hand_Sub);
 	
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Job);
 }

@@ -38,7 +38,8 @@ void UAttackerAttributeSet::ClampAttribute(const FGameplayAttribute& Attribute, 
 	
 	if (Attribute == GetCriticalHitChanceAttribute() ||
 		Attribute == GetCriticalHitBonusAttribute() ||
-		Attribute == GetAttackDefenceRatioCapAttribute())
+		Attribute == GetAttackDefenceRatioCapAttribute() ||
+		Attribute == GetMultiAttackChanceAttribute())
 	{
 		NewValue = FMath::Max(NewValue, 0.f);
 		return;

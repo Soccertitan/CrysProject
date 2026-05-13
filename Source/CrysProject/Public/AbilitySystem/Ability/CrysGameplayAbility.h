@@ -10,7 +10,7 @@
 /**
  * The base GameplayAbility for this project.
  */
-UCLASS()
+UCLASS(Abstract)
 class CRYSPROJECT_API UCrysGameplayAbility : public UCrimGameplayAbility
 {
 	GENERATED_BODY()
