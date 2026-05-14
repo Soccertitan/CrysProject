@@ -8,6 +8,9 @@
 #include "GameplayTagAssetInterface.h"
 #include "GenericTeamAgentInterface.h"
 #include "InventorySystemInterface.h"
+#include "AbilitySystem/Ability/Combat/CombatSystemInterface.h"
+#include "EquipmentSystem/EquipmentSystemInterface.h"
+#include "JobSystem/JobSystemInterface.h"
 #include "HeroCharacter.generated.h"
 
 class USpringArmComponent;
@@ -19,7 +22,8 @@ class UCrimAbilitySystemComponent;
  */
 UCLASS()
 class CRYSPROJECT_API AHeroCharacter : public ACrysCharacter, public IAbilitySystemInterface, public IGameplayTagAssetInterface,
-	public IGenericTeamAgentInterface, public IInventorySystemInterface
+	public IGenericTeamAgentInterface, public IInventorySystemInterface, public IJobSystemInterface, public IEquipmentSystemInterface,
+	public ICombatSystemInterface
 {
 	GENERATED_BODY()
 	
@@ -38,6 +42,9 @@ public:
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	virtual UInventoryManagerComponent* GetInventoryManagerComponent_Implementation() const override;
+	virtual UJobSystemComponent* GetJobSystemComponent_Implementation() const override;
+	virtual UEquipmentManagerComponent* GetEquipmentManagerComponent_Implementation() const override;
+	virtual UCombatSystemComponent* GetCombatSystemComponent_Implementation() const override;
 	
 	// IGenericTeamAgentInterface
 	virtual FGenericTeamId GetGenericTeamId() const override;

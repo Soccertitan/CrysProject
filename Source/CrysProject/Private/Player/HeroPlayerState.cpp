@@ -6,6 +6,7 @@
 #include "AbilitySet.h"
 #include "CrimAbilitySystemComponent.h"
 #include "InventoryManagerComponent.h"
+#include "AbilitySystem/Ability/Combat/CombatSystemComponent.h"
 #include "AbilitySystem/AttributeSet/AbilityAttributeSet.h"
 #include "AbilitySystem/AttributeSet/AttackerAttributeSet.h"
 #include "AbilitySystem/AttributeSet/CrysHitPointsAttributeSet.h"
@@ -16,6 +17,8 @@
 #include "AbilitySystem/AttributeSet/PrimaryAttributeSet.h"
 #include "AbilitySystem/AttributeSet/TacticalPointsAttributeSet.h"
 #include "Attribute/HitPointsComponent.h"
+#include "EquipmentSystem/EquipmentManagerComponent.h"
+#include "JobSystem/HeroJobSystemComponent.h"
 
 AHeroPlayerState::AHeroPlayerState()
 {
@@ -36,10 +39,14 @@ AHeroPlayerState::AHeroPlayerState()
 	MovementAttributeSet = CreateDefaultSubobject<UMovementAttributeSet>("MovementAttributeSet");
 	
 	HitPointsComponent = CreateDefaultSubobject<UHitPointsComponent>(TEXT("HitPointsComponent"));
+	HeroJobSystemComponent = CreateDefaultSubobject<UHeroJobSystemComponent>(TEXT("HeroJobSystemComponent"));
+	CombatSystemComponent = CreateDefaultSubobject<UCombatSystemComponent>(TEXT("CombatSystemComponent"));
 	
 	InventoryManagerComponent = CreateDefaultSubobject<UInventoryManagerComponent>("InventoryManagerComponent");
 	InventoryManagerComponent->SetIsReplicated(true);
 	bReplicateUsingRegisteredSubObjectList = true;
+	
+	EquipmentManagerComponent = CreateDefaultSubobject<UEquipmentManagerComponent>("EquipmentManagerComponent");
 	
 	GenericTeamId = FGenericTeamId(1);
 }
@@ -64,6 +71,21 @@ UAbilitySystemComponent* AHeroPlayerState::GetAbilitySystemComponent() const
 UInventoryManagerComponent* AHeroPlayerState::GetInventoryManagerComponent_Implementation() const
 {
 	return InventoryManagerComponent;
+}
+
+UJobSystemComponent* AHeroPlayerState::GetJobSystemComponent_Implementation() const
+{
+	return HeroJobSystemComponent;
+}
+
+UEquipmentManagerComponent* AHeroPlayerState::GetEquipmentManagerComponent_Implementation() const
+{
+	return EquipmentManagerComponent;
+}
+
+UCombatSystemComponent* AHeroPlayerState::GetCombatSystemComponent_Implementation() const
+{
+	return CombatSystemComponent;
 }
 
 FGenericTeamId AHeroPlayerState::GetGenericTeamId() const

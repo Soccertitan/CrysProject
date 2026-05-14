@@ -7,8 +7,12 @@
 #include "CrysCharacter.h"
 #include "GameplayTagAssetInterface.h"
 #include "GenericTeamAgentInterface.h"
+#include "AbilitySystem/Ability/Combat/CombatSystemInterface.h"
+#include "JobSystem/JobSystemInterface.h"
 #include "NonPlayerCharacter.generated.h"
 
+class UJobSystemComponent;
+class UCombatSystemComponent;
 class UJobAttributeSet;
 class UAbilitySet;
 class UHitPointsComponent;
@@ -24,7 +28,7 @@ class UCrimAbilitySystemComponent;
 
 UCLASS()
 class CRYSPROJECT_API ANonPlayerCharacter : public ACrysCharacter, public IAbilitySystemInterface,
-	public IGenericTeamAgentInterface, public IGameplayTagAssetInterface
+	public IGenericTeamAgentInterface, public IGameplayTagAssetInterface, public IJobSystemInterface, public ICombatSystemInterface
 {
 	GENERATED_BODY()
 	
@@ -51,6 +55,10 @@ class CRYSPROJECT_API ANonPlayerCharacter : public ACrysCharacter, public IAbili
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "HitPointsComponent", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UHitPointsComponent> HitPointsComponent;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "JobSystemComponent", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UJobSystemComponent> JobSystemComponent;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CombatSystemComponent", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UCombatSystemComponent> CombatSystemComponent;
 
 public:
 	ANonPlayerCharacter(const FObjectInitializer& ObjectInitializer);
@@ -58,6 +66,10 @@ public:
 	
 	/** IAbilitySystemInterface */
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	/** IJobSystemInterface */
+	virtual UJobSystemComponent* GetJobSystemComponent_Implementation() const override;
+	/** ICombatSystemInterface */
+	virtual UCombatSystemComponent* GetCombatSystemComponent_Implementation() const override;
 	
 	// IGenericTeamAgentInterface
 	virtual FGenericTeamId GetGenericTeamId() const override;

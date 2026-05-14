@@ -5,6 +5,7 @@
 
 #include "AbilitySet.h"
 #include "CrimAbilitySystemComponent.h"
+#include "AbilitySystem/Ability/Combat/CombatSystemComponent.h"
 #include "AbilitySystem/AttributeSet/AbilityAttributeSet.h"
 #include "AbilitySystem/AttributeSet/AttackerAttributeSet.h"
 #include "AbilitySystem/AttributeSet/CrysHitPointsAttributeSet.h"
@@ -15,6 +16,7 @@
 #include "AbilitySystem/AttributeSet/PrimaryAttributeSet.h"
 #include "AbilitySystem/AttributeSet/TacticalPointsAttributeSet.h"
 #include "Attribute/HitPointsComponent.h"
+#include "JobSystem/JobSystemComponent.h"
 
 
 ANonPlayerCharacter::ANonPlayerCharacter(const FObjectInitializer& ObjectInitializer)
@@ -37,6 +39,8 @@ ANonPlayerCharacter::ANonPlayerCharacter(const FObjectInitializer& ObjectInitial
 	MovementAttributeSet = CreateDefaultSubobject<UMovementAttributeSet>("MovementAttributeSet");
 	
 	HitPointsComponent = CreateDefaultSubobject<UHitPointsComponent>(TEXT("HitPointsComponent"));
+	JobSystemComponent = CreateDefaultSubobject<UJobSystemComponent>(TEXT("JobSystemComponent"));
+	CombatSystemComponent = CreateDefaultSubobject<UCombatSystemComponent>(TEXT("CombatSystemComponent"));
 	
 	GenericTeamId = FGenericTeamId(2);
 }
@@ -51,6 +55,16 @@ void ANonPlayerCharacter::PostInitializeComponents()
 UAbilitySystemComponent* ANonPlayerCharacter::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
+}
+
+UJobSystemComponent* ANonPlayerCharacter::GetJobSystemComponent_Implementation() const
+{
+	return JobSystemComponent;
+}
+
+UCombatSystemComponent* ANonPlayerCharacter::GetCombatSystemComponent_Implementation() const
+{
+	return CombatSystemComponent;
 }
 
 FGenericTeamId ANonPlayerCharacter::GetGenericTeamId() const

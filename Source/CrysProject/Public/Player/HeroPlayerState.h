@@ -8,8 +8,13 @@
 #include "GameplayTagAssetInterface.h"
 #include "GenericTeamAgentInterface.h"
 #include "InventorySystemInterface.h"
+#include "AbilitySystem/Ability/Combat/CombatSystemInterface.h"
+#include "EquipmentSystem/EquipmentSystemInterface.h"
+#include "JobSystem/JobSystemInterface.h"
 #include "HeroPlayerState.generated.h"
 
+class UCombatSystemComponent;
+class UHeroJobSystemComponent;
 class UAbilitySet;
 class UHitPointsComponent;
 class UMovementAttributeSet;
@@ -28,7 +33,8 @@ class UCrimAbilitySystemComponent;
  */
 UCLASS()
 class CRYSPROJECT_API AHeroPlayerState : public ACrysPlayerState, public IAbilitySystemInterface,
-	public IInventorySystemInterface, public IGenericTeamAgentInterface, public IGameplayTagAssetInterface
+	public IInventorySystemInterface, public IGenericTeamAgentInterface, public IGameplayTagAssetInterface,
+	public IJobSystemInterface, public IEquipmentSystemInterface, public ICombatSystemInterface
 {
 	GENERATED_BODY()
 	
@@ -55,8 +61,15 @@ class CRYSPROJECT_API AHeroPlayerState : public ACrysPlayerState, public IAbilit
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "HitPointsComponent", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UHitPointsComponent> HitPointsComponent;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "HeroJobSystemComponent", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UHeroJobSystemComponent> HeroJobSystemComponent;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CombatSystemComponent", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UCombatSystemComponent> CombatSystemComponent;
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "InventoryManager", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInventoryManagerComponent> InventoryManagerComponent;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "EquipmentManager", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UEquipmentManagerComponent> EquipmentManagerComponent;
 		
 public:
 	AHeroPlayerState();
@@ -67,6 +80,12 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	/** IInventorySystemInterface */
 	virtual UInventoryManagerComponent* GetInventoryManagerComponent_Implementation() const override;
+	/** IJobSystemInterface */
+	virtual UJobSystemComponent* GetJobSystemComponent_Implementation() const override;
+	/** IEquipmentManagerInterface */
+	virtual UEquipmentManagerComponent* GetEquipmentManagerComponent_Implementation() const override;
+	/** ICombatSystemInterface */
+	virtual UCombatSystemComponent* GetCombatSystemComponent_Implementation() const override;
 	
 	// IGenericTeamAgentInterface
 	virtual FGenericTeamId GetGenericTeamId() const override;

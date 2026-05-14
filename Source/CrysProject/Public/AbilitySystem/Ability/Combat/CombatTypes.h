@@ -39,6 +39,10 @@ struct FCrysWeapon
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (Categories = "WeaponSkill"))
 	FGameplayTag WeaponSkill;
 	
+	/** The type of damage this weapon applies. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (Categories = "DamageType"))
+	FGameplayTag DamageType;
+	
 	/** The base damage of the weapon. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FScalableFloat Damage = 1.f;
@@ -58,6 +62,14 @@ struct FCrysWeapon
 	/** The damage effect class to use during an auto attack. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UGameplayEffect> DamageGameplayEffect;
+	
+	/** Maps to animation data on the character. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FGameplayTag PrimaryWeaponAnimationTag;
+	
+	/** Maps to animation data on the character when dual wielding. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FGameplayTag SecondaryWeaponAnimationTag;
 };
 
 USTRUCT()

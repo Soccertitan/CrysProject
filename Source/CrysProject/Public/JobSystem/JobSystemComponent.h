@@ -54,7 +54,7 @@ public:
 	UFUNCTION(BlueprintPure, Category = "ChangingJobs")
 	bool IsChangingJobs() const { return bChangingJobs; }
 	
-	/** [Server] Called at the start of SetJobs and when the function finishes. */
+	/** [Server] Called at the start and end of the SetJobs function. */
 	UPROPERTY(BlueprintAssignable, DisplayName = "OnChangingJobs")
 	FJobSystemComponentBoolSignature OnChangingJobsDelegate;
 	

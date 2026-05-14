@@ -83,6 +83,7 @@ void UAutoAttackGameplayAbility::AttackTarget(const FCrysWeapon& Weapon, AActor*
 	{
 		FGameplayEffectSpecHandle SpecHandle = MakeOutgoingGameplayEffectSpec(DamageEffect, Weapon.Level);
 		SpecHandle.Data.Get()->AddDynamicAssetTag(Weapon.WeaponSkill);
+		SpecHandle.Data.Get()->AddDynamicAssetTag(Weapon.DamageType);
 		SpecHandle.Data.Get()->SetSetByCallerMagnitude(Crys::NativeGameplayTag::SetByCaller_BasePotency, 
 			Weapon.Damage.GetValueAtLevel(Weapon.Level));
 		

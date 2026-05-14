@@ -5,10 +5,13 @@
 
 #include "CrimAbilitySystemBlueprintFunctionLibrary.h"
 #include "CrimAbilitySystemComponent.h"
+#include "CrysBlueprintFunctionLibrary.h"
 #include "InventoryBlueprintFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
+#include "EquipmentSystem/EquipmentSystemBlueprintFunctionLibrary.h"
 #include "GameFramework/PlayerState.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "JobSystem/JobSystemBlueprintFunctionLibrary.h"
 
 
 AHeroCharacter::AHeroCharacter(const FObjectInitializer& ObjectInitializer)
@@ -49,6 +52,21 @@ UAbilitySystemComponent* AHeroCharacter::GetAbilitySystemComponent() const
 UInventoryManagerComponent* AHeroCharacter::GetInventoryManagerComponent_Implementation() const
 {
 	return UInventoryBlueprintFunctionLibrary::GetInventoryManagerComponent(GetPlayerState());
+}
+
+UJobSystemComponent* AHeroCharacter::GetJobSystemComponent_Implementation() const
+{
+	return UJobSystemBlueprintFunctionLibrary::GetJobSystemComponent(GetPlayerState());
+}
+
+UEquipmentManagerComponent* AHeroCharacter::GetEquipmentManagerComponent_Implementation() const
+{
+	return UEquipmentSystemBlueprintFunctionLibrary::GetEquipmentManagerComponent(GetPlayerState());
+}
+
+UCombatSystemComponent* AHeroCharacter::GetCombatSystemComponent_Implementation() const
+{
+	return UCrysBlueprintFunctionLibrary::GetCombatSystemComponent(GetPlayerState());
 }
 
 FGenericTeamId AHeroCharacter::GetGenericTeamId() const
