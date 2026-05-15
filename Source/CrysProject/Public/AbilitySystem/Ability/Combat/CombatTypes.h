@@ -65,11 +65,7 @@ struct FCrysWeapon
 	
 	/** Maps to animation data on the character. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	FGameplayTag PrimaryWeaponAnimationTag;
-	
-	/** Maps to animation data on the character when dual wielding. */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	FGameplayTag SecondaryWeaponAnimationTag;
+	FGameplayTag AnimationTag;
 };
 
 USTRUCT()

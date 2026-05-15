@@ -11,6 +11,7 @@
 #include "InventoryBlueprintFunctionLibrary.h"
 #include "InventoryGameplayTags.h"
 #include "InventoryManagerComponent.h"
+#include "AbilitySystem/Ability/Combat/CombatSystemComponent.h"
 #include "AbilitySystem/AttributeSet/PrimaryAttributeSet.h"
 #include "JobSystem/JobDefinition.h"
 #include "JobSystem/JobSystemBlueprintFunctionLibrary.h"
@@ -216,7 +217,7 @@ bool UEquipmentManagerComponent::CanEquipItemInSlot(FGameplayTag EquipSlot, cons
 			return false;
 		}
 		
-		// Prevent Weapons from being equipped int he SubHand unless they have the DualWield tag.
+		// Prevent Weapons from being equipped in the SubHand unless they have the DualWield tag.
 		if (EquipSlot.MatchesTag(Crys::NativeGameplayTag::EquipSlot_Hand_Sub))
 		{
 			if (const FItemFragment_Weapon* ItemFragment_Weapon = ItemDefinition->FindFragmentByType<FItemFragment_Weapon>())
@@ -369,10 +370,9 @@ void UEquipmentManagerComponent::OnItemChangedInContainer(const FItemInstance& I
 			int32 ItemLevel = ItemInstance.GetItem().Get().FindShardByType<FItemShard_Equipment>()->Level;
 			AbilitySystemComponent->SetActiveGameplayEffectLevel(EquippedItem->GameplayEffectHandle, ItemLevel);
 			
-			
 			if (WeaponEquipSlots.HasTag(EquippedItem->EquipSlot))
 			{
-				//TODO Check if weapon and update CombatSystem with updated weapon.
+				SetWeapon(EquippedItem->EquipSlot, ItemInstance);
 			}
 		}
 	}
@@ -514,7 +514,17 @@ void UEquipmentManagerComponent::OnDualWieldTagCountChanged(FGameplayTag Tag, in
 	bool bCanDualWield = NewCount > 0;
 	if (bDualWield && bCanDualWield == false)
 	{
-		// TODO If weapon is in SubHand Slot, unequip it.
+		if (const FEquippedItem* EquippedItem = EquippedItemsContainer.FindItemByEquipSlot(Crys::NativeGameplayTag::EquipSlot_Hand_Sub))
+		{
+			if (FItemInstance* ItemInstance = FindItem(EquippedItem->ItemInstanceHandle))
+			{
+				const UItemDefinition* ItemDefinition = UInventoryBlueprintFunctionLibrary::GetItemDefinition(ItemInstance->GetItem());
+				if (const FItemFragment_Weapon* WeaponFragment = ItemDefinition->FindFragmentByType<FItemFragment_Weapon>())
+				{
+					ClearWeapon(Crys::NativeGameplayTag::EquipSlot_Hand_Sub);
+				}
+			}
+		}
 	}
 	bDualWield = bCanDualWield;
 }
@@ -558,6 +568,59 @@ void UEquipmentManagerComponent::UnequipInvalidItems()
 	}
 }
 
+FCrysWeapon UEquipmentManagerComponent::GetWeapon(const FItemInstance& ItemInstance, bool& bSuccess) const
+{
+	bSuccess = false;
+	if (const UItemDefinition* ItemDefinition = UInventoryBlueprintFunctionLibrary::GetItemDefinition(ItemInstance.GetItem()))
+	{
+		if (const FItemFragment_Weapon* WeaponFragment = ItemDefinition->FindFragmentByType<FItemFragment_Weapon>())
+		{
+			FCrysWeapon Weapon = WeaponFragment->Weapon;
+			Weapon.Level = ItemInstance.GetItem().Get<FItem>().FindShardByType<FItemShard_Equipment>()->Level;
+			bSuccess = true;
+			return Weapon;
+		}
+	}
+	return FCrysWeapon();
+}
+
+void UEquipmentManagerComponent::SetWeapon(const FGameplayTag& EquipSlot, const FItemInstance& ItemInstance)
+{
+	if (HasAuthority())
+	{
+		bool bSuccess = false;
+		FCrysWeapon Weapon = GetWeapon(ItemInstance, bSuccess);
+		if (bSuccess)
+		{
+			if (EquipSlot.MatchesTag(Crys::NativeGameplayTag::EquipSlot_Hand_Sub))
+			{
+				CombatSystemComponent->SetSecondaryWeaponOverride(Weapon);
+				AbilitySystemComponent->SetLooseGameplayTagCount(Crys::NativeGameplayTag::Ability_State_DualWielding, 1, EGameplayTagReplicationState::TagOnly);
+			}
+			else
+			{
+				CombatSystemComponent->SetPrimaryWeaponOverride(Weapon);
+			}
+		}
+	}
+}
+
+void UEquipmentManagerComponent::ClearWeapon(const FGameplayTag& EquipSlot)
+{
+	if (HasAuthority())
+	{
+		if (EquipSlot.MatchesTag(Crys::NativeGameplayTag::EquipSlot_Hand_Sub))
+		{
+			CombatSystemComponent->ClearSecondaryWeaponOverride();
+			AbilitySystemComponent->SetLooseGameplayTagCount(Crys::NativeGameplayTag::Ability_State_DualWielding, 0, EGameplayTagReplicationState::TagOnly);
+		}
+		else
+		{
+			CombatSystemComponent->ClearPrimaryWeaponOverride();
+		}
+	}
+}
+
 void UEquipmentManagerComponent::EquipItemInternal(const FGameplayTag& EquipSlot, FItemInstance* ItemInstance)
 {
 	FEquippedItem NewEquippedItem;
@@ -568,7 +631,7 @@ void UEquipmentManagerComponent::EquipItemInternal(const FGameplayTag& EquipSlot
 	
 	if (WeaponEquipSlots.HasTag(EquipSlot))
 	{
-		//TODO Weapon to CombatSystem.
+		SetWeapon(EquipSlot, *ItemInstance);
 	}
 	
 	ItemInstance->GetItemPtr()->GetMutablePtr<FItem>()->FindMutableShardByType<FItemShard_Equipment>()->EquipmentManagerComponent = this;
@@ -592,7 +655,7 @@ void UEquipmentManagerComponent::UnequipItemInternal(const FGameplayTag& EquipSl
 			
 			if (WeaponEquipSlots.HasTag(EquipSlot))
 			{
-				//TODO If Weapon Remove from CombatSystemComponent.
+				ClearWeapon(EquipSlot);
 			}
 			
 			OnItemUnequipped(TempRemovedItem);

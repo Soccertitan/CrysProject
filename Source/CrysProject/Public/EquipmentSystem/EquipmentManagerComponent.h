@@ -178,6 +178,11 @@ private:
 	
 	/** Loops through all equipped items and checking if the Owner still meets the equip requirements. */
 	void UnequipInvalidItems();
+	
+	/** Gets a weapon from the ItemInstance, bSuccess will be true if the Item is a weapon. */
+	FCrysWeapon GetWeapon(const FItemInstance& ItemInstance, bool& bSuccess) const;
+	void SetWeapon(const FGameplayTag& EquipSlot, const FItemInstance& ItemInstance);
+	void ClearWeapon(const FGameplayTag& EquipSlot);
 
 	void EquipItemInternal(const FGameplayTag& EquipSlot, FItemInstance* ItemInstance);
 	void UnequipItemInternal(const FGameplayTag& EquipSlot);
