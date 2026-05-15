@@ -5,6 +5,15 @@
 
 #include "CrysLogChannels.h"
 
+bool FAttributeTagInfo::IsValid() const
+{
+	if (AttributeTag.IsValid() && GameplayAttribute.IsValid())
+	{
+		return true;
+	}
+	return false;
+}
+
 FAttributeTagInfo UAttributeTagRelationship::FindAttributeTagInfo(const FGameplayTag& AttributeTag, bool bLogNotFound) const
 {
 	for (const FAttributeTagInfo& Item : AttributeTags)

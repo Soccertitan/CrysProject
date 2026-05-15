@@ -141,7 +141,7 @@ TArray<FJobProgressItem> UHeroJobSystemComponent::GetJobProgressItems() const
 	return JobProgressContainer.Items;
 }
 
-FJobProgressItem UHeroJobSystemComponent::FindJobProgressItem(UJobDefinition* Job) const
+FJobProgressItem UHeroJobSystemComponent::FindJobProgressItem(const TSoftObjectPtr<UJobDefinition>& Job) const
 {
 	if (FJobProgressItem* Item = JobProgressContainer.FindJobProgressItem(Job))
 	{

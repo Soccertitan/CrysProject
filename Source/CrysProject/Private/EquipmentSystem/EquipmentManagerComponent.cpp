@@ -202,7 +202,7 @@ bool UEquipmentManagerComponent::CanEquipItem(const TInstancedStruct<FItem>& Ite
 	return true;
 }
 
-bool UEquipmentManagerComponent::CanEquipItemInSlot(FGameplayTag EquipSlot, const TInstancedStruct<FItem>& Item)
+bool UEquipmentManagerComponent::CanEquipItemInSlot(FGameplayTag EquipSlot, const TInstancedStruct<FItem>& Item) const
 {
 	const UItemDefinition* ItemDefinition = UInventoryBlueprintFunctionLibrary::GetItemDefinition(Item);
 	if (!ItemDefinition)
@@ -228,28 +228,6 @@ bool UEquipmentManagerComponent::CanEquipItemInSlot(FGameplayTag EquipSlot, cons
 				}
 			}
 		}
-	}
-	
-	return true;
-}
-
-bool UEquipmentManagerComponent::CanDualWieldWeapon(const TInstancedStruct<FItem>& Item) const
-{
-	if (bDualWield == false)
-	{
-		return false;
-	}
-	
-	const UItemDefinition* ItemDefinition = UInventoryBlueprintFunctionLibrary::GetItemDefinition(Item);
-	if (!ItemDefinition)
-	{
-		return false;
-	}
-	
-	const FItemFragment_Weapon* ItemFragment_Weapon = ItemDefinition->FindFragmentByType<FItemFragment_Weapon>();
-	if (!ItemFragment_Weapon)
-	{
-		return false;
 	}
 	
 	return true;

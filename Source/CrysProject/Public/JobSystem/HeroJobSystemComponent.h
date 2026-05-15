@@ -60,7 +60,7 @@ public:
 	
 	/** Returns a copy of the JobProgressItem. */
 	UFUNCTION(BlueprintPure, Category = "JobSystem")
-	FJobProgressItem FindJobProgressItem(UJobDefinition* Job) const;
+	FJobProgressItem FindJobProgressItem(const TSoftObjectPtr<UJobDefinition>& Job) const;
 	
 	/**
 	 * Adds a new JobProgressItem or updates an existing one. Then, if the Job matches the currently equipped job

@@ -71,12 +71,7 @@ public:
 	
 	/** Checks if the item is allowed to be equipped at the slot. Checks if the slot is blocked and dual wield requirements.*/
 	UFUNCTION(BlueprintPure, Category = "EquipmentManager")
-	virtual bool CanEquipItemInSlot(UPARAM(meta=(Categories="EquipSlot")) FGameplayTag EquipSlot, UPARAM(ref) const TInstancedStruct<FItem>& Item);
-	
-	
-	/** Returns true if the weapon can be equipped in the SubHand slot. */
-	UFUNCTION(BlueprintPure, Category = "EquipmentManager")
-	bool CanDualWieldWeapon(UPARAM(ref) const TInstancedStruct<FItem>& Item) const;
+	virtual bool CanEquipItemInSlot(UPARAM(meta=(Categories="EquipSlot")) FGameplayTag EquipSlot, UPARAM(ref) const TInstancedStruct<FItem>& Item) const;
 	
 	/** Returns true if the equip slot is blocked by another item. */
 	UFUNCTION(BlueprintPure, Category = "EquipmentManager")

@@ -17,7 +17,7 @@ class UCrimAbilitySystemComponent;
 class UJobDefinition;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FJobSystemComponentBoolSignature, bool, bValue);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FJobSystemComponentJobSignature, UJobDefinition*, Definition);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FJobSystemComponentJobSignature, UJobDefinition*, JobDefinition);
 
 /**
  * Applies GameplayEffects and set Attributes based on the Jobs, Race, and levels. The Primary attributes are set to 
