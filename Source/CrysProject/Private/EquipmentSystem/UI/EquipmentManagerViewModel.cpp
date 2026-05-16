@@ -9,7 +9,7 @@
 #include "EquipmentSystem/EquipmentSystemBlueprintFunctionLibrary.h"
 #include "EquipmentSystem/UI/EquippedItemViewModel.h"
 #include "GameFramework/PlayerState.h"
-#include "InventorySystem/UI/ItemInstanceViewModelFilter_EquipableItems.h"
+#include "InventorySystem/UI/Filter/ItemInstanceViewModelFilter_EquipableItems.h"
 #include "UI/InventoryUISubsystem.h"
 #include "UI/InventoryViewModelBlueprintFunctionLibrary.h"
 #include "UI/ViewModel/ItemContainerViewModel.h"

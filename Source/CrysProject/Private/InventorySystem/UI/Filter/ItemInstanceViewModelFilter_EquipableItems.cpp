@@ -1,7 +1,7 @@
 ﻿// Copyright Soccertitan 2026
 
 
-#include "InventorySystem/UI/ItemInstanceViewModelFilter_EquipableItems.h"
+#include "InventorySystem/UI/Filter/ItemInstanceViewModelFilter_EquipableItems.h"
 
 #include "EquipmentSystem/EquipmentManagerComponent.h"
 #include "UI/ViewModel/ItemInstanceViewModel.h"

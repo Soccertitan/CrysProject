@@ -45,7 +45,7 @@ UHeroJobViewModel* UHeroJobSystemViewModel::FindOrCreateHeroJobViewModel(TSoftOb
 	{
 		for (TObjectPtr<UHeroJobViewModel>& ViewModel : HeroJobViewModels)
 		{
-			if (ViewModel->JobViewModel->JobDefinition == JobDefinition.Get())
+			if (ViewModel->JobViewModel->GetJobDefinition() == JobDefinition.Get())
 			{
 				return ViewModel;
 			}
@@ -94,8 +94,8 @@ void UHeroJobSystemViewModel::TrySetJobs(UHeroJobViewModel* InMainJobViewModel, 
 		return;
 	}
 	
-	UJobDefinition* MainJob = InMainJobViewModel->GetJobViewModel()->JobDefinition;
-	UJobDefinition* SubJob = InSubJobViewModel ? InSubJobViewModel->GetJobViewModel()->JobDefinition : nullptr;
+	UJobDefinition* MainJob = InMainJobViewModel->GetJobViewModel()->GetJobDefinition();
+	UJobDefinition* SubJob = InSubJobViewModel ? InSubJobViewModel->GetJobViewModel()->GetJobDefinition() : nullptr;
 	
 	UE_MVVM_SET_PROPERTY_VALUE(bSwitchingJobs, true);
 	HeroJobSystemComponent->TrySetJobs(MainJob, SubJob);
@@ -105,7 +105,7 @@ void UHeroJobSystemViewModel::TrySetMainJob(UHeroJobViewModel* JobViewModel)
 {
 	if (HeroJobSystemComponent && JobViewModel && bSwitchingJobs == false)
 	{
-		if (SubJobViewModel->GetJobViewModel()->JobDefinition == JobViewModel->GetJobViewModel()->JobDefinition)
+		if (SubJobViewModel->GetJobViewModel()->GetJobDefinition() == JobViewModel->GetJobViewModel()->GetJobDefinition())
 		{
 			TrySetJobs(JobViewModel, MainJobViewModel);
 		}
@@ -120,7 +120,7 @@ void UHeroJobSystemViewModel::TrySetSubJob(UHeroJobViewModel* JobViewModel)
 {
 	if (HeroJobSystemComponent && JobViewModel && bSwitchingJobs == false)
 	{
-		if (MainJobViewModel->GetJobViewModel()->JobDefinition == JobViewModel->GetJobViewModel()->JobDefinition)
+		if (MainJobViewModel->GetJobViewModel()->GetJobDefinition() == JobViewModel->GetJobViewModel()->GetJobDefinition())
 		{
 			TrySetJobs(SubJobViewModel, JobViewModel);
 		}
@@ -204,7 +204,7 @@ void UHeroJobSystemViewModel::OnMainJobChanged(UJobDefinition* JobDefinition)
 	
 		for (const TObjectPtr<UHeroJobViewModel>& JobViewModel : HeroJobViewModels)
 		{
-			if (JobViewModel->GetJobViewModel()->JobDefinition == JobDefinition)
+			if (JobViewModel->GetJobViewModel()->GetJobDefinition() == JobDefinition)
 			{
 				SetMainJobViewModel(JobViewModel);
 				bFoundExistingJob = true;
@@ -231,7 +231,7 @@ void UHeroJobSystemViewModel::OnSubJobChanged(UJobDefinition* JobDefinition)
 		
 		for (const TObjectPtr<UHeroJobViewModel>& JobViewModel : HeroJobViewModels)
 		{
-			if (JobViewModel->GetJobViewModel()->JobDefinition == JobDefinition)
+			if (JobViewModel->GetJobViewModel()->GetJobDefinition() == JobDefinition)
 			{
 				SetSubJobViewModel(JobViewModel);
 				bFoundExistingJob = true;
@@ -259,7 +259,7 @@ void UHeroJobSystemViewModel::OnJobProgressUpdated(const FJobProgressItem& JobPr
 {
 	for (const TObjectPtr<UHeroJobViewModel>& JobViewModel : HeroJobViewModels)
 	{
-		if (JobViewModel->GetJobViewModel()->JobDefinition == JobProgressItem.Job.Get())
+		if (JobViewModel->GetJobViewModel()->GetJobDefinition() == JobProgressItem.Job.Get())
 		{
 			JobViewModel->SetJobProgress(JobProgressItem);
 			return;
@@ -290,7 +290,7 @@ void UHeroJobSystemViewModel::InitializeStartingData()
 	bool bFoundSubJob = false;
 	for (TObjectPtr<UHeroJobViewModel>& ViewModel : HeroJobViewModels)
 	{
-		UJobDefinition* JobDef = ViewModel->GetJobViewModel()->JobDefinition;
+		UJobDefinition* JobDef = ViewModel->GetJobViewModel()->GetJobDefinition();
 		FJobProgressItem JobProgress = HeroJobSystemComponent->FindJobProgressItem(JobDef);
 		ViewModel->SetJobProgress(JobProgress);
 		if (!JobProgress.IsValid())

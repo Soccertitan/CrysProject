@@ -26,18 +26,15 @@ public:
 	UFUNCTION(BlueprintPure, FieldNotify, Category = "Viewmodel|Job")
 	FText GetDescription() const;
 
-protected:
 	void SetJobDefinition(UJobDefinition* InHeroJob);
-
+	UJobDefinition* GetJobDefinition() const { return JobDefinition; }
+	
 	void LoadJobDefinition(TSoftObjectPtr<UJobDefinition> JobDefinition);
 	
 private:
 	/** The cached value of the JobDefinition. */
 	UPROPERTY()
 	TObjectPtr<UJobDefinition> JobDefinition;
-	
-	friend class UHeroJobViewModel;
-	friend class UHeroJobSystemViewModel;
 	
 	/** Cached handle for the JobDefinition. */
 	TSharedPtr<FStreamableHandle> JobDefStreamableHandle;

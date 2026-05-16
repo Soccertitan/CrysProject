@@ -10,7 +10,7 @@ int32 UHeroJobViewModel::GetExperienceRequiredUntilNextLevel() const
 {
 	if (JobViewModel)
 	{
-		const int32 RequiredExp = JobViewModel->JobDefinition->ExperienceRequirement.GetValueAtLevel(JobProgressItem.Level);
+		const int32 RequiredExp = JobViewModel->GetJobDefinition()->ExperienceRequirement.GetValueAtLevel(JobProgressItem.Level);
 		return FMath::Max(RequiredExp - JobProgressItem.Experience, 0);
 	}
 	return 0;
@@ -20,8 +20,8 @@ float UHeroJobViewModel::GetPercentageTowardsNextLevel() const
 {
 	if (JobViewModel)
 	{
-		const float PreviousLevelRequirement = JobViewModel->JobDefinition->ExperienceRequirement.GetValueAtLevel(JobProgressItem.Level - 1);
-		const float NextLevelRequirement = JobViewModel->JobDefinition->ExperienceRequirement.GetValueAtLevel(JobProgressItem.Level);
+		const float PreviousLevelRequirement = JobViewModel->GetJobDefinition()->ExperienceRequirement.GetValueAtLevel(JobProgressItem.Level - 1);
+		const float NextLevelRequirement = JobViewModel->GetJobDefinition()->ExperienceRequirement.GetValueAtLevel(JobProgressItem.Level);
 		
 		const float ExperienceIntoNextLevel = JobProgressItem.Experience - PreviousLevelRequirement;
 		const float TotalExperienceRequired = NextLevelRequirement - PreviousLevelRequirement;
