@@ -31,41 +31,81 @@ struct FCrysWeapon
 {
 	GENERATED_BODY()
 	
-	/** The level of the weapon that affects all the Weapon properties. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 Level = 0;
+	float GetLevel() const { return Level; }
+	void SetLevel(float InValue);
 	
+	float GetDamage() const;
+	void SetDamage(const FScalableFloat& InValue);
+	
+	float GetRange() const;
+	void SetRange(const FScalableFloat& InValue);
+	
+	float GetAutoAttackDelay() const;
+	void SetAutoAttackDelay(const FScalableFloat& InValue);
+	
+	const TArray<FMultiAttackProbability>& GetMultiAttackProbabilities() const;
+	void SetMultiAttackProbabilities(const TArray<FMultiAttackProbability>& InValue);
+	
+	/** Returns the number of bonus attacks. */
+	int32 CalculateBonusAttacks() const;
+	
+	void PostSerialize(const FArchive& Ar);
+	
+private:
+	/** The level of the weapon that affects all the Weapon properties. */
+	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	float Level = 0.f;
+	
+public:
 	/** The skill the weapon uses to determine effectiveness. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (Categories = "WeaponSkill"))
 	FGameplayTag WeaponSkill;
 	
+private:
+	/** The base damage of the weapon. */
+	UPROPERTY(EditAnywhere)
+	FScalableFloat Damage = 1.f;
+	
+public:
 	/** The type of damage this weapon applies. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (Categories = "DamageType"))
 	FGameplayTag DamageType;
 	
-	/** The base damage of the weapon. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FScalableFloat Damage = 1.f;
-	
-	/** The auto attack range. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FScalableFloat Range = 300.f;
-	
-	/** Auto attack delay in seconds. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FScalableFloat AutoAttackDelay = 2.5f;
-	
-	/** The probabilities are added up and determine number of bonus attacks. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<FMultiAttackProbability> MultiAttackProbabilities;
-	
 	/** The damage effect class to use during an auto attack. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UGameplayEffect> DamageGameplayEffect;
+
+private:
+	/** The auto attack range. */
+	UPROPERTY(EditAnywhere)
+	FScalableFloat Range = 300.f;
 	
+	/** Auto attack delay in seconds. */
+	UPROPERTY(EditAnywhere)
+	FScalableFloat AutoAttackDelay = 2.5f;
+	
+	/** The probabilities are added up and determine number of bonus attacks. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	TArray<FMultiAttackProbability> MultiAttackProbabilities;
+	
+public:
 	/** Maps to animation data on the character. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	FGameplayTag AnimationTag;
+	
+private:
+	/** Cached value when setting the level or MultiAttackProbabilities. */
+	float TotalMultiAttackProbabilities = 0.f;
+	
+	void GenerateTotalAttackProbabilities();
+};
+template<>
+struct TStructOpsTypeTraits<FCrysWeapon> : public TStructOpsTypeTraitsBase2<FCrysWeapon>
+{
+	enum
+	{
+		WithPostSerialize = true,
+   };
 };
 
 USTRUCT()

@@ -61,7 +61,6 @@ void FItemFragment_Weapon::SetDefaultValues(TInstancedStruct<FItem>& Item) const
 {
 	TInstancedStruct<FItemShard> NewShard;
 	NewShard.InitializeAsScriptStruct(EquipmentShard.GetScriptStruct());
-	NewShard.GetMutablePtr<FItemShard_Equipment>()->Level = Weapon.Level;
 	AddItemShard(Item, NewShard);
 }
 

@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "EquipmentItemInstanceViewModel.h"
 #include "ScalableFloat.h"
+#include "AbilitySystem/Ability/Combat/CombatTypes.h"
 #include "WeaponItemInstanceViewModel.generated.h"
 
 /**
@@ -17,15 +18,15 @@ class CRYSPROJECT_API UWeaponItemInstanceViewModel : public UEquipmentItemInstan
 	
 public:
 	UFUNCTION(BlueprintPure, FieldNotify)
-	int32 GetDamage() const {return Damage.GetValueAtLevel(GetUpgradeLevel());}
+	int32 GetDamage() const {return Weapon.GetDamage();}
 	UFUNCTION(BlueprintPure, FieldNotify)
-	float GetAutoAttackDelay() const {return AutoAttackDelay.GetValueAtLevel(GetUpgradeLevel());}
+	float GetAutoAttackDelay() const {return Weapon.GetAutoAttackDelay();}
 	UUITagViewModel* GetWeaponSkillViewModel() const {return WeaponSkillViewModel;}
 	UUITagViewModel* GetDamageTypeViewModel() const {return DamageTypeViewModel;}
 	
 protected:
-	void SetDamage(FScalableFloat Value);
-	void SetAutoAttackDelay(FScalableFloat Value);
+	void SetWeapon(const FCrysWeapon& Value);
+	void SetWeaponLevel(int32 Level);
 	void SetWeaponSkillViewModel(UUITagViewModel* Value);
 	void SetDamageTypeViewModel(UUITagViewModel* Value);
 	
@@ -33,11 +34,8 @@ protected:
 	virtual void OnItemDefinitionSet_Implementation(const UItemDefinition* ItemDefinition) override;
 	
 private:
-	UPROPERTY(EditAnywhere)
-	FScalableFloat Damage;
-	
-	UPROPERTY(EditAnywhere)
-	FScalableFloat AutoAttackDelay;
+	UPROPERTY()
+	FCrysWeapon Weapon;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, FieldNotify, Getter, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UUITagViewModel> WeaponSkillViewModel;

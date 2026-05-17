@@ -554,7 +554,7 @@ FCrysWeapon UEquipmentManagerComponent::GetWeapon(const FItemInstance& ItemInsta
 		if (const FItemFragment_Weapon* WeaponFragment = ItemDefinition->FindFragmentByType<FItemFragment_Weapon>())
 		{
 			FCrysWeapon Weapon = WeaponFragment->Weapon;
-			Weapon.Level = ItemInstance.GetItem().Get<FItem>().FindShardByType<FItemShard_Equipment>()->Level;
+			Weapon.SetLevel(ItemInstance.GetItem().Get<FItem>().FindShardByType<FItemShard_Equipment>()->Level);
 			bSuccess = true;
 			return Weapon;
 		}

@@ -94,8 +94,8 @@ void UCombatSystemComponent::SetCrimAbilitySystem_Implementation(UCrimAbilitySys
 			AddUObject(this, &UCombatSystemComponent::OnDeathTagChanged);
 		
 		const float Level = AbilitySystemComponent->GetNumericAttribute(UPrimaryAttributeSet::GetLevelAttribute());
-		PrimaryWeapon.DefaultWeapon.Level = Level;
-		SecondaryWeapon.DefaultWeapon.Level = Level;
+		PrimaryWeapon.DefaultWeapon.SetLevel(Level);
+		SecondaryWeapon.DefaultWeapon.SetLevel(Level);
 		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UPrimaryAttributeSet::GetLevelAttribute()).
 			AddUObject(this, &UCombatSystemComponent::OnLevelAttributeChanged);
 		
@@ -213,27 +213,7 @@ int32 UCombatSystemComponent::GetBonusAttacks(const FCrysWeapon& Weapon) const
 		
 		if (Result == 0)
 		{
-			if (Weapon.MultiAttackProbabilities.Num() > 0)
-			{
-				float TotalProbability = 0;
-				for (const FMultiAttackProbability& Probability : Weapon.MultiAttackProbabilities)
-				{
-					TotalProbability += Probability.Probability.GetValueAtLevel(Weapon.Level);
-				}
-				
-				float HitValue = FMath::FRandRange(0.f, TotalProbability);
-				float RunningValue = 0.f;
-				for (int32 Index = 0; Index < Weapon.MultiAttackProbabilities.Num(); Index++)
-				{
-					// Count up until we find the first item that exceeds the HitValue.
-					RunningValue += Weapon.MultiAttackProbabilities[Index].Probability.GetValueAtLevel(Weapon.Level);
-					if (HitValue <= RunningValue)
-					{
-						Result = Weapon.MultiAttackProbabilities[Index].NumOfBonusAttacks;
-						break;
-					}
-				}
-			}
+			Result = Weapon.CalculateBonusAttacks();
 		}
 	}
 	
@@ -391,10 +371,10 @@ void UCombatSystemComponent::OnAutoAttackDelayAttributeChanged(const FOnAttribut
 
 void UCombatSystemComponent::OnLevelAttributeChanged(const FOnAttributeChangeData& Data)
 {
-	if (PrimaryWeapon.DefaultWeapon.Level != Data.NewValue)
+	if (PrimaryWeapon.DefaultWeapon.GetLevel() != Data.NewValue)
 	{
-		PrimaryWeapon.DefaultWeapon.Level = Data.NewValue;
-		SecondaryWeapon.DefaultWeapon.Level = Data.NewValue;
+		PrimaryWeapon.DefaultWeapon.SetLevel(Data.NewValue);
+		SecondaryWeapon.DefaultWeapon.SetLevel(Data.NewValue);
 		
 		if (PrimaryWeapon.bUseWeaponOverride == false ||
 			(bDualWielding == true && SecondaryWeapon.bUseWeaponOverride == false))
@@ -467,22 +447,22 @@ void UCombatSystemComponent::UpdateBaseAutoAttackDelay() const
 	float TotalDelay = 0.f;
 	if (PrimaryWeapon.bUseWeaponOverride)
 	{
-		TotalDelay = PrimaryWeapon.WeaponOverride.AutoAttackDelay.GetValueAtLevel(PrimaryWeapon.WeaponOverride.Level);
+		TotalDelay = PrimaryWeapon.WeaponOverride.GetAutoAttackDelay();
 	}
 	else
 	{
-		TotalDelay = PrimaryWeapon.DefaultWeapon.AutoAttackDelay.GetValueAtLevel(PrimaryWeapon.DefaultWeapon.Level);
+		TotalDelay = PrimaryWeapon.DefaultWeapon.GetAutoAttackDelay();
 	}
 	
 	if (bDualWielding)
 	{
 		if (SecondaryWeapon.bUseWeaponOverride)
 		{
-			TotalDelay += SecondaryWeapon.WeaponOverride.AutoAttackDelay.GetValueAtLevel(SecondaryWeapon.WeaponOverride.Level);
+			TotalDelay += SecondaryWeapon.WeaponOverride.GetAutoAttackDelay();
 		}
 		else
 		{
-			TotalDelay += SecondaryWeapon.DefaultWeapon.AutoAttackDelay.GetValueAtLevel(SecondaryWeapon.DefaultWeapon.Level);
+			TotalDelay += SecondaryWeapon.DefaultWeapon.GetAutoAttackDelay();
 		}
 	}
 	

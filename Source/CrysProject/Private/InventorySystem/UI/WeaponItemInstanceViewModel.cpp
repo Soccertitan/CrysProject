@@ -6,15 +6,18 @@
 #include "EquipmentSystem/ItemFragment_Equipment.h"
 #include "UI/ViewModel/UITagViewModel.h"
 
-void UWeaponItemInstanceViewModel::SetDamage(FScalableFloat Value)
+
+void UWeaponItemInstanceViewModel::SetWeapon(const FCrysWeapon& Value)
 {
-	Damage = Value;
+	Weapon = Value;
 	UE_MVVM_BROADCAST_FIELD_VALUE_CHANGED(GetDamage);
+	UE_MVVM_BROADCAST_FIELD_VALUE_CHANGED(GetAutoAttackDelay);
 }
 
-void UWeaponItemInstanceViewModel::SetAutoAttackDelay(FScalableFloat Value)
+void UWeaponItemInstanceViewModel::SetWeaponLevel(int32 Level)
 {
-	AutoAttackDelay = Value;
+	Weapon.SetLevel(Level);
+	UE_MVVM_BROADCAST_FIELD_VALUE_CHANGED(GetDamage);
 	UE_MVVM_BROADCAST_FIELD_VALUE_CHANGED(GetAutoAttackDelay);
 }
 
@@ -32,8 +35,7 @@ void UWeaponItemInstanceViewModel::OnItemSet_Implementation(const TInstancedStru
 {
 	Super::OnItemSet_Implementation(Item);
 	
-	UE_MVVM_BROADCAST_FIELD_VALUE_CHANGED(GetDamage);
-	UE_MVVM_BROADCAST_FIELD_VALUE_CHANGED(GetAutoAttackDelay);
+	SetWeaponLevel(GetUpgradeLevel());
 }
 
 void UWeaponItemInstanceViewModel::OnItemDefinitionSet_Implementation(const UItemDefinition* ItemDefinition)
@@ -42,8 +44,8 @@ void UWeaponItemInstanceViewModel::OnItemDefinitionSet_Implementation(const UIte
 	
 	if (const FItemFragment_Weapon* Fragment = ItemDefinition->FindFragmentByType<FItemFragment_Weapon>())
 	{
-		SetDamage(Fragment->Weapon.Damage);
-		SetAutoAttackDelay(Fragment->Weapon.AutoAttackDelay);
+		SetWeapon(Fragment->Weapon);
+		SetWeaponLevel(GetUpgradeLevel());
 		
 		UUITagViewModel* WeaponSkill = NewObject<UUITagViewModel>(this);
 		WeaponSkill->SetGameplayTag(Fragment->Weapon.WeaponSkill);

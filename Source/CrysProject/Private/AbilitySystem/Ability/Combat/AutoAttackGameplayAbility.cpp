@@ -81,11 +81,11 @@ void UAutoAttackGameplayAbility::AttackTarget(const FCrysWeapon& Weapon, AActor*
 	
 	if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Target))
 	{
-		FGameplayEffectSpecHandle SpecHandle = MakeOutgoingGameplayEffectSpec(DamageEffect, Weapon.Level);
+		FGameplayEffectSpecHandle SpecHandle = MakeOutgoingGameplayEffectSpec(DamageEffect, Weapon.GetLevel());
 		SpecHandle.Data.Get()->AddDynamicAssetTag(Weapon.WeaponSkill);
 		SpecHandle.Data.Get()->AddDynamicAssetTag(Weapon.DamageType);
 		SpecHandle.Data.Get()->SetSetByCallerMagnitude(Crys::NativeGameplayTag::SetByCaller_BasePotency, 
-			Weapon.Damage.GetValueAtLevel(Weapon.Level));
+			Weapon.GetDamage());
 		
 		TargetASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
 	}
