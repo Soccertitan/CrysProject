@@ -16,3 +16,6 @@
 [submodule "Plugins/CrimEnhancedInputSystem"]
 	path = Plugins/CrimEnhancedInputSystem
 	url = https://github.com/Soccertitan/CrimEnhancedInputSystem
+[submodule "Plugins/InteractionSystem"]
+	path = Plugins/InteractionSystem
+	url = https://github.com/Soccertitan/InteractionSystem

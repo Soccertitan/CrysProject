@@ -47,6 +47,6 @@ void AHeroPlayerController::InitAbilitySystemComponent()
 		GetPlayerState<AHeroPlayerState>(), true);
 	if (AbilitySystemComponent)
 	{
-		AbilityInputManagerComponent->SetCrimAbilitySystem(AbilitySystemComponent);
+		ICrimAbilitySystemInterface::Execute_SetCrimAbilitySystem(AbilityInputManagerComponent, AbilitySystemComponent);
 	}
 }
