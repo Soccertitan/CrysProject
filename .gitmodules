@@ -19,3 +19,6 @@
 [submodule "Plugins/InteractionSystem"]
 	path = Plugins/InteractionSystem
 	url = https://github.com/Soccertitan/InteractionSystem
+[submodule "Plugins/NiagaraTextToolkit"]
+	path = Plugins/NiagaraTextToolkit
+	url = https://github.com/Soccertitan/NiagaraTextToolkit
