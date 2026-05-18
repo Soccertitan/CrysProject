@@ -22,3 +22,6 @@
 [submodule "Plugins/NiagaraTextToolkit"]
 	path = Plugins/NiagaraTextToolkit
 	url = https://github.com/Soccertitan/NiagaraTextToolkit
+[submodule "Plugins/CrimLockOnSystem"]
+	path = Plugins/CrimLockOnSystem
+	url = https://github.com/Soccertitan/CrimLockOnSystem

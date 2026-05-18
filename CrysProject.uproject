@@ -58,6 +58,10 @@
 		{
 			"Name": "InventorySystem",
 			"Enabled": true
+		},
+		{
+			"Name": "CrimLockOnSystem",
+			"Enabled": true
 		}
 	]
 }
