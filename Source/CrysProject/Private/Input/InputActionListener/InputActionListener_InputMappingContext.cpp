@@ -1,11 +1,11 @@
 ﻿// Copyright Soccertitan 2025
 
 
-#include "Input/InputActionListener/InputMappingContextInputActionListener.h"
+#include "Input/InputActionListener/InputActionListener_InputMappingContext.h"
 
 #include "EnhancedInputSubsystems.h"
 
-void UInputMappingContextInputActionListener::OnInitializeListener()
+void UInputActionListener_InputMappingContext::OnInitializeListener()
 {
 	Super::OnInitializeListener();
 	
@@ -13,7 +13,7 @@ void UInputMappingContextInputActionListener::OnInitializeListener()
 	ensure(EnhancedInputSubsystem);
 }
 
-void UInputMappingContextInputActionListener::OnInputActionTriggered(const FInputActionValue& Value)
+void UInputActionListener_InputMappingContext::OnInputActionTriggered(const FInputActionValue& Value)
 {
 	Super::OnInputActionTriggered(Value);
 	
@@ -24,7 +24,7 @@ void UInputMappingContextInputActionListener::OnInputActionTriggered(const FInpu
 	}
 }
 
-void UInputMappingContextInputActionListener::OnInputActionCompleted(const FInputActionValue& Value)
+void UInputActionListener_InputMappingContext::OnInputActionCompleted(const FInputActionValue& Value)
 {
 	Super::OnInputActionCompleted(Value);
 
@@ -32,7 +32,7 @@ void UInputMappingContextInputActionListener::OnInputActionCompleted(const FInpu
 	bAppliedContext = false;
 }
 
-void UInputMappingContextInputActionListener::OnInputActionCanceled(const FInputActionValue& Value)
+void UInputActionListener_InputMappingContext::OnInputActionCanceled(const FInputActionValue& Value)
 {
 	Super::OnInputActionCanceled(Value);
 	

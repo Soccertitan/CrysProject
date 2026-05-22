@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "CrysInputActionListener.h"
 #include "GameplayTagContainer.h"
-#include "AttackInteractInputActionListener.generated.h"
+#include "InputActionListener_AttackInteract.generated.h"
 
 class UCrimAbilitySystemComponent;
 
@@ -13,12 +13,12 @@ class UCrimAbilitySystemComponent;
  * Starts the auto attack timer if the current target is an enemy. Otherwise, it will try to interact with objects.
  */
 UCLASS()
-class CRYSPROJECT_API UAttackInteractInputActionListener : public UCrysInputActionListener
+class CRYSPROJECT_API UInputActionListener_AttackInteract : public UCrysInputActionListener
 {
 	GENERATED_BODY()
 	
 public:
-	UAttackInteractInputActionListener();
+	UInputActionListener_AttackInteract();
 	
 protected:
 	virtual void OnInitializeListener() override;

@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "CrysInputActionListener.h"
-#include "GameplayAbilityInputActionListener.generated.h"
+#include "InputActionListener_GameplayAbility.generated.h"
 
 class UGameplayAbility;
 class UAbilityInputManagerComponent;
@@ -13,7 +13,7 @@ class UAbilityInputManagerComponent;
  * Activates a gameplay ability by AbilityClass.
  */
 UCLASS(Abstract)
-class CRYSPROJECT_API UGameplayAbilityInputActionListener : public UCrysInputActionListener
+class CRYSPROJECT_API UInputActionListener_GameplayAbility : public UCrysInputActionListener
 {
 	GENERATED_BODY()
 	

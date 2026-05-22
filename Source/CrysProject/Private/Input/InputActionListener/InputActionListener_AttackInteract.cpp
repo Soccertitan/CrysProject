@@ -1,18 +1,18 @@
 ﻿// Copyright Soccertitan 2025
 
 
-#include "Input/InputActionListener/AttackInteractInputActionListener.h"
+#include "Input/InputActionListener/InputActionListener_AttackInteract.h"
 
 #include "CrimAbilitySystemBlueprintFunctionLibrary.h"
 #include "CrimAbilitySystemComponent.h"
 #include "InputActionValue.h"
 #include "GameFramework/PlayerState.h"
 
-UAttackInteractInputActionListener::UAttackInteractInputActionListener()
+UInputActionListener_AttackInteract::UInputActionListener_AttackInteract()
 {
 }
 
-void UAttackInteractInputActionListener::OnInitializeListener()
+void UInputActionListener_AttackInteract::OnInitializeListener()
 {
 	Super::OnInitializeListener();
 	
@@ -20,7 +20,7 @@ void UAttackInteractInputActionListener::OnInitializeListener()
 	GetAbilitySystemComponent();
 }
 
-void UAttackInteractInputActionListener::OnInputActionTriggered(const FInputActionValue& Value)
+void UInputActionListener_AttackInteract::OnInputActionTriggered(const FInputActionValue& Value)
 {
 	Super::OnInputActionTriggered(Value);
 	
@@ -56,7 +56,7 @@ void UAttackInteractInputActionListener::OnInputActionTriggered(const FInputActi
 	// }
 }
 
-void UAttackInteractInputActionListener::OnInputActionCompleted(const FInputActionValue& Value)
+void UInputActionListener_AttackInteract::OnInputActionCompleted(const FInputActionValue& Value)
 {
 	Super::OnInputActionCompleted(Value);
 	
@@ -66,7 +66,7 @@ void UAttackInteractInputActionListener::OnInputActionCompleted(const FInputActi
 	// }
 }
 
-void UAttackInteractInputActionListener::OnInputActionCanceled(const FInputActionValue& Value)
+void UInputActionListener_AttackInteract::OnInputActionCanceled(const FInputActionValue& Value)
 {
 	Super::OnInputActionCanceled(Value);
 	
@@ -76,7 +76,7 @@ void UAttackInteractInputActionListener::OnInputActionCanceled(const FInputActio
 	// }
 }
 
-void UAttackInteractInputActionListener::OnPossessedPawnChanged(APawn* OldPawn, APawn* NewPawn)
+void UInputActionListener_AttackInteract::OnPossessedPawnChanged(APawn* OldPawn, APawn* NewPawn)
 {
 	Super::OnPossessedPawnChanged(OldPawn, NewPawn);
 	
@@ -98,7 +98,7 @@ void UAttackInteractInputActionListener::OnPossessedPawnChanged(APawn* OldPawn, 
 // 	return AutoAttackManagerComponent;
 // }
 
-UCrimAbilitySystemComponent* UAttackInteractInputActionListener::GetAbilitySystemComponent()
+UCrimAbilitySystemComponent* UInputActionListener_AttackInteract::GetAbilitySystemComponent()
 {
 	if (!AbilitySystemComponent)
 	{
@@ -116,7 +116,7 @@ UCrimAbilitySystemComponent* UAttackInteractInputActionListener::GetAbilitySyste
 	return AbilitySystemComponent;
 }
 
-void UAttackInteractInputActionListener::OnCombatStanceGameplayTagCountChanged(FGameplayTag Tag, int32 NewCount)
+void UInputActionListener_AttackInteract::OnCombatStanceGameplayTagCountChanged(FGameplayTag Tag, int32 NewCount)
 {
 	if (NewCount > 0)
 	{

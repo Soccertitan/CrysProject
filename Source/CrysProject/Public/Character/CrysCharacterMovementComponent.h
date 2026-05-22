@@ -29,7 +29,7 @@ public:
 	// ICrimAbilitySystemInterface
 	virtual void SetCrimAbilitySystem_Implementation(UCrimAbilitySystemComponent* AbilitySystemComponent) override;
 	// ILockOnPawnInterface
-	virtual void SetLockOnPoint_Implementation(const FLockOnPoint& NewLockOnPoint) override;
+	virtual void SetLockOnPoint_Implementation(const FCrimTargetPoint& NewLockOnPoint) override;
 	
 private:
 	// Cached ASC from the owner.
@@ -45,7 +45,7 @@ private:
 	
 	// The point to rotate towards whe moving.
 	UPROPERTY()
-	FLockOnPoint LockOnPoint;
+	FCrimTargetPoint LockOnPoint;
 	
 	void OnGameplayTagMovementRootedUpdated(const FGameplayTag Tag, int32 NewCount);
 	void OnMovementSpeedMultiplierUpdated(const FOnAttributeChangeData& Data);

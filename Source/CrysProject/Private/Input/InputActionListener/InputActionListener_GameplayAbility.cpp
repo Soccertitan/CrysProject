@@ -1,21 +1,21 @@
 ﻿// Copyright Soccertitan 2025
 
 
-#include "Input/InputActionListener/GameplayAbilityInputActionListener.h"
+#include "Input/InputActionListener/InputActionListener_GameplayAbility.h"
 
 #include "CrimAbilitySystemBlueprintFunctionLibrary.h"
 #include "InputActionValue.h"
 #include "Abilities/GameplayAbility.h"
 #include "Input/AbilityInputManagerComponent.h"
 
-void UGameplayAbilityInputActionListener::OnInitializeListener()
+void UInputActionListener_GameplayAbility::OnInitializeListener()
 {
 	Super::OnInitializeListener();
 	
 	AbilityInputManagerComponent = UCrimAbilitySystemBlueprintFunctionLibrary::GetAbilityInputManagerComponent(GetPlayerController());
 }
 
-void UGameplayAbilityInputActionListener::OnInputActionTriggered(const FInputActionValue& Value)
+void UInputActionListener_GameplayAbility::OnInputActionTriggered(const FInputActionValue& Value)
 {
 	Super::OnInputActionTriggered(Value);
 	
@@ -32,7 +32,7 @@ void UGameplayAbilityInputActionListener::OnInputActionTriggered(const FInputAct
 	}
 }
 
-void UGameplayAbilityInputActionListener::OnInputActionCanceled(const FInputActionValue& Value)
+void UInputActionListener_GameplayAbility::OnInputActionCanceled(const FInputActionValue& Value)
 {
 	Super::OnInputActionCanceled(Value);
 	
@@ -42,7 +42,7 @@ void UGameplayAbilityInputActionListener::OnInputActionCanceled(const FInputActi
 	}
 }
 
-void UGameplayAbilityInputActionListener::OnInputActionCompleted(const FInputActionValue& Value)
+void UInputActionListener_GameplayAbility::OnInputActionCompleted(const FInputActionValue& Value)
 {
 	Super::OnInputActionCompleted(Value);
 	

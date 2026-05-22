@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "CrysInputActionListener.h"
 #include "EnhancedInputSubsystemInterface.h"
-#include "InputMappingContextInputActionListener.generated.h"
+#include "InputActionListener_InputMappingContext.generated.h"
 
 class UEnhancedInputLocalPlayerSubsystem;
 class UInputMappingContext;
@@ -14,7 +14,7 @@ class UInputMappingContext;
  * Adds/Removes an Input Mapping Context when Triggered/Completed/Canceled.
  */
 UCLASS(Abstract)
-class CRYSPROJECT_API UInputMappingContextInputActionListener : public UCrysInputActionListener
+class CRYSPROJECT_API UInputActionListener_InputMappingContext : public UCrysInputActionListener
 {
 	GENERATED_BODY()
 	

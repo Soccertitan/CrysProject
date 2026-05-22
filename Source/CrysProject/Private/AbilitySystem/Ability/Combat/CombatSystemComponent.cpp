@@ -266,7 +266,7 @@ void UCombatSystemComponent::ClearSecondaryWeaponOverride()
 	}
 }
 
-void UCombatSystemComponent::SetPrimaryTarget(AActor* NewTarget)
+void UCombatSystemComponent::SetPrimaryTarget(const FCrimTargetPoint& NewTarget)
 {
 	if (PrimaryTarget != NewTarget)
 	{
@@ -281,6 +281,11 @@ void UCombatSystemComponent::SetPrimaryTarget(AActor* NewTarget)
 		}
 		OnPrimaryTargetChangedDelegate.Broadcast(NewTarget);
 	}
+}
+
+FCrimTargetPoint UCombatSystemComponent::GetPrimaryTarget() const
+{
+	return PrimaryTarget;
 }
 
 bool UCombatSystemComponent::HasAuthority() const
@@ -328,7 +333,7 @@ void UCombatSystemComponent::CacheIsNetSimulated()
 void UCombatSystemComponent::OnAutoAttackTimerCompleted()
 {
 #if WITH_SERVER_CODE
-	if (AbilitySystemComponent && PrimaryTarget)
+	if (AbilitySystemComponent && PrimaryTarget.IsValid())
 	{
 		FScopedPredictionWindow NewScopedWindow(AbilitySystemComponent, true);
 		
@@ -350,7 +355,7 @@ void UCombatSystemComponent::OnAutoAttackTimerCompleted()
 		FGameplayEventData Payload;
 		Payload.EventTag = Crys::NativeGameplayTag::Ability_GameplayEvent_AutoAttack;
 		Payload.Instigator = AbilitySystemComponent->GetAvatarActor();
-		Payload.Target = PrimaryTarget;
+		Payload.Target = PrimaryTarget.GetActor();
 		Payload.TargetData.Add(Data);
 		
 		AbilitySystemComponent->HandleGameplayEvent(Payload.EventTag, &Payload);
@@ -509,7 +514,7 @@ void UCombatSystemComponent::ClearWeaponOverrideInternal(FCrysWeaponContainer& W
 	Delegate.Broadcast(WeaponContainer.DefaultWeapon);
 }
 
-void UCombatSystemComponent::Server_SetAutoAttackTarget_Implementation(AActor* NewTarget)
+void UCombatSystemComponent::Server_SetAutoAttackTarget_Implementation(const FCrimTargetPoint& NewTarget)
 {
 	SetPrimaryTarget(NewTarget);
 }

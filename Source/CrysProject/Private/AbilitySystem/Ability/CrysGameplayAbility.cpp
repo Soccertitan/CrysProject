@@ -7,6 +7,7 @@
 #include "CrimAbilitySystemComponent.h"
 #include "CrimMathStatics.h"
 #include "CrysBlueprintFunctionLibrary.h"
+#include "AbilitySystem/CrysAbilityBlueprintFunctionLibrary.h"
 #include "AbilitySystem/AttributeSet/AbilityAttributeSet.h"
 
 
@@ -99,35 +100,7 @@ bool UCrysGameplayAbility::IsTargetValid(const FVector Origin, const FVector For
 
 bool UCrysGameplayAbility::IsTargetOfAbilityTargetType(AActor* TargetActor, const EAbilityTargetType InTargetType) const
 {
-	if (InTargetType != EAbilityTargetType::Any)
-	{
-		if (InTargetType == EAbilityTargetType::SelfOnly &&
-			GetAvatarActorFromActorInfo() != TargetActor)
-		{
-			return false;
-		}
-		
-		ETeamAttitude::Type AttitudeTowardsTarget = UCrysBlueprintFunctionLibrary::GetAttitudeTowardsActor(GetAvatarActorFromActorInfo(), TargetActor);
-		if (InTargetType == EAbilityTargetType::Friendly &&
-			AttitudeTowardsTarget != ETeamAttitude::Friendly)
-		{
-			return false;
-		}
-	
-		if (InTargetType == EAbilityTargetType::FriendlyExcludeSelf && (
-			AttitudeTowardsTarget != ETeamAttitude::Friendly ||
-			GetAvatarActorFromActorInfo() == TargetActor))
-		{
-			return false;
-		}
-	
-		if (InTargetType == EAbilityTargetType::Hostile &&
-			AttitudeTowardsTarget != ETeamAttitude::Hostile)
-		{
-			return false;
-		}
-	}
-	return true;
+	return UCrysAbilityBlueprintFunctionLibrary::IsAbilityTargetType(InTargetType, GetAvatarActorFromActorInfo(), TargetActor);
 }
 
 bool UCrysGameplayAbility::IsTargetWithinRange(AActor* TargetActor, float Range) const

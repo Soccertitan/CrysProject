@@ -25,3 +25,6 @@
 [submodule "Plugins/CrimLockOnSystem"]
 	path = Plugins/CrimLockOnSystem
 	url = https://github.com/Soccertitan/CrimLockOnSystem
+[submodule "Plugins/CrimTargetingSystem"]
+	path = Plugins/CrimTargetingSystem
+	url = https://github.com/Soccertitan/CrimTargetingSystem

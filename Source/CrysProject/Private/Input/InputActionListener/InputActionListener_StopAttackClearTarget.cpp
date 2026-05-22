@@ -1,26 +1,26 @@
 ﻿// Copyright Soccertitan 2025
 
 
-#include "Input/InputActionListener/StopAttackClearTargetInputActionListener.h"
+#include "Input/InputActionListener/InputActionListener_StopAttackClearTarget.h"
 
 #include "InputActionValue.h"
 
 
-void UStopAttackClearTargetInputActionListener::OnInitializeListener()
+void UInputActionListener_StopAttackClearTarget::OnInitializeListener()
 {
 	Super::OnInitializeListener();
 	
 	// GetAutoAttackManagerComponent();
 }
 
-void UStopAttackClearTargetInputActionListener::OnPossessedPawnChanged(APawn* OldPawn, APawn* NewPawn)
+void UInputActionListener_StopAttackClearTarget::OnPossessedPawnChanged(APawn* OldPawn, APawn* NewPawn)
 {
 	Super::OnPossessedPawnChanged(OldPawn, NewPawn);
 	
 	// TargetingSystemComponent = UTargetingSystemBlueprintFunctionLibrary::GetTargetingSystemComponent(NewPawn);
 }
 
-void UStopAttackClearTargetInputActionListener::OnInputActionTriggered(const FInputActionValue& Value)
+void UInputActionListener_StopAttackClearTarget::OnInputActionTriggered(const FInputActionValue& Value)
 {
 	Super::OnInputActionTriggered(Value);
 	

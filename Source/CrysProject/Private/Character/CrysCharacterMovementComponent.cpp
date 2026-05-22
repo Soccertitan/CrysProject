@@ -84,7 +84,7 @@ void UCrysCharacterMovementComponent::SetCrimAbilitySystem_Implementation(UCrimA
 	}
 }
 
-void UCrysCharacterMovementComponent::SetLockOnPoint_Implementation(const FLockOnPoint& NewLockOnPoint)
+void UCrysCharacterMovementComponent::SetLockOnPoint_Implementation(const FCrimTargetPoint& NewLockOnPoint)
 {
 	LockOnPoint = NewLockOnPoint;
 }

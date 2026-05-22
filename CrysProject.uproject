@@ -60,7 +60,7 @@
 			"Enabled": true
 		},
 		{
-			"Name": "CrimLockOnSystem",
+			"Name": "CrimTargetingSystem",
 			"Enabled": true
 		}
 	]

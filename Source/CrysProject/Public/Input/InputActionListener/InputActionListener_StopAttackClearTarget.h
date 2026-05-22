@@ -4,14 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "Input/InputActionListener/CrysInputActionListener.h"
-#include "StopAttackClearTargetInputActionListener.generated.h"
+#include "InputActionListener_StopAttackClearTarget.generated.h"
 
 
 /**
  * If AutoAttacking, stop auto attacking. Else if targeting an actor, clear the target.
  */
 UCLASS()
-class CRYSPROJECT_API UStopAttackClearTargetInputActionListener : public UCrysInputActionListener
+class CRYSPROJECT_API UInputActionListener_StopAttackClearTarget : public UCrysInputActionListener
 {
 	GENERATED_BODY()
 	

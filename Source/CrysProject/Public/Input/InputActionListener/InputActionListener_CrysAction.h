@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
 #include "Input/InputActionListener/CrysInputActionListener.h"
-#include "ActionInputActionListener.generated.h"
+#include "InputActionListener_CrysAction.generated.h"
 
 class UCrysActionManagerComponent;
 DECLARE_MULTICAST_DELEGATE_OneParam(FCrysActionActionSetIndexSignature, int32);
@@ -14,7 +14,7 @@ DECLARE_MULTICAST_DELEGATE_OneParam(FCrysActionActionSetIndexSignature, int32);
  * Activates the action in the currently selected index of the ActionManager.
  */
 UCLASS(Abstract)
-class CRYSPROJECT_API UActionInputActionListener : public UCrysInputActionListener
+class CRYSPROJECT_API UInputActionListener_CrysAction : public UCrysInputActionListener
 {
 	GENERATED_BODY()
 	
