@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "CrimAbilitySystemInterface.h"
+#include "LockOnPawnInterface.h"
+#include "LockOnTypes.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "CrysCharacterMovementComponent.generated.h"
 
@@ -12,7 +14,8 @@ struct FGameplayTag;
 struct FOnAttributeChangeData;
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class CRYSPROJECT_API UCrysCharacterMovementComponent : public UCharacterMovementComponent, public ICrimAbilitySystemInterface
+class CRYSPROJECT_API UCrysCharacterMovementComponent : public UCharacterMovementComponent, public ICrimAbilitySystemInterface,
+	public ILockOnPawnInterface
 {
 	GENERATED_BODY()
 
@@ -21,9 +24,12 @@ public:
 
 	virtual float GetMaxSpeed() const override;
 	virtual FRotator GetDeltaRotation(float DeltaTime) const override;
+	virtual FRotator ComputeOrientToMovementRotation(const FRotator& CurrentRotation, float DeltaTime, FRotator& DeltaRotation) const override;
 
 	// ICrimAbilitySystemInterface
 	virtual void SetCrimAbilitySystem_Implementation(UCrimAbilitySystemComponent* AbilitySystemComponent) override;
+	// ILockOnPawnInterface
+	virtual void SetLockOnPoint_Implementation(const FLockOnPoint& NewLockOnPoint) override;
 	
 private:
 	// Cached ASC from the owner.
@@ -36,6 +42,10 @@ private:
 	
 	UPROPERTY()
 	bool bMovementRooted = false;
+	
+	// The point to rotate towards whe moving.
+	UPROPERTY()
+	FLockOnPoint LockOnPoint;
 	
 	void OnGameplayTagMovementRootedUpdated(const FGameplayTag Tag, int32 NewCount);
 	void OnMovementSpeedMultiplierUpdated(const FOnAttributeChangeData& Data);

@@ -5,8 +5,11 @@
     <mapping directory="$PROJECT_DIR$/Plugins/CrimAbilitySystem" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Plugins/CrimBlueprintStatics" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Plugins/CrimEnhancedInputSystem" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Plugins/CrimLockOnSystem" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Plugins/CrimWidgetPoolSystem" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Plugins/GameplayMessageRouter" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Plugins/InteractionSystem" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Plugins/InventorySystem" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Plugins/NiagaraTextToolkit" vcs="Git" />
   </component>
 </project>

@@ -23,7 +23,8 @@ public class CrysProject : ModuleRules
 			"UINavigation",
 			"CrimAbilitySystem",
 			"InventorySystem",
-			"CrimBlueprintStatics"
+			"CrimBlueprintStatics", 
+			"CrimLockOnSystem"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[]
