@@ -11,7 +11,7 @@ class UCrimEnhancedInputComponent;
 class UInputActionListenerViewModel;
 
 /**
- * 
+ * Gets the InputActionListeners from the player.
  */
 UCLASS()
 class CRYSPROJECT_API UInputActionViewModel : public UCrysViewModel

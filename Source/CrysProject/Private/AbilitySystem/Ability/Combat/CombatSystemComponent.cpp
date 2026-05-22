@@ -34,7 +34,7 @@ void UCombatSystemComponent::GetLifetimeReplicatedProps(TArray<class FLifetimePr
 	Params.Condition = COND_None;
 	DOREPLIFETIME_WITH_PARAMS_FAST(ThisClass, PrimaryWeapon, Params);
 	DOREPLIFETIME_WITH_PARAMS_FAST(ThisClass, SecondaryWeapon, Params);
-	DOREPLIFETIME_WITH_PARAMS_FAST(ThisClass, AutoAttackTarget, Params);
+	DOREPLIFETIME_WITH_PARAMS_FAST(ThisClass, PrimaryTarget, Params);
 }
 
 void UCombatSystemComponent::BeginPlay()
@@ -266,20 +266,20 @@ void UCombatSystemComponent::ClearSecondaryWeaponOverride()
 	}
 }
 
-void UCombatSystemComponent::SetAutoAttackTarget(AActor* NewTarget)
+void UCombatSystemComponent::SetPrimaryTarget(AActor* NewTarget)
 {
-	if (AutoAttackTarget != NewTarget)
+	if (PrimaryTarget != NewTarget)
 	{
-		AutoAttackTarget = NewTarget;
+		PrimaryTarget = NewTarget;
 		if (HasAuthority())
 		{
-			OnRep_AutoAttackTarget();
+			OnRep_PrimaryTarget();
 		}
 		else
 		{
 			Server_SetAutoAttackTarget(NewTarget);
 		}
-		OnAutoAttackTargetChangedDelegate.Broadcast(NewTarget);
+		OnPrimaryTargetChangedDelegate.Broadcast(NewTarget);
 	}
 }
 
@@ -300,9 +300,9 @@ void UCombatSystemComponent::OnRep_AutoAttacking()
 	OnAutoAttackStateChangedDelegate.Broadcast(bAutoAttacking);
 }
 
-void UCombatSystemComponent::OnRep_AutoAttackTarget()
+void UCombatSystemComponent::OnRep_PrimaryTarget()
 {
-	OnAutoAttackTargetChangedDelegate.Broadcast(AutoAttackTarget);
+	OnPrimaryTargetChangedDelegate.Broadcast(PrimaryTarget);
 }
 
 void UCombatSystemComponent::OnRep_PrimaryWeapon()
@@ -328,7 +328,7 @@ void UCombatSystemComponent::CacheIsNetSimulated()
 void UCombatSystemComponent::OnAutoAttackTimerCompleted()
 {
 #if WITH_SERVER_CODE
-	if (AbilitySystemComponent && AutoAttackTarget)
+	if (AbilitySystemComponent && PrimaryTarget)
 	{
 		FScopedPredictionWindow NewScopedWindow(AbilitySystemComponent, true);
 		
@@ -350,7 +350,7 @@ void UCombatSystemComponent::OnAutoAttackTimerCompleted()
 		FGameplayEventData Payload;
 		Payload.EventTag = Crys::NativeGameplayTag::Ability_GameplayEvent_AutoAttack;
 		Payload.Instigator = AbilitySystemComponent->GetAvatarActor();
-		Payload.Target = AutoAttackTarget;
+		Payload.Target = PrimaryTarget;
 		Payload.TargetData.Add(Data);
 		
 		AbilitySystemComponent->HandleGameplayEvent(Payload.EventTag, &Payload);
@@ -511,7 +511,7 @@ void UCombatSystemComponent::ClearWeaponOverrideInternal(FCrysWeaponContainer& W
 
 void UCombatSystemComponent::Server_SetAutoAttackTarget_Implementation(AActor* NewTarget)
 {
-	SetAutoAttackTarget(NewTarget);
+	SetPrimaryTarget(NewTarget);
 }
 
 void UCombatSystemComponent::Server_StartAutoAttack_Implementation()

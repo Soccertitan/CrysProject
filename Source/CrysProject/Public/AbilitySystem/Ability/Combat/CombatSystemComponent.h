@@ -11,7 +11,7 @@
 struct FGameplayTag;
 struct FOnAttributeChangeData;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCombatAutoAttackingSignature, bool, bAutoAttacking);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCombatAutoAttackTargetUpdatedSignature, AActor*, TargetedActor);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCombatPrimaryTargetUpdatedSignature, AActor*, TargetedActor);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCombatWeaponChangedSignature, const FCrysWeapon&, Weapon);
 
 /**
@@ -81,13 +81,13 @@ public:
 	void ClearSecondaryWeaponOverride();
 	
 	UFUNCTION(BlueprintCallable, Category = "Combat")
-	void SetAutoAttackTarget(AActor* NewTarget);
+	void SetPrimaryTarget(AActor* NewTarget);
 	
 	UFUNCTION(BlueprintPure, Category = "Combat")
-	AActor* GetAutoAttackTarget() const { return AutoAttackTarget; }
+	AActor* GetPrimaryTarget() const { return PrimaryTarget; }
 	
 	UPROPERTY(BlueprintAssignable, DisplayName = "OnAutoAttackTargetChanged")
-	FCombatAutoAttackTargetUpdatedSignature OnAutoAttackTargetChangedDelegate;
+	FCombatPrimaryTargetUpdatedSignature OnPrimaryTargetChangedDelegate;
 
 	UFUNCTION(BlueprintPure, Category = "Combat")
 	bool HasAuthority() const;
@@ -102,7 +102,7 @@ protected:
 	UFUNCTION()
 	void OnRep_AutoAttacking();
 	UFUNCTION()
-	void OnRep_AutoAttackTarget();
+	void OnRep_PrimaryTarget();
 	
 	UFUNCTION()
 	void OnRep_PrimaryWeapon();
@@ -124,8 +124,8 @@ private:
 	TObjectPtr<UCrimAbilitySystemComponent> AbilitySystemComponent;
 	
 	/** The actor to auto attack. */
-	UPROPERTY(ReplicatedUsing=OnRep_AutoAttackTarget)
-	TObjectPtr<AActor> AutoAttackTarget;
+	UPROPERTY(ReplicatedUsing=OnRep_PrimaryTarget)
+	TObjectPtr<AActor> PrimaryTarget;
 	
 	UPROPERTY(ReplicatedUsing=OnRep_AutoAttacking)
 	bool bAutoAttacking = false;
