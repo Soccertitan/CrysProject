@@ -7,7 +7,6 @@
 #include "GameFramework/Character.h"
 #include "CrysCharacter.generated.h"
 
-class ULockOnPointComponent;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCrysCharacterNameSignature, FText, CharacterName);
 
 /**

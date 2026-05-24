@@ -4,7 +4,7 @@
 #include "Player/HeroPlayerController.h"
 
 #include "CrimAbilitySystemBlueprintFunctionLibrary.h"
-#include "LockOnSystemComponent.h"
+#include "CrimTargetingSystemComponent.h"
 #include "Input/AbilityInputManagerComponent.h"
 #include "Player/HeroPlayerState.h"
 
@@ -13,7 +13,7 @@ AHeroPlayerController::AHeroPlayerController()
 	AbilityInputManagerComponent = CreateDefaultSubobject<UAbilityInputManagerComponent>(TEXT("AbilityInputManagerComponent"));
 	AbilityInputManagerComponent->SetIsReplicated(false);
 	
-	LockOnSystemComponent = CreateDefaultSubobject<ULockOnSystemComponent>(TEXT("LockOnSystemComponent"));
+	TargetingSystemComponent = CreateDefaultSubobject<UCrimTargetingSystemComponent>(TEXT("CrimTargetingSystemComponent"));
 }
 
 void AHeroPlayerController::AcknowledgePossession(class APawn* P)

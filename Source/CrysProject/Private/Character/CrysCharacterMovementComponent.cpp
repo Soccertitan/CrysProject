@@ -6,7 +6,6 @@
 #include "CrimAbilitySystemComponent.h"
 #include "CrysNativeGameplayTags.h"
 #include "GameplayTagContainer.h"
-#include "LockOnSystemBlueprintFunctionLibrary.h"
 #include "AbilitySystem/AttributeSet/MovementAttributeSet.h"
 #include "Kismet/KismetMathLibrary.h"
 
@@ -38,12 +37,12 @@ FRotator UCrysCharacterMovementComponent::GetDeltaRotation(float DeltaTime) cons
 
 FRotator UCrysCharacterMovementComponent::ComputeOrientToMovementRotation(const FRotator& CurrentRotation, float DeltaTime, FRotator& DeltaRotation) const
 {
-	if (LockOnPoint.IsValid())
+	if (bLockedOn && TargetPoint.IsValid())
 	{
 		if (Acceleration.SizeSquared() > UE_KINDA_SMALL_NUMBER ||
 			(bHasRequestedVelocity && RequestedVelocity.SizeSquared() > UE_KINDA_SMALL_NUMBER))
 		{
-			const FVector TargetLocation = ULockOnSystemBlueprintFunctionLibrary::GetLockOnPointLocation(LockOnPoint);
+			const FVector TargetLocation = TargetPoint.GetLocation();
 			return UKismetMathLibrary::FindLookAtRotation(GetLocation(), TargetLocation);
 		}
 	}
@@ -84,9 +83,14 @@ void UCrysCharacterMovementComponent::SetCrimAbilitySystem_Implementation(UCrimA
 	}
 }
 
-void UCrysCharacterMovementComponent::SetLockOnPoint_Implementation(const FCrimTargetPoint& NewLockOnPoint)
+void UCrysCharacterMovementComponent::SetTargetPoint_Implementation(const FCrimTargetPoint& NewTargetPoint)
 {
-	LockOnPoint = NewLockOnPoint;
+	TargetPoint = NewTargetPoint;
+}
+
+void UCrysCharacterMovementComponent::SetLockOnState_Implementation(const bool bEnabled)
+{
+	bLockedOn = bEnabled;
 }
 
 void UCrysCharacterMovementComponent::OnGameplayTagMovementRootedUpdated(const FGameplayTag Tag, int32 NewCount)

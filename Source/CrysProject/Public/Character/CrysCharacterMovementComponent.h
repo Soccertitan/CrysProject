@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "CrimAbilitySystemInterface.h"
-#include "LockOnPawnInterface.h"
-#include "LockOnTypes.h"
+#include "CrimTargetingTypes.h"
+#include "PawnTargetingSystemInterface.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "CrysCharacterMovementComponent.generated.h"
 
@@ -15,7 +15,7 @@ struct FOnAttributeChangeData;
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class CRYSPROJECT_API UCrysCharacterMovementComponent : public UCharacterMovementComponent, public ICrimAbilitySystemInterface,
-	public ILockOnPawnInterface
+	public IPawnTargetingSystemInterface
 {
 	GENERATED_BODY()
 
@@ -29,7 +29,8 @@ public:
 	// ICrimAbilitySystemInterface
 	virtual void SetCrimAbilitySystem_Implementation(UCrimAbilitySystemComponent* AbilitySystemComponent) override;
 	// ILockOnPawnInterface
-	virtual void SetLockOnPoint_Implementation(const FCrimTargetPoint& NewLockOnPoint) override;
+	virtual void SetTargetPoint_Implementation(const FCrimTargetPoint& NewTargetPoint) override;
+	virtual void SetLockOnState_Implementation(const bool bEnabled) override;
 	
 private:
 	// Cached ASC from the owner.
@@ -45,7 +46,8 @@ private:
 	
 	// The point to rotate towards whe moving.
 	UPROPERTY()
-	FCrimTargetPoint LockOnPoint;
+	FCrimTargetPoint TargetPoint;
+	bool bLockedOn = false;
 	
 	void OnGameplayTagMovementRootedUpdated(const FGameplayTag Tag, int32 NewCount);
 	void OnMovementSpeedMultiplierUpdated(const FOnAttributeChangeData& Data);

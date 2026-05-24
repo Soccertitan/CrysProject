@@ -6,7 +6,7 @@
 #include "CrysPlayerController.h"
 #include "HeroPlayerController.generated.h"
 
-class ULockOnSystemComponent;
+class UCrimTargetingSystemComponent;
 class UCrimAbilitySystemComponent;
 class UAbilityInputManagerComponent;
 
@@ -21,8 +21,8 @@ class CRYSPROJECT_API AHeroPlayerController : public ACrysPlayerController
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AbilityInputManager", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UAbilityInputManagerComponent> AbilityInputManagerComponent;
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "LockOnSystem", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<ULockOnSystemComponent> LockOnSystemComponent;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "PlayerLockOn", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UCrimTargetingSystemComponent> TargetingSystemComponent;
 	
 public:
 	AHeroPlayerController();

@@ -6,6 +6,7 @@
 #include "CrysViewModel.h"
 #include "HeroOverlayViewModel.generated.h"
 
+struct FCrimTargetPoint;
 class UCrimAbilitySystemComponent;
 class UCombatSystemComponent;
 
@@ -30,7 +31,7 @@ protected:
 	
 	/** Called anytime the primary target changes. */
 	UFUNCTION(BlueprintImplementableEvent)
-	void OnPrimaryTargetChanged(AActor* PrimaryTarget);
+	void OnPrimaryTargetChanged(const FCrimTargetPoint& PrimaryTarget);
 	
 	UFUNCTION()
 	void SetIsAutoAttacking(bool Value);

@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "CombatTypes.h"
 #include "CrimAbilitySystemInterface.h"
-#include "LockOnTypes.h"
+#include "CrimTargetingTypes.h"
 #include "Components/ActorComponent.h"
 #include "CombatSystemComponent.generated.h"
 
