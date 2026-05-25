@@ -24,7 +24,8 @@ public class CrysProject : ModuleRules
 			"CrimAbilitySystem",
 			"InventorySystem",
 			"CrimBlueprintStatics",
-			"CrimTargetingSystem"
+			"CrimTargetingSystem", 
+			"InteractionSystem"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[]
@@ -41,11 +42,11 @@ public class CrysProject : ModuleRules
 			"SlateCore",
 			"AIModule",
 			"TargetingSystem",
-			"CrimBlueprintStatics", 
-			// "InteractionSystem",
+			"CrimBlueprintStatics",
 			"CrimAbilitySystem", 
 			"InventorySystem", 
-			"CrimEnhancedInputSystem"
+			"CrimEnhancedInputSystem", 
+			"InteractionSystem"
 		});
 
 		// Uncomment if you are using Slate UI

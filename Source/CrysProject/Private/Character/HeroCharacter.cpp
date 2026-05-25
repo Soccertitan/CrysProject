@@ -7,11 +7,14 @@
 #include "CrimAbilitySystemComponent.h"
 #include "CrimTargetingSystemBlueprintFunctionLibrary.h"
 #include "CrysBlueprintFunctionLibrary.h"
+#include "InteractorComponent.h"
 #include "InventoryBlueprintFunctionLibrary.h"
+#include "AbilitySystem/CrysAbilityBlueprintFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "EquipmentSystem/EquipmentSystemBlueprintFunctionLibrary.h"
 #include "GameFramework/PlayerState.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "InteractionType/InteractorBoxComponent.h"
 #include "JobSystem/JobSystemBlueprintFunctionLibrary.h"
 
 
@@ -29,6 +32,11 @@ AHeroCharacter::AHeroCharacter(const FObjectInitializer& ObjectInitializer)
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	// Camera does not rotate relative to arm
 	FollowCamera->bUsePawnControlRotation = false;
+	
+	InteractorComponent = CreateDefaultSubobject<UInteractorComponent>(TEXT("InteractorComponent"));
+	
+	InteractorBoxComponent = CreateDefaultSubobject<UInteractorBoxComponent>(TEXT("InteractorBoxComponent"));
+	InteractorBoxComponent->SetupAttachment(RootComponent);
 }
 
 void AHeroCharacter::PossessedBy(AController* NewController)
@@ -67,12 +75,17 @@ UEquipmentManagerComponent* AHeroCharacter::GetEquipmentManagerComponent_Impleme
 
 UCombatSystemComponent* AHeroCharacter::GetCombatSystemComponent_Implementation() const
 {
-	return UCrysBlueprintFunctionLibrary::GetCombatSystemComponent(GetPlayerState());
+	return UCrysAbilityBlueprintFunctionLibrary::GetCombatSystemComponent(GetPlayerState());
 }
 
 UCrimTargetingSystemComponent* AHeroCharacter::GetCrimTargetingSystemComponent_Implementation() const
 {
 	return UCrimTargetingSystemBlueprintFunctionLibrary::GetCrimTargetingSystemComponent(GetController(), false);
+}
+
+UInteractorComponent* AHeroCharacter::GetInteractorComponent_Implementation() const
+{
+	return InteractorComponent;
 }
 
 FGenericTeamId AHeroCharacter::GetGenericTeamId() const

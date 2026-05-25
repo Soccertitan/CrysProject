@@ -6,6 +6,8 @@
 
 namespace Crys::NativeGameplayTag
 {
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Combat_CombatStance, "Ability.Combat.CombatStance", "The ability to switch combat stances.");
+	
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_State_MovementRooted, "Ability.State.MovementRooted", "The character cannot move or rotate.");
 	
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_GameplayEvent_AutoAttack, "Ability.GameplayEvent.AutoAttack", "Triggers an auto attack gameplay ability.");

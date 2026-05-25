@@ -9,7 +9,6 @@
 #include "UI/UITagRelationship.h"
 #include "CrysBlueprintFunctionLibrary.generated.h"
 
-class UCombatSystemComponent;
 class UCrysViewModel;
 class ACrysCharacter;
 class ACrysPlayerState;
@@ -50,9 +49,6 @@ public:
 	// /** Tries to retrieve the CombatTextComponent from the Actor. */
 	// UFUNCTION(BlueprintPure, Category = "CrysFunctionLibrary", meta = (DefaultToSelf = Actor))
 	// static UCombatTextComponent* GetCombatTextComponent(AActor* Actor);
-	
-	UFUNCTION(BlueprintPure, Category = "CrysFunctionLibrary", meta = (DefaultToSelf = Actor))
-	static UCombatSystemComponent* GetCombatSystemComponent(AActor* Actor);
 	
 	static FAttributeTagInfo FindAttributeTagInfo(const FGameplayTag& Tag, bool bLogNotFound = false);
 	static FUITagInfo FindUITagInfo(const FGameplayTag& Tag, bool bLogNotFound = false);

@@ -11,6 +11,7 @@
 #include "InventoryBlueprintFunctionLibrary.h"
 #include "InventoryGameplayTags.h"
 #include "InventoryManagerComponent.h"
+#include "AbilitySystem/CrysAbilityBlueprintFunctionLibrary.h"
 #include "AbilitySystem/Ability/Combat/CombatSystemComponent.h"
 #include "AbilitySystem/AttributeSet/PrimaryAttributeSet.h"
 #include "JobSystem/JobDefinition.h"
@@ -44,7 +45,7 @@ void UEquipmentManagerComponent::BeginPlay()
 	
 	SetJobSystemComponent(UJobSystemBlueprintFunctionLibrary::GetJobSystemComponent(GetOwner()));
 	SetInventoryManagerComponent(UInventoryBlueprintFunctionLibrary::GetInventoryManagerComponent(GetOwner()));
-	SetCombatSystemComponent(UCrysBlueprintFunctionLibrary::GetCombatSystemComponent(GetOwner()));
+	SetCombatSystemComponent(UCrysAbilityBlueprintFunctionLibrary::GetCombatSystemComponent(GetOwner()));
 	
 	TryBroadcastEquipmentManagerReady();
 }

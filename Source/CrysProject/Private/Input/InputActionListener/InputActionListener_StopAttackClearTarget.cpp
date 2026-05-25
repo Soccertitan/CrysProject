@@ -3,21 +3,26 @@
 
 #include "Input/InputActionListener/InputActionListener_StopAttackClearTarget.h"
 
+#include "CrimTargetingSystemBlueprintFunctionLibrary.h"
+#include "CrimTargetingSystemComponent.h"
 #include "InputActionValue.h"
+#include "AbilitySystem/CrysAbilityBlueprintFunctionLibrary.h"
+#include "AbilitySystem/Ability/Combat/CombatSystemComponent.h"
+#include "GameFramework/PlayerState.h"
 
 
 void UInputActionListener_StopAttackClearTarget::OnInitializeListener()
 {
 	Super::OnInitializeListener();
 	
-	// GetAutoAttackManagerComponent();
+	GetCombatSystem();
 }
 
 void UInputActionListener_StopAttackClearTarget::OnPossessedPawnChanged(APawn* OldPawn, APawn* NewPawn)
 {
 	Super::OnPossessedPawnChanged(OldPawn, NewPawn);
 	
-	// TargetingSystemComponent = UTargetingSystemBlueprintFunctionLibrary::GetTargetingSystemComponent(NewPawn);
+	TargetingSystemComponent = UCrimTargetingSystemBlueprintFunctionLibrary::GetCrimTargetingSystemComponent(NewPawn);
 }
 
 void UInputActionListener_StopAttackClearTarget::OnInputActionTriggered(const FInputActionValue& Value)
@@ -29,36 +34,33 @@ void UInputActionListener_StopAttackClearTarget::OnInputActionTriggered(const FI
 		return;
 	}
 	
-	// if (GetAutoAttackManagerComponent() && AutoAttackManagerComponent->IsAutoAttacking())
-	// {
-	// 	AutoAttackManagerComponent->StopAutoAttack();
-	// 	return;
-	// }
-	//
-	// if (TargetingSystemComponent)
-	// {
-	// 	if (TargetingSystemComponent->IsCameraLocked())
-	// 	{
-	// 		TargetingSystemComponent->SetCameraLock(false);
-	// 		return;
-	// 	}
-	// 	if (TargetingSystemComponent->GetTargetedPoint())
-	// 	{
-	// 		TargetingSystemComponent->ClearTarget();
-	// 		return;
-	// 	}
-	// }
+	if (GetCombatSystem() && CombatSystemComponent->IsAutoAttacking())
+	{
+		CombatSystemComponent->StopAutoAttack();
+		return;
+	}
+	
+	if (TargetingSystemComponent)
+	{
+		if (TargetingSystemComponent->IsLockedOn())
+		{
+			TargetingSystemComponent->SetLockOnState(false);
+			return;
+		}
+		if (TargetingSystemComponent->GetTargetPoint().GetActor())
+		{
+			TargetingSystemComponent->ClearTargetPoint();
+			return;
+		}
+	}
 }
 
-// UAutoAttackManagerComponent* UStopAttackClearTargetInputActionListener::GetAutoAttackManagerComponent()
-// {
-	// if (!AutoAttackManagerComponent)
-	// {
-	// 	if (GetPlayerController() && GetPlayerController()->GetPlayerState<APlayerState>())
-	// 	{
-	// 		// AutoAttackManagerComponent = GetPlayerController()->GetPlayerState<APlayerState>()->FindComponentByClass<UAutoAttackManagerComponent>();
-	// 	}
-	// }
-	//
-	// return AutoAttackManagerComponent;
-// }
+UCombatSystemComponent* UInputActionListener_StopAttackClearTarget::GetCombatSystem()
+{
+	if (!CombatSystemComponent)
+	{
+		CombatSystemComponent = UCrysAbilityBlueprintFunctionLibrary::GetCombatSystemComponent(GetPlayerController()->GetPlayerState<APlayerState>());
+	}
+	
+	return CombatSystemComponent;
+}

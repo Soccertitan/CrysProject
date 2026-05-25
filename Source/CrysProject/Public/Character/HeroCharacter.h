@@ -8,12 +8,14 @@
 #include "CrysCharacter.h"
 #include "GameplayTagAssetInterface.h"
 #include "GenericTeamAgentInterface.h"
+#include "InteractorInterface.h"
 #include "InventorySystemInterface.h"
 #include "AbilitySystem/Ability/Combat/CombatSystemInterface.h"
 #include "EquipmentSystem/EquipmentSystemInterface.h"
 #include "JobSystem/JobSystemInterface.h"
 #include "HeroCharacter.generated.h"
 
+class UInteractorBoxComponent;
 class USpringArmComponent;
 class UCameraComponent;
 class UCrimAbilitySystemComponent;
@@ -24,7 +26,7 @@ class UCrimAbilitySystemComponent;
 UCLASS()
 class CRYSPROJECT_API AHeroCharacter : public ACrysCharacter, public IAbilitySystemInterface, public IGameplayTagAssetInterface,
 	public IGenericTeamAgentInterface, public IInventorySystemInterface, public IJobSystemInterface, public IEquipmentSystemInterface,
-	public ICombatSystemInterface, public ICrimTargetingSystemInterface
+	public ICombatSystemInterface, public ICrimTargetingSystemInterface, public IInteractorInterface
 {
 	GENERATED_BODY()
 	
@@ -35,6 +37,14 @@ class CRYSPROJECT_API AHeroCharacter : public ACrysCharacter, public IAbilitySys
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UCameraComponent> FollowCamera;
+	
+	/** Allows character to interact with an interactable. */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interactor, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInteractorComponent> InteractorComponent;
+	
+	/** Allows character to interact with an interactable box component. */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = InteractorBox, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UInteractorBoxComponent> InteractorBoxComponent;
 
 public:
 	AHeroCharacter(const FObjectInitializer& ObjectInitializer);
@@ -47,6 +57,7 @@ public:
 	virtual UEquipmentManagerComponent* GetEquipmentManagerComponent_Implementation() const override;
 	virtual UCombatSystemComponent* GetCombatSystemComponent_Implementation() const override;
 	virtual UCrimTargetingSystemComponent* GetCrimTargetingSystemComponent_Implementation() const override;
+	virtual UInteractorComponent* GetInteractorComponent_Implementation() const override;
 	
 	// IGenericTeamAgentInterface
 	virtual FGenericTeamId GetGenericTeamId() const override;

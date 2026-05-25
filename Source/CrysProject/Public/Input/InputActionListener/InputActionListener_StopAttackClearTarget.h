@@ -7,6 +7,9 @@
 #include "InputActionListener_StopAttackClearTarget.generated.h"
 
 
+class UCrimTargetingSystemComponent;
+class UCombatSystemComponent;
+
 /**
  * If AutoAttacking, stop auto attacking. Else if targeting an actor, clear the target.
  */
@@ -23,12 +26,12 @@ protected:
 	
 	virtual void OnInputActionTriggered(const FInputActionValue& Value) override;
 	
-	// UAutoAttackManagerComponent* GetAutoAttackManagerComponent();
+	UCombatSystemComponent* GetCombatSystem();
 	
 private:
-	// UPROPERTY()
-	// TObjectPtr<UAutoAttackManagerComponent> AutoAttackManagerComponent;
+	UPROPERTY()
+	TObjectPtr<UCombatSystemComponent> CombatSystemComponent;
 	
-	// UPROPERTY()
-	// TObjectPtr<UTargetingSystemComponent> TargetingSystemComponent;
+	UPROPERTY()
+	TObjectPtr<UCrimTargetingSystemComponent> TargetingSystemComponent;
 };

@@ -4,8 +4,6 @@
 #include "CrysBlueprintFunctionLibrary.h"
 
 #include "CrysLogChannels.h"
-#include "AbilitySystem/Ability/Combat/CombatSystemComponent.h"
-#include "AbilitySystem/Ability/Combat/CombatSystemInterface.h"
 #include "Character/CrysCharacter.h"
 #include "GameFramework/PlayerState.h"
 #include "Player/CrysPlayerController.h"
@@ -92,21 +90,6 @@ UCrysViewModel* UCrysBlueprintFunctionLibrary::FindOrCreateViewModel(const TSubc
 		}
 	}
 	return nullptr;
-}
-
-UCombatSystemComponent* UCrysBlueprintFunctionLibrary::GetCombatSystemComponent(AActor* Actor)
-{
-	if (!IsValid(Actor))
-	{
-		return nullptr;
-	}
-
-	if (Actor->Implements<UCombatSystemInterface>())
-	{
-		return ICombatSystemInterface::Execute_GetCombatSystemComponent(Actor);
-	}
-
-	return Actor->FindComponentByClass<UCombatSystemComponent>();
 }
 
 FAttributeTagInfo UCrysBlueprintFunctionLibrary::FindAttributeTagInfo(const FGameplayTag& Tag, bool bLogNotFound)

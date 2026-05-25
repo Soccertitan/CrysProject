@@ -6,6 +6,8 @@
 #include "CrysBlueprintFunctionLibrary.h"
 #include "AbilitySystem/AbilityTargetType.h"
 #include "AbilitySystem/Ability/AbilityTargetInterface.h"
+#include "AbilitySystem/Ability/Combat/CombatSystemComponent.h"
+#include "AbilitySystem/Ability/Combat/CombatSystemInterface.h"
 
 bool UCrysAbilityBlueprintFunctionLibrary::IsAbilityTargetType(EAbilityTargetType AbilityTargetType, AActor* SourceActor, AActor* TargetActor)
 {
@@ -44,4 +46,19 @@ AActor* UCrysAbilityBlueprintFunctionLibrary::GetAbilityTarget(AActor* SourceAct
 		return IAbilityTargetInterface::Execute_GetAbilityTarget(SourceActor);
 	}
 	return nullptr;
+}
+
+UCombatSystemComponent* UCrysAbilityBlueprintFunctionLibrary::GetCombatSystemComponent(AActor* Actor)
+{
+	if (!IsValid(Actor))
+	{
+		return nullptr;
+	}
+
+	if (Actor->Implements<UCombatSystemInterface>())
+	{
+		return ICombatSystemInterface::Execute_GetCombatSystemComponent(Actor);
+	}
+
+	return Actor->FindComponentByClass<UCombatSystemComponent>();
 }

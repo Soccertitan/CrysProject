@@ -7,6 +7,9 @@
 #include "GameplayTagContainer.h"
 #include "InputActionListener_AttackInteract.generated.h"
 
+class UCrimTargetingSystemComponent;
+class UInteractorComponent;
+class UCombatSystemComponent;
 class UCrimAbilitySystemComponent;
 
 /**
@@ -28,19 +31,18 @@ protected:
 	
 	virtual void OnPossessedPawnChanged(APawn* OldPawn, APawn* NewPawn) override;
 	
-	// UAutoAttackManagerComponent* GetAutoAttackManagerComponent();
+	UCombatSystemComponent* GetCombatSystemComponent();
 	UCrimAbilitySystemComponent* GetAbilitySystemComponent();
 	
 private:
-	/** Cached from the controlled pawn. */
-	// UPROPERTY()
-	// TObjectPtr<UTargetingSystemComponent> TargetingSystemComponent;
-	//
-	// UPROPERTY()
-	// TObjectPtr<UInteractorComponent> InteractorComponent;
-	//
-	// UPROPERTY()
-	// TObjectPtr<UAutoAttackManagerComponent> AutoAttackManagerComponent;
+	UPROPERTY()
+	TObjectPtr<UCrimTargetingSystemComponent> TargetingSystemComponent;
+	
+	UPROPERTY()
+	TObjectPtr<UInteractorComponent> InteractorComponent;
+	
+	UPROPERTY()
+	TObjectPtr<UCombatSystemComponent> CombatSystemComponent;
 	
 	UPROPERTY()
 	TObjectPtr<UCrimAbilitySystemComponent> AbilitySystemComponent;
