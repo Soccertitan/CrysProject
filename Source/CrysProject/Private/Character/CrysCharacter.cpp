@@ -3,6 +3,7 @@
 
 #include "Character/CrysCharacter.h"
 
+#include "TargetPointComponent.h"
 #include "AI/CrysAIController.h"
 #include "Character/CrysCharacterMovementComponent.h"
 #include "Character/CrysSkeletalMeshComponent.h"
@@ -19,6 +20,9 @@ ACrysCharacter::ACrysCharacter(const FObjectInitializer& ObjectInitializer)
 	bReplicateUsingRegisteredSubObjectList = true;
 	
 	AIControllerClass = ACrysAIController::StaticClass();
+	
+	TargetPointComponent = CreateDefaultSubobject<UTargetPointComponent>(TEXT("TargetPointComponent"));
+	TargetPointComponent->SetupAttachment(RootComponent);
 }
 
 void ACrysCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

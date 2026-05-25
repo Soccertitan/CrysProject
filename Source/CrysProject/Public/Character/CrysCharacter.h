@@ -7,6 +7,7 @@
 #include "GameFramework/Character.h"
 #include "CrysCharacter.generated.h"
 
+class UTargetPointComponent;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCrysCharacterNameSignature, FText, CharacterName);
 
 /**
@@ -18,6 +19,9 @@ class CRYSPROJECT_API ACrysCharacter : public ACharacter
 	GENERATED_BODY()
 
 	//TODO: Create a data asset to drive character skeleton and other data. To avoid having to create a new BP for each and every different type of character. IE NPC, Enemy, Hero, that could use the same skeleton.
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "TargetPoint", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UTargetPointComponent> TargetPointComponent;
 	
 public:
 	ACrysCharacter(const FObjectInitializer& ObjectInitializer);

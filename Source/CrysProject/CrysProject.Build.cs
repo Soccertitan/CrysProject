@@ -25,7 +25,8 @@ public class CrysProject : ModuleRules
 			"InventorySystem",
 			"CrimBlueprintStatics",
 			"CrimTargetingSystem", 
-			"InteractionSystem"
+			"InteractionSystem",
+			"TargetingSystem"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[]
