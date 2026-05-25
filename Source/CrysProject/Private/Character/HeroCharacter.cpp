@@ -5,6 +5,7 @@
 
 #include "CrimAbilitySystemBlueprintFunctionLibrary.h"
 #include "CrimAbilitySystemComponent.h"
+#include "CrimTargetingSystemBlueprintFunctionLibrary.h"
 #include "CrysBlueprintFunctionLibrary.h"
 #include "InventoryBlueprintFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
@@ -67,6 +68,11 @@ UEquipmentManagerComponent* AHeroCharacter::GetEquipmentManagerComponent_Impleme
 UCombatSystemComponent* AHeroCharacter::GetCombatSystemComponent_Implementation() const
 {
 	return UCrysBlueprintFunctionLibrary::GetCombatSystemComponent(GetPlayerState());
+}
+
+UCrimTargetingSystemComponent* AHeroCharacter::GetCrimTargetingSystemComponent_Implementation() const
+{
+	return UCrimTargetingSystemBlueprintFunctionLibrary::GetCrimTargetingSystemComponent(GetController(), false);
 }
 
 FGenericTeamId AHeroCharacter::GetGenericTeamId() const

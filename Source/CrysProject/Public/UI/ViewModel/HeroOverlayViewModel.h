@@ -6,6 +6,7 @@
 #include "CrysViewModel.h"
 #include "HeroOverlayViewModel.generated.h"
 
+class UCrimTargetingSystemComponent;
 struct FCrimTargetPoint;
 class UCrimAbilitySystemComponent;
 class UCombatSystemComponent;
@@ -29,9 +30,9 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnAbilitySystemComponentRetrieved(UCrimAbilitySystemComponent* AbilitySystemComponent);
 	
-	/** Called anytime the primary target changes. */
+	/** Called anytime the target changes. */
 	UFUNCTION(BlueprintImplementableEvent)
-	void OnPrimaryTargetChanged(const FCrimTargetPoint& PrimaryTarget);
+	void OnTargetPointChanged(const FCrimTargetPoint& OldTarget, const FCrimTargetPoint& NewTarget);
 	
 	UFUNCTION()
 	void SetIsAutoAttacking(bool Value);
@@ -52,4 +53,7 @@ private:
 	
 	UPROPERTY()
 	TObjectPtr<UCombatSystemComponent> CombatSystemComponent;
+	
+	UPROPERTY()
+	TObjectPtr<UCrimTargetingSystemComponent> TargetingSystemComponent;
 };

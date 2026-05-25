@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
+#include "CrimTargetingSystemInterface.h"
 #include "CrysCharacter.h"
 #include "GameplayTagAssetInterface.h"
 #include "GenericTeamAgentInterface.h"
@@ -23,7 +24,7 @@ class UCrimAbilitySystemComponent;
 UCLASS()
 class CRYSPROJECT_API AHeroCharacter : public ACrysCharacter, public IAbilitySystemInterface, public IGameplayTagAssetInterface,
 	public IGenericTeamAgentInterface, public IInventorySystemInterface, public IJobSystemInterface, public IEquipmentSystemInterface,
-	public ICombatSystemInterface
+	public ICombatSystemInterface, public ICrimTargetingSystemInterface
 {
 	GENERATED_BODY()
 	
@@ -45,6 +46,7 @@ public:
 	virtual UJobSystemComponent* GetJobSystemComponent_Implementation() const override;
 	virtual UEquipmentManagerComponent* GetEquipmentManagerComponent_Implementation() const override;
 	virtual UCombatSystemComponent* GetCombatSystemComponent_Implementation() const override;
+	virtual UCrimTargetingSystemComponent* GetCrimTargetingSystemComponent_Implementation() const override;
 	
 	// IGenericTeamAgentInterface
 	virtual FGenericTeamId GetGenericTeamId() const override;

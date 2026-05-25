@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CrimTargetingSystemInterface.h"
 #include "CrysPlayerController.h"
 #include "HeroPlayerController.generated.h"
 
@@ -14,7 +15,7 @@ class UAbilityInputManagerComponent;
  * 
  */
 UCLASS()
-class CRYSPROJECT_API AHeroPlayerController : public ACrysPlayerController
+class CRYSPROJECT_API AHeroPlayerController : public ACrysPlayerController, public ICrimTargetingSystemInterface
 {
 	GENERATED_BODY()
 	
@@ -26,6 +27,9 @@ class CRYSPROJECT_API AHeroPlayerController : public ACrysPlayerController
 	
 public:
 	AHeroPlayerController();
+	
+	// CrimTargetingSystemInterface
+	virtual UCrimTargetingSystemComponent* GetCrimTargetingSystemComponent_Implementation() const override;
 
 	//-----------------------------------------------------------------------------------------
 	// Class overrides

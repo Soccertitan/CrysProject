@@ -5,6 +5,9 @@
 
 #include "AbilitySet.h"
 #include "CrimAbilitySystemComponent.h"
+#include "CrimTargetingSystemBlueprintFunctionLibrary.h"
+#include "CrimTargetingSystemComponent.h"
+#include "CrimTargetingSystemInterface.h"
 #include "InventoryManagerComponent.h"
 #include "AbilitySystem/Ability/Combat/CombatSystemComponent.h"
 #include "AbilitySystem/AttributeSet/AbilityAttributeSet.h"
@@ -86,6 +89,20 @@ UEquipmentManagerComponent* AHeroPlayerState::GetEquipmentManagerComponent_Imple
 UCombatSystemComponent* AHeroPlayerState::GetCombatSystemComponent_Implementation() const
 {
 	return CombatSystemComponent;
+}
+
+UCrimTargetingSystemComponent* AHeroPlayerState::GetCrimTargetingSystemComponent_Implementation() const
+{
+	return UCrimTargetingSystemBlueprintFunctionLibrary::GetCrimTargetingSystemComponent(GetOwningController(), false);
+}
+
+AActor* AHeroPlayerState::GetAbilityTarget_Implementation() const
+{
+	if (UCrimTargetingSystemComponent* TargetingSystemComponent = UCrimTargetingSystemBlueprintFunctionLibrary::GetCrimTargetingSystemComponent(GetOwningController(), false))
+	{
+		return TargetingSystemComponent->GetTargetPoint().GetActor();
+	}
+	return nullptr;
 }
 
 FGenericTeamId AHeroPlayerState::GetGenericTeamId() const

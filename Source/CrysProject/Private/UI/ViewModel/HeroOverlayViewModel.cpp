@@ -4,6 +4,8 @@
 #include "UI/ViewModel/HeroOverlayViewModel.h"
 
 #include "CrimAbilitySystemBlueprintFunctionLibrary.h"
+#include "CrimTargetingSystemBlueprintFunctionLibrary.h"
+#include "CrimTargetingSystemComponent.h"
 #include "CrysBlueprintFunctionLibrary.h"
 #include "AbilitySystem/Ability/Combat/CombatSystemComponent.h"
 #include "Player/CrysPlayerController.h"
@@ -29,8 +31,12 @@ void UHeroOverlayViewModel::InitializeViewModel(APlayerController* PlayerControl
 	{
 		SetIsAutoAttacking(CombatSystemComponent->IsAutoAttacking());
 		CombatSystemComponent->OnAutoAttackStateChangedDelegate.AddUniqueDynamic(this, &UHeroOverlayViewModel::SetIsAutoAttacking);
-		OnPrimaryTargetChanged(CombatSystemComponent->GetPrimaryTarget());
-		CombatSystemComponent->OnPrimaryTargetChangedDelegate.AddUniqueDynamic(this, &UHeroOverlayViewModel::OnPrimaryTargetChanged);
+	}
+	
+	TargetingSystemComponent = UCrimTargetingSystemBlueprintFunctionLibrary::GetCrimTargetingSystemComponent(PlayerController);
+	if (TargetingSystemComponent)
+	{
+		TargetingSystemComponent->OnTargetPointChangedDelegate.AddUniqueDynamic(this, &UHeroOverlayViewModel::OnTargetPointChanged);
 	}
 }
 

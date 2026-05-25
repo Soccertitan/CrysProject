@@ -4,15 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
+#include "CrimTargetingSystemInterface.h"
 #include "CrysPlayerState.h"
 #include "GameplayTagAssetInterface.h"
 #include "GenericTeamAgentInterface.h"
 #include "InventorySystemInterface.h"
+#include "AbilitySystem/Ability/AbilityTargetInterface.h"
 #include "AbilitySystem/Ability/Combat/CombatSystemInterface.h"
 #include "EquipmentSystem/EquipmentSystemInterface.h"
 #include "JobSystem/JobSystemInterface.h"
 #include "HeroPlayerState.generated.h"
 
+class UCrimTargetingSystemComponent;
 class UCombatSystemComponent;
 class UHeroJobSystemComponent;
 class UAbilitySet;
@@ -34,7 +37,8 @@ class UCrimAbilitySystemComponent;
 UCLASS()
 class CRYSPROJECT_API AHeroPlayerState : public ACrysPlayerState, public IAbilitySystemInterface,
 	public IInventorySystemInterface, public IGenericTeamAgentInterface, public IGameplayTagAssetInterface,
-	public IJobSystemInterface, public IEquipmentSystemInterface, public ICombatSystemInterface
+	public IJobSystemInterface, public IEquipmentSystemInterface, public ICombatSystemInterface, public ICrimTargetingSystemInterface,
+	public IAbilityTargetInterface
 {
 	GENERATED_BODY()
 	
@@ -86,6 +90,10 @@ public:
 	virtual UEquipmentManagerComponent* GetEquipmentManagerComponent_Implementation() const override;
 	/** ICombatSystemInterface */
 	virtual UCombatSystemComponent* GetCombatSystemComponent_Implementation() const override;
+	/** ICrimTargetingSystemInterface */
+	virtual UCrimTargetingSystemComponent* GetCrimTargetingSystemComponent_Implementation() const override;
+	/** AbilityTargetInterface */
+	virtual AActor* GetAbilityTarget_Implementation() const override;
 	
 	// IGenericTeamAgentInterface
 	virtual FGenericTeamId GetGenericTeamId() const override;

@@ -4,6 +4,7 @@
 #include "Character/NonPlayerCharacter.h"
 
 #include "AbilitySet.h"
+#include "AIController.h"
 #include "CrimAbilitySystemComponent.h"
 #include "AbilitySystem/Ability/Combat/CombatSystemComponent.h"
 #include "AbilitySystem/AttributeSet/AbilityAttributeSet.h"
@@ -65,6 +66,15 @@ UJobSystemComponent* ANonPlayerCharacter::GetJobSystemComponent_Implementation()
 UCombatSystemComponent* ANonPlayerCharacter::GetCombatSystemComponent_Implementation() const
 {
 	return CombatSystemComponent;
+}
+
+AActor* ANonPlayerCharacter::GetAbilityTarget_Implementation() const
+{
+	if (AAIController* AIController = Cast<AAIController>(GetController()))
+	{
+		return AIController->GetFocusActor();
+	}
+	return nullptr;
 }
 
 FGenericTeamId ANonPlayerCharacter::GetGenericTeamId() const

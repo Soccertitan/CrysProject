@@ -7,6 +7,7 @@
 #include "CrysCharacter.h"
 #include "GameplayTagAssetInterface.h"
 #include "GenericTeamAgentInterface.h"
+#include "AbilitySystem/Ability/AbilityTargetInterface.h"
 #include "AbilitySystem/Ability/Combat/CombatSystemInterface.h"
 #include "JobSystem/JobSystemInterface.h"
 #include "NonPlayerCharacter.generated.h"
@@ -28,7 +29,8 @@ class UCrimAbilitySystemComponent;
 
 UCLASS()
 class CRYSPROJECT_API ANonPlayerCharacter : public ACrysCharacter, public IAbilitySystemInterface,
-	public IGenericTeamAgentInterface, public IGameplayTagAssetInterface, public IJobSystemInterface, public ICombatSystemInterface
+	public IGenericTeamAgentInterface, public IGameplayTagAssetInterface, public IJobSystemInterface, public ICombatSystemInterface,
+	public IAbilityTargetInterface
 {
 	GENERATED_BODY()
 	
@@ -70,6 +72,8 @@ public:
 	virtual UJobSystemComponent* GetJobSystemComponent_Implementation() const override;
 	/** ICombatSystemInterface */
 	virtual UCombatSystemComponent* GetCombatSystemComponent_Implementation() const override;
+	/** IAbilityTargetInterface */
+	virtual AActor* GetAbilityTarget_Implementation() const override;
 	
 	// IGenericTeamAgentInterface
 	virtual FGenericTeamId GetGenericTeamId() const override;

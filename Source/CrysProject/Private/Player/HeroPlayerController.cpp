@@ -16,6 +16,11 @@ AHeroPlayerController::AHeroPlayerController()
 	TargetingSystemComponent = CreateDefaultSubobject<UCrimTargetingSystemComponent>(TEXT("CrimTargetingSystemComponent"));
 }
 
+UCrimTargetingSystemComponent* AHeroPlayerController::GetCrimTargetingSystemComponent_Implementation() const
+{
+	return TargetingSystemComponent;
+}
+
 void AHeroPlayerController::AcknowledgePossession(class APawn* P)
 {
 	Super::AcknowledgePossession(P);

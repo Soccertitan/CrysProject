@@ -5,6 +5,7 @@
 
 #include "CrysBlueprintFunctionLibrary.h"
 #include "AbilitySystem/AbilityTargetType.h"
+#include "AbilitySystem/Ability/AbilityTargetInterface.h"
 
 bool UCrysAbilityBlueprintFunctionLibrary::IsAbilityTargetType(EAbilityTargetType AbilityTargetType, AActor* SourceActor, AActor* TargetActor)
 {
@@ -34,4 +35,13 @@ bool UCrysAbilityBlueprintFunctionLibrary::IsAbilityTargetType(EAbilityTargetTyp
 	}
 	
 	return true;
+}
+
+AActor* UCrysAbilityBlueprintFunctionLibrary::GetAbilityTarget(AActor* SourceActor)
+{
+	if (SourceActor && SourceActor->Implements<UAbilityTargetInterface>())
+	{
+		return IAbilityTargetInterface::Execute_GetAbilityTarget(SourceActor);
+	}
+	return nullptr;
 }

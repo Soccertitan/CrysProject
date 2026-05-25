@@ -5,14 +5,12 @@
 #include "CoreMinimal.h"
 #include "CombatTypes.h"
 #include "CrimAbilitySystemInterface.h"
-#include "CrimTargetingTypes.h"
 #include "Components/ActorComponent.h"
 #include "CombatSystemComponent.generated.h"
 
 struct FGameplayTag;
 struct FOnAttributeChangeData;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCombatAutoAttackingSignature, bool, bAutoAttacking);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCombatPrimaryTargetUpdatedSignature, const FCrimTargetPoint&, TargetedActor);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCombatWeaponChangedSignature, const FCrysWeapon&, Weapon);
 
 /**
@@ -80,15 +78,6 @@ public:
 	void ClearPrimaryWeaponOverride();
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Combat")
 	void ClearSecondaryWeaponOverride();
-	
-	UFUNCTION(BlueprintCallable, Category = "Combat")
-	void SetPrimaryTarget(const FCrimTargetPoint& NewTarget);
-	
-	UFUNCTION(BlueprintPure, Category = "Combat")
-	FCrimTargetPoint GetPrimaryTarget() const;
-	
-	UPROPERTY(BlueprintAssignable, DisplayName = "OnAutoAttackTargetChanged")
-	FCombatPrimaryTargetUpdatedSignature OnPrimaryTargetChangedDelegate;
 
 	UFUNCTION(BlueprintPure, Category = "Combat")
 	bool HasAuthority() const;
@@ -102,8 +91,6 @@ protected:
 	
 	UFUNCTION()
 	void OnRep_AutoAttacking();
-	UFUNCTION()
-	void OnRep_PrimaryTarget();
 	
 	UFUNCTION()
 	void OnRep_PrimaryWeapon();
@@ -123,10 +110,6 @@ private:
 	
 	UPROPERTY()
 	TObjectPtr<UCrimAbilitySystemComponent> AbilitySystemComponent;
-	
-	/** The actor to auto attack. */
-	UPROPERTY(ReplicatedUsing=OnRep_PrimaryTarget)
-	FCrimTargetPoint PrimaryTarget;
 	
 	UPROPERTY(ReplicatedUsing=OnRep_AutoAttacking)
 	bool bAutoAttacking = false;
@@ -173,7 +156,4 @@ private:
 	
 	UFUNCTION(Server, Reliable)
 	void Server_StopAutoAttack();
-	
-	UFUNCTION(Server, Reliable)
-	void Server_SetAutoAttackTarget(const FCrimTargetPoint& NewTarget);
 };
