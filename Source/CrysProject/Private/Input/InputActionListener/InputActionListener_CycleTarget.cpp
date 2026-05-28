@@ -15,6 +15,11 @@ UInputActionListener_CycleTarget::UInputActionListener_CycleTarget()
 	TargetingContext = CreateDefaultSubobject<UCrysTargetingContext>(TEXT("TargetingContext"));
 }
 
+EAbilityTargetType UInputActionListener_CycleTarget::GetAbilityTargetType_Implementation() const
+{
+	return AbilityTargetType;
+}
+
 void UInputActionListener_CycleTarget::OnInitializeListener()
 {
 	Super::OnInitializeListener();
@@ -33,6 +38,7 @@ void UInputActionListener_CycleTarget::OnInputActionTriggered(const FInputAction
 	{
 		TargetingContext->SearchDirection = ETargetingSearchDirection::Left;
 	}
+	TargetingContext->AbilityTargetType = GetAbilityTargetType();
 	
 	UTargetingSubsystem* TargetingSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UTargetingSubsystem>();
 	FTargetingSourceContext TargetingSourceContext;

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "CrysInputActionListener.h"
+#include "AbilitySystem/AbilityTargetType.h"
 #include "InputActionListener_CycleTarget.generated.h"
 
 struct FTargetingRequestHandle;
@@ -22,6 +23,13 @@ public:
 	UInputActionListener_CycleTarget();
 	
 protected:
+	UPROPERTY(EditAnywhere)
+	EAbilityTargetType AbilityTargetType = EAbilityTargetType::Hostile;
+	
+	UFUNCTION(BlueprintNativeEvent)
+	EAbilityTargetType GetAbilityTargetType() const;
+	virtual EAbilityTargetType GetAbilityTargetType_Implementation() const;
+	
 	virtual void OnInitializeListener() override;
 	virtual void OnInputActionTriggered(const FInputActionValue& Value) override;
 	
@@ -29,7 +37,7 @@ protected:
 	void OnTargetingRequestCompleted(FTargetingRequestHandle Handle);
 	
 private:
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditAnywhere, NoClear)
 	TObjectPtr<UTargetingPreset> TargetingPreset;
 	UPROPERTY()
 	TObjectPtr<UCrysTargetingContext> TargetingContext;
