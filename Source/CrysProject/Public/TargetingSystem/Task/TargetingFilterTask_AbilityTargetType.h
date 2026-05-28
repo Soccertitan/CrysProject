@@ -23,4 +23,6 @@ protected:
 	EAbilityTargetType AbilityTargetType;
 	
 	virtual bool ShouldFilterTarget(const FTargetingRequestHandle& TargetingHandle, const FTargetingDefaultResultData& TargetData) const override;
+	
+	EAbilityTargetType GetAbilityTargetType(const FTargetingRequestHandle& TargetingHandle) const;
 };

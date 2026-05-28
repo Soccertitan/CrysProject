@@ -8,6 +8,7 @@
 #include "InputActionValue.h"
 #include "TargetingSystem/CrysTargetingContext.h"
 #include "TargetingSystem/TargetingSubsystem.h"
+#include "TargetingSystem/Task/CrysTargetingSelectionTask_FindTarget.h"
 
 UInputActionListener_CycleTarget::UInputActionListener_CycleTarget()
 {
@@ -26,20 +27,19 @@ void UInputActionListener_CycleTarget::OnInputActionTriggered(const FInputAction
 	
 	if (Value.GetMagnitude() > 0.f)
 	{
-		TargetingContext->SearchDirection = EUINavigation::Right;
+		TargetingContext->SearchDirection = ETargetingSearchDirection::Right;
 	}
 	else
 	{
-		TargetingContext->SearchDirection = EUINavigation::Left;
+		TargetingContext->SearchDirection = ETargetingSearchDirection::Left;
 	}
-	TargetingContext->StartingTargetPoint = TargetingSystemComponent->GetTargetPoint();
 	
 	UTargetingSubsystem* TargetingSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UTargetingSubsystem>();
 	FTargetingSourceContext TargetingSourceContext;
 	TargetingSourceContext.SourceActor = GetPlayerController()->GetPawn();
 	TargetingSourceContext.SourceObject = TargetingContext;
-	FTargetingRequestDelegate Delegate;
-	Delegate.BindUObject(this, &UInputActionListener_CycleTarget::OnTargetingRequestCompleted);
+	TargetingSourceContext.SourceLocation = TargetingSystemComponent->GetTargetPoint().GetLocation();
+	FTargetingRequestDelegate Delegate = FTargetingRequestDelegate::CreateUObject(this, &UInputActionListener_CycleTarget::OnTargetingRequestCompleted);
 	FTargetingRequestHandle Handle = UTargetingSubsystem::MakeTargetRequestHandle(TargetingPreset, TargetingSourceContext);
 	TargetingSubsystem->ExecuteTargetingRequestWithHandle(Handle, Delegate);
 }
