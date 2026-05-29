@@ -23,11 +23,12 @@ class CRYSPROJECT_API UInputActionListener_AttackInteract : public UCrysInputAct
 public:
 	UInputActionListener_AttackInteract();
 	
+	virtual void InputActionTriggered(const FInputActionValue& Value) override;
+	virtual void InputActionCompleted(const FInputActionValue& Value) override;
+	virtual void InputActionCanceled(const FInputActionValue& Value) override;
+	
 protected:
-	virtual void OnInitializeListener() override;
-	virtual void OnInputActionTriggered(const FInputActionValue& Value) override;
-	virtual void OnInputActionCompleted(const FInputActionValue& Value) override;
-	virtual void OnInputActionCanceled(const FInputActionValue& Value) override;
+	virtual void Initialize() override;
 	
 	virtual void OnPossessedPawnChanged(APawn* OldPawn, APawn* NewPawn) override;
 	

@@ -22,6 +22,8 @@ class CRYSPROJECT_API UInputActionListener_CycleTarget : public UCrysInputAction
 public:
 	UInputActionListener_CycleTarget();
 	
+	virtual void InputActionTriggered(const FInputActionValue& Value) override;
+	
 protected:
 	UPROPERTY(EditAnywhere)
 	EAbilityTargetType AbilityTargetType = EAbilityTargetType::Hostile;
@@ -30,8 +32,7 @@ protected:
 	EAbilityTargetType GetAbilityTargetType() const;
 	virtual EAbilityTargetType GetAbilityTargetType_Implementation() const;
 	
-	virtual void OnInitializeListener() override;
-	virtual void OnInputActionTriggered(const FInputActionValue& Value) override;
+	virtual void Initialize() override;
 	
 	UFUNCTION()
 	void OnTargetingRequestCompleted(FTargetingRequestHandle Handle);

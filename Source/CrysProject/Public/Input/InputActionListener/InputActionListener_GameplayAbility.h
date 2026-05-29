@@ -18,12 +18,12 @@ class CRYSPROJECT_API UInputActionListener_GameplayAbility : public UCrysInputAc
 	GENERATED_BODY()
 	
 public:
+	virtual void InputActionTriggered(const FInputActionValue& Value) override;
+	virtual void InputActionCanceled(const FInputActionValue& Value) override;
+	virtual void InputActionCompleted(const FInputActionValue& Value) override;
 	
 protected:
-	virtual void OnInitializeListener() override;
-	virtual void OnInputActionTriggered(const FInputActionValue& Value) override;
-	virtual void OnInputActionCanceled(const FInputActionValue& Value) override;
-	virtual void OnInputActionCompleted(const FInputActionValue& Value) override;
+	virtual void Initialize() override;
 	
 private:
 	UPROPERTY()

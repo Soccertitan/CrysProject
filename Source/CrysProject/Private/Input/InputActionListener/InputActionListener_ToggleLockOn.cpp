@@ -6,16 +6,16 @@
 #include "CrimTargetingSystemBlueprintFunctionLibrary.h"
 #include "CrimTargetingSystemComponent.h"
 
-void UInputActionListener_ToggleLockOn::OnInitializeListener()
+void UInputActionListener_ToggleLockOn::Initialize()
 {
-	Super::OnInitializeListener();
+	Super::Initialize();
 	
 	TargetingSystemComponent = UCrimTargetingSystemBlueprintFunctionLibrary::GetCrimTargetingSystemComponent(GetPlayerController());
 }
 
-void UInputActionListener_ToggleLockOn::OnInputActionTriggered(const FInputActionValue& Value)
+void UInputActionListener_ToggleLockOn::InputActionTriggered(const FInputActionValue& Value)
 {
-	Super::OnInputActionTriggered(Value);
+	Super::InputActionTriggered(Value);
 	
 	if (TargetingSystemComponent)
 	{

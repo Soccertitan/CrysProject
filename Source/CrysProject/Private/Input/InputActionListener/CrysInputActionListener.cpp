@@ -5,9 +5,9 @@
 
 #include "InputActionValue.h"
 
-void UCrysInputActionListener::OnInitializeListener()
+void UCrysInputActionListener::Initialize()
 {
-	Super::OnInitializeListener();
+	Super::Initialize();
 	
 	if (GetPlayerController())
 	{
@@ -16,9 +16,9 @@ void UCrysInputActionListener::OnInitializeListener()
 	}
 }
 
-void UCrysInputActionListener::OnInputActionTriggered(const FInputActionValue& Value)
+void UCrysInputActionListener::InputActionTriggered(const FInputActionValue& Value)
 {
-	Super::OnInputActionTriggered(Value);
+	Super::InputActionTriggered(Value);
 	
 	bPressed = Value.Get<bool>();
 	if (bPressed)
@@ -31,9 +31,9 @@ void UCrysInputActionListener::OnInputActionTriggered(const FInputActionValue& V
 	}
 }
 
-void UCrysInputActionListener::OnInputActionCanceled(const FInputActionValue& Value)
+void UCrysInputActionListener::InputActionCanceled(const FInputActionValue& Value)
 {
-	Super::OnInputActionCanceled(Value);
+	Super::InputActionCanceled(Value);
 	
 	if (bPressed)
 	{
@@ -42,9 +42,9 @@ void UCrysInputActionListener::OnInputActionCanceled(const FInputActionValue& Va
 	}
 }
 
-void UCrysInputActionListener::OnInputActionCompleted(const FInputActionValue& Value)
+void UCrysInputActionListener::InputActionCompleted(const FInputActionValue& Value)
 {
-	Super::OnInputActionCompleted(Value);
+	Super::InputActionCompleted(Value);
 	
 	if (bPressed)
 	{

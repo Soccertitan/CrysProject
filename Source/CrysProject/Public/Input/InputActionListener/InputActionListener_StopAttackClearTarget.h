@@ -19,12 +19,11 @@ class CRYSPROJECT_API UInputActionListener_StopAttackClearTarget : public UCrysI
 	GENERATED_BODY()
 	
 public:
+	virtual void InputActionTriggered(const FInputActionValue& Value) override;
 	
 protected:
-	virtual void OnInitializeListener() override;
+	virtual void Initialize() override;
 	virtual void OnPossessedPawnChanged(APawn* OldPawn, APawn* NewPawn) override;
-	
-	virtual void OnInputActionTriggered(const FInputActionValue& Value) override;
 	
 	UCombatSystemComponent* GetCombatSystem();
 	

@@ -20,15 +20,15 @@ EAbilityTargetType UInputActionListener_CycleTarget::GetAbilityTargetType_Implem
 	return AbilityTargetType;
 }
 
-void UInputActionListener_CycleTarget::OnInitializeListener()
+void UInputActionListener_CycleTarget::Initialize()
 {
-	Super::OnInitializeListener();
+	Super::Initialize();
 	TargetingSystemComponent = UCrimTargetingSystemBlueprintFunctionLibrary::GetCrimTargetingSystemComponent(GetPlayerController());
 }
 
-void UInputActionListener_CycleTarget::OnInputActionTriggered(const FInputActionValue& Value)
+void UInputActionListener_CycleTarget::InputActionTriggered(const FInputActionValue& Value)
 {
-	Super::OnInputActionTriggered(Value);
+	Super::InputActionTriggered(Value);
 	
 	if (Value.GetMagnitude() > 0.f)
 	{

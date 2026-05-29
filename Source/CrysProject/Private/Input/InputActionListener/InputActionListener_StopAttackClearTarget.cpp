@@ -11,9 +11,9 @@
 #include "GameFramework/PlayerState.h"
 
 
-void UInputActionListener_StopAttackClearTarget::OnInitializeListener()
+void UInputActionListener_StopAttackClearTarget::Initialize()
 {
-	Super::OnInitializeListener();
+	Super::Initialize();
 	
 	GetCombatSystem();
 }
@@ -25,9 +25,9 @@ void UInputActionListener_StopAttackClearTarget::OnPossessedPawnChanged(APawn* O
 	TargetingSystemComponent = UCrimTargetingSystemBlueprintFunctionLibrary::GetCrimTargetingSystemComponent(NewPawn);
 }
 
-void UInputActionListener_StopAttackClearTarget::OnInputActionTriggered(const FInputActionValue& Value)
+void UInputActionListener_StopAttackClearTarget::InputActionTriggered(const FInputActionValue& Value)
 {
-	Super::OnInputActionTriggered(Value);
+	Super::InputActionTriggered(Value);
 	
 	if (Value.Get<bool>() == false)
 	{

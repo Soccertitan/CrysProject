@@ -21,18 +21,18 @@ UInputActionListener_AttackInteract::UInputActionListener_AttackInteract()
 {
 }
 
-void UInputActionListener_AttackInteract::OnInitializeListener()
+void UInputActionListener_AttackInteract::Initialize()
 {
-	Super::OnInitializeListener();
+	Super::Initialize();
 	
 	GetCombatSystemComponent();
 	GetAbilitySystemComponent();
 	TargetingSystemComponent = UCrimTargetingSystemBlueprintFunctionLibrary::GetCrimTargetingSystemComponent(GetPlayerController());
 }
 
-void UInputActionListener_AttackInteract::OnInputActionTriggered(const FInputActionValue& Value)
+void UInputActionListener_AttackInteract::InputActionTriggered(const FInputActionValue& Value)
 {
-	Super::OnInputActionTriggered(Value);
+	Super::InputActionTriggered(Value);
 	
 	if (Value.Get<bool>() == false)
 	{
@@ -66,9 +66,9 @@ void UInputActionListener_AttackInteract::OnInputActionTriggered(const FInputAct
 	}
 }
 
-void UInputActionListener_AttackInteract::OnInputActionCompleted(const FInputActionValue& Value)
+void UInputActionListener_AttackInteract::InputActionCompleted(const FInputActionValue& Value)
 {
-	Super::OnInputActionCompleted(Value);
+	Super::InputActionCompleted(Value);
 	
 	if (InteractorComponent)
 	{
@@ -76,9 +76,9 @@ void UInputActionListener_AttackInteract::OnInputActionCompleted(const FInputAct
 	}
 }
 
-void UInputActionListener_AttackInteract::OnInputActionCanceled(const FInputActionValue& Value)
+void UInputActionListener_AttackInteract::InputActionCanceled(const FInputActionValue& Value)
 {
-	Super::OnInputActionCanceled(Value);
+	Super::InputActionCanceled(Value);
 	
 	if (InteractorComponent)
 	{

@@ -5,17 +5,17 @@
 
 #include "EnhancedInputSubsystems.h"
 
-void UInputActionListener_InputMappingContext::OnInitializeListener()
+void UInputActionListener_InputMappingContext::Initialize()
 {
-	Super::OnInitializeListener();
+	Super::Initialize();
 	
 	EnhancedInputSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetPlayerController()->GetLocalPlayer());
 	ensure(EnhancedInputSubsystem);
 }
 
-void UInputActionListener_InputMappingContext::OnInputActionTriggered(const FInputActionValue& Value)
+void UInputActionListener_InputMappingContext::InputActionTriggered(const FInputActionValue& Value)
 {
-	Super::OnInputActionTriggered(Value);
+	Super::InputActionTriggered(Value);
 	
 	if (InputMappingContext && bAppliedContext == false)
 	{
@@ -24,17 +24,17 @@ void UInputActionListener_InputMappingContext::OnInputActionTriggered(const FInp
 	}
 }
 
-void UInputActionListener_InputMappingContext::OnInputActionCompleted(const FInputActionValue& Value)
+void UInputActionListener_InputMappingContext::InputActionCompleted(const FInputActionValue& Value)
 {
-	Super::OnInputActionCompleted(Value);
+	Super::InputActionCompleted(Value);
 
 	EnhancedInputSubsystem->RemoveMappingContext(InputMappingContext, ContextOptionsOnRemove);
 	bAppliedContext = false;
 }
 
-void UInputActionListener_InputMappingContext::OnInputActionCanceled(const FInputActionValue& Value)
+void UInputActionListener_InputMappingContext::InputActionCanceled(const FInputActionValue& Value)
 {
-	Super::OnInputActionCanceled(Value);
+	Super::InputActionCanceled(Value);
 	
 	EnhancedInputSubsystem->RemoveMappingContext(InputMappingContext, ContextOptionsOnRemove);
 	bAppliedContext = false;

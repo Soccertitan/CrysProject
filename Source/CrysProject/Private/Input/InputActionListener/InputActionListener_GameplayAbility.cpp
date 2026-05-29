@@ -8,16 +8,16 @@
 #include "Abilities/GameplayAbility.h"
 #include "Input/AbilityInputManagerComponent.h"
 
-void UInputActionListener_GameplayAbility::OnInitializeListener()
+void UInputActionListener_GameplayAbility::Initialize()
 {
-	Super::OnInitializeListener();
+	Super::Initialize();
 	
 	AbilityInputManagerComponent = UCrimAbilitySystemBlueprintFunctionLibrary::GetAbilityInputManagerComponent(GetPlayerController());
 }
 
-void UInputActionListener_GameplayAbility::OnInputActionTriggered(const FInputActionValue& Value)
+void UInputActionListener_GameplayAbility::InputActionTriggered(const FInputActionValue& Value)
 {
-	Super::OnInputActionTriggered(Value);
+	Super::InputActionTriggered(Value);
 	
 	if (AbilityInputManagerComponent)
 	{
@@ -32,9 +32,9 @@ void UInputActionListener_GameplayAbility::OnInputActionTriggered(const FInputAc
 	}
 }
 
-void UInputActionListener_GameplayAbility::OnInputActionCanceled(const FInputActionValue& Value)
+void UInputActionListener_GameplayAbility::InputActionCanceled(const FInputActionValue& Value)
 {
-	Super::OnInputActionCanceled(Value);
+	Super::InputActionCanceled(Value);
 	
 	if (AbilityInputManagerComponent)
 	{
@@ -42,9 +42,9 @@ void UInputActionListener_GameplayAbility::OnInputActionCanceled(const FInputAct
 	}
 }
 
-void UInputActionListener_GameplayAbility::OnInputActionCompleted(const FInputActionValue& Value)
+void UInputActionListener_GameplayAbility::InputActionCompleted(const FInputActionValue& Value)
 {
-	Super::OnInputActionCompleted(Value);
+	Super::InputActionCompleted(Value);
 	
 	if (AbilityInputManagerComponent)
 	{

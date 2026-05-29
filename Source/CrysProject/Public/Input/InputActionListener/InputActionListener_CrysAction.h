@@ -17,11 +17,12 @@ UCLASS(Abstract)
 class CRYSPROJECT_API UInputActionListener_CrysAction : public UCrysInputActionListener
 {
 	GENERATED_BODY()
+
+public:
+	virtual void InputActionTriggered(const FInputActionValue& Value) override;
 	
 protected:
-	virtual void OnInitializeListener() override;
-	
-	virtual void OnInputActionTriggered(const FInputActionValue& Value) override;
+	virtual void Initialize() override;
 	
 private:
 	/** The action "slot" to activate on the ActionBar. */

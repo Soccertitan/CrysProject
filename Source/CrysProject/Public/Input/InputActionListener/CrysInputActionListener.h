@@ -26,12 +26,13 @@ public:
 	
 	UFUNCTION(BlueprintPure, Category = "InputListener")
 	bool IsPressed() const { return bPressed; }
+	
+	virtual void InputActionTriggered(const FInputActionValue& Value) override;
+	virtual void InputActionCanceled(const FInputActionValue& Value) override;
+	virtual void InputActionCompleted(const FInputActionValue& Value) override;
 
 protected:
-	virtual void OnInitializeListener() override;
-	virtual void OnInputActionTriggered(const FInputActionValue& Value) override;
-	virtual void OnInputActionCanceled(const FInputActionValue& Value) override;
-	virtual void OnInputActionCompleted(const FInputActionValue& Value) override;
+	virtual void Initialize() override;
 	
 	UFUNCTION()
 	virtual void OnPossessedPawnChanged(APawn* OldPawn, APawn* NewPawn);

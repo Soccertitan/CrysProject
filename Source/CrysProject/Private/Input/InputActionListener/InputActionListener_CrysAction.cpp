@@ -6,16 +6,16 @@
 #include "ActionSystem/CrysActionManagerComponent.h"
 
 
-void UInputActionListener_CrysAction::OnInitializeListener()
+void UInputActionListener_CrysAction::Initialize()
 {
-	Super::OnInitializeListener();
+	Super::Initialize();
 	
 	ActionManager = GetPlayerController()->FindComponentByClass<UCrysActionManagerComponent>();
 }
 
-void UInputActionListener_CrysAction::OnInputActionTriggered(const FInputActionValue& Value)
+void UInputActionListener_CrysAction::InputActionTriggered(const FInputActionValue& Value)
 {
-	Super::OnInputActionTriggered(Value);
+	Super::InputActionTriggered(Value);
 	
 	if (IsPressed() && ActionManager)
 	{
