@@ -15,5 +15,5 @@ class CRYSPROJECT_API UCrysTargetingSelectionTask_FindTarget : public UTargeting
 	GENERATED_BODY()
 	
 protected:
-	virtual ETargetingSearchDirection GetSearchDirection(const FTargetingRequestHandle& TargetingHandle) const override;
+	virtual FVector2D GetSearchDirection(const FTargetingRequestHandle& TargetingHandle) const override;
 };

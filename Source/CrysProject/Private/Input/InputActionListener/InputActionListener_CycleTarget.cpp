@@ -8,7 +8,7 @@
 #include "InputActionValue.h"
 #include "TargetingSystem/CrysTargetingContext.h"
 #include "TargetingSystem/TargetingSubsystem.h"
-#include "TargetingSystem/Task/CrysTargetingSelectionTask_FindTarget.h"
+
 
 UInputActionListener_CycleTarget::UInputActionListener_CycleTarget()
 {
@@ -32,11 +32,11 @@ void UInputActionListener_CycleTarget::InputActionTriggered(const FInputActionVa
 	
 	if (Value.GetMagnitude() > 0.f)
 	{
-		TargetingContext->SearchDirection = ETargetingSearchDirection::Right;
+		TargetingContext->SearchDirection.X = 1;
 	}
 	else
 	{
-		TargetingContext->SearchDirection = ETargetingSearchDirection::Left;
+		TargetingContext->SearchDirection.X = -1;
 	}
 	TargetingContext->AbilityTargetType = GetAbilityTargetType();
 	

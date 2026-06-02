@@ -5,13 +5,14 @@
 
 #include "TargetingSystem/CrysTargetingContext.h"
 
-ETargetingSearchDirection UCrysTargetingSelectionTask_FindTarget::GetSearchDirection(const FTargetingRequestHandle& TargetingHandle) const
+
+FVector2D UCrysTargetingSelectionTask_FindTarget::GetSearchDirection(const FTargetingRequestHandle& TargetingHandle) const
 {
 	if (FTargetingSourceContext* Context = FTargetingSourceContext::Find(TargetingHandle))
 	{
-		if (UCrysTargetingContext* CrysTargetingContext = Cast<UCrysTargetingContext>(Context->SourceObject))
+		if (UCrysTargetingContext* TargetingContext = Cast<UCrysTargetingContext>(Context->SourceObject))
 		{
-			return CrysTargetingContext->SearchDirection;
+			return TargetingContext->SearchDirection;
 		}
 	}
 	return Super::GetSearchDirection(TargetingHandle);

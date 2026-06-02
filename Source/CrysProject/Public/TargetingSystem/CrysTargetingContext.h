@@ -18,8 +18,8 @@ class CRYSPROJECT_API UCrysTargetingContext : public UObject
 	GENERATED_BODY()
 	
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ValidEnumValues="Left,Right"))
-	ETargetingSearchDirection SearchDirection;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FVector2D SearchDirection;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EAbilityTargetType AbilityTargetType;
