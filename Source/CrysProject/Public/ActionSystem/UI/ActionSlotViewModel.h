@@ -19,6 +19,9 @@ class CRYSPROJECT_API UActionSlotViewModel : public UMVVMViewModelBase
 public:
 	UActionViewModel* GetActionViewModel() const {return ActionViewModel;}
 	
+	UFUNCTION(BlueprintCallable)
+	void TryActivateAction();
+	
 protected:
 	void SetActionViewModel(UActionViewModel* Value);
 	

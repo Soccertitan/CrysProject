@@ -96,7 +96,10 @@ void ACrysPlayerController::OnRootWidgetRemoved_Implementation()
 		bRestrictMovementInUI = false;
 	}
 	
-	UWidgetBlueprintLibrary::SetInputMode_GameOnly(this);
+	if (!bAlwaysEnableGameAndUIInput)
+	{
+		UWidgetBlueprintLibrary::SetInputMode_GameOnly(this);
+	}
 	
 	OnRootWidgetRemovedDelegate.Broadcast();
 }
@@ -130,6 +133,11 @@ void ACrysPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	TryInitializeHUD();
+	
+	if (bAlwaysEnableGameAndUIInput)
+	{
+		UWidgetBlueprintLibrary::SetInputMode_GameAndUIEx(this);
+	}
 }
 
 void ACrysPlayerController::SetupInputComponent()

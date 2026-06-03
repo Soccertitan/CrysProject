@@ -62,6 +62,9 @@ protected:
 	virtual void SetupInputComponent() override;
 
 private:
+	/** If true, on begin play set input mode to GameAndUI. When a UINavWidget is removed, does not go back to Game Only.*/
+	UPROPERTY(EditDefaultsOnly, Category = "PlayerController")
+	bool bAlwaysEnableGameAndUIInput = true;
 	/** Restricts movement and look input when a UINavWidget is added to the viewport. */
 	bool bRestrictMovementInUI = false;
 	

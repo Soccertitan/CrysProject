@@ -9,7 +9,7 @@
 class UActionViewModel;
 
 /**
- * Contains a functions for sending an ActionViewModel.
+ * Contains a functions for setting an ActionViewModel.
  */
 UCLASS(Abstract)
 class CRYSPROJECT_API UActionUserWidget : public UCrysUserWidget
