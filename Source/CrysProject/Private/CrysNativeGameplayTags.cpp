@@ -39,8 +39,8 @@ namespace Crys::NativeGameplayTag
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_MultiAttackChance_Triple, "Attribute.MultiAttackChance.Triple", "Three attacks for auto attacks.");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_MultiAttackChance_Quadruple, "Attribute.MultiAttackChance.Quadruple", "Four attacks for auto attacks.");
 	
-	UE_DEFINE_GAMEPLAY_TAG_COMMENT(EnhancedInput_UI, "EnhancedInput.UI", "When a UINav widget is added to the screen. This input mode is added.");
-	UE_DEFINE_GAMEPLAY_TAG_COMMENT(EnhancedInput_AbilityTargeting, "EnhancedInput.AbilityTargeting", "When an ability starts targeting.");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(EnhancedInput_Modes_AbilityTargeting, "EnhancedInput.Modes.AbilityTargeting", "When an ability starts targeting.");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(EnhancedInput_Modes_UI, "EnhancedInput.Modes.UI", "When a UINav widget is added to the screen. This input mode is added.");
 	
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(EquipSlot, "EquipSlot", "Root GameplayTag for equipment slots.");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(EquipSlot_Hand, "EquipSlot.Hand", "The equipment can be wielded in both the MainHand and SubHand.");

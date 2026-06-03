@@ -63,7 +63,7 @@ protected:
 
 private:
 	/** Restricts movement and look input when a UINavWidget is added to the viewport. */
-	bool bRestrictMovementInUI = true;
+	bool bRestrictMovementInUI = false;
 	
 	/** The InputMappingContexts to apply at startup with the integer as the priority. */
 	UPROPERTY(EditAnywhere, Category = "Input", meta = (NoResetToDefault))

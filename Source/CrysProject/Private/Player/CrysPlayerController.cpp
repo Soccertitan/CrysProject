@@ -41,14 +41,14 @@ void ACrysPlayerController::AddUINavWidgetToViewport(UUINavWidget* InWidget, UWi
 {
 	if (IsLocalPlayerController() && InWidget)
 	{
+		const bool bNoCurrentWidget = !IsValid(UINavPCComponent->GetActiveWidget());
+		
 		if (bIsPushed)
 		{
-			const bool bNoCurrentWidget = IsValid(UINavPCComponent->GetActiveWidget());
 			UINavPCComponent->GoToBuiltWidget(InWidget, bRemoveParent, bDestroyParent, ZOrder);
 			if (bNoCurrentWidget)
 			{
 				UWidgetBlueprintLibrary::SetInputMode_GameAndUIEx(this, InWidgetToFocus);
-				bRestrictMovementInUI = bRestrictMovement;
 			}
 		}
 		else
@@ -57,7 +57,11 @@ void ACrysPlayerController::AddUINavWidgetToViewport(UUINavWidget* InWidget, UWi
 			{
 				UINavPCComponent->GetActiveWidget()->ReturnToParent(true);
 			}
-			bRestrictMovementInUI = bRestrictMovement;
+			if (bNoCurrentWidget && bRestrictMovement)
+			{
+				bRestrictMovementInUI = bRestrictMovement;
+			}
+			
 			UINavPCComponent->GoToBuiltWidget(InWidget, bRemoveParent, bDestroyParent, ZOrder);
 			UWidgetBlueprintLibrary::SetInputMode_GameAndUIEx(this, InWidgetToFocus);
 		}
@@ -68,7 +72,7 @@ void ACrysPlayerController::OnRootWidgetAdded_Implementation()
 {
 	IUINavPCReceiver::OnRootWidgetAdded_Implementation();
 	
-	EnhancedInputSubsystem->AddTagToInputMode(Crys::NativeGameplayTag::EnhancedInput_UI);
+	EnhancedInputSubsystem->AddTagToInputMode(Crys::NativeGameplayTag::EnhancedInput_Modes_UI);
 
 	if (bRestrictMovementInUI)
 	{
@@ -83,10 +87,14 @@ void ACrysPlayerController::OnRootWidgetRemoved_Implementation()
 {
 	IUINavPCReceiver::OnRootWidgetRemoved_Implementation();
 	
-	EnhancedInputSubsystem->RemoveTagFromInputMode(Crys::NativeGameplayTag::EnhancedInput_UI);
+	EnhancedInputSubsystem->RemoveTagFromInputMode(Crys::NativeGameplayTag::EnhancedInput_Modes_UI);
 
-	SetIgnoreLookInput(false);
-	SetIgnoreMoveInput(false);
+	if (bRestrictMovementInUI)
+	{
+		SetIgnoreLookInput(false);
+		SetIgnoreMoveInput(false);
+		bRestrictMovementInUI = false;
+	}
 	
 	UWidgetBlueprintLibrary::SetInputMode_GameOnly(this);
 	
