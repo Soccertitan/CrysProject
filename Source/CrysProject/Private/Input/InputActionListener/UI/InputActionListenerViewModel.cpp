@@ -9,8 +9,18 @@
 void UInputActionListenerViewModel::InitializeInputActionListener(UInputAction* InInputAction, UCrysInputActionListener* InInputActionListener)
 {
 	InputAction = InInputAction;
-	
-	if (!InputActionListener && InInputActionListener)
+	SetInputActionListener(InInputActionListener);
+}
+
+void UInputActionListenerViewModel::SetInputActionListener(UCrysInputActionListener* InInputActionListener)
+{
+	if (InputActionListener)
+	{
+		InputActionListener->OnInputPressed.RemoveAll(this);
+		InputActionListener->OnInputReleased.RemoveAll(this);
+	}
+
+	if (InInputActionListener)
 	{
 		InputActionListener = InInputActionListener;
 		

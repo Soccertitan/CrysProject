@@ -4,8 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "MVVMViewModelBase.h"
+#include "Types/MVVMEventField.h"
 #include "CrysViewModel.generated.h"
 
+struct FMVVMEventField;
 /**
  * The base ViewModel that takes a PlayerController as input.
  */
@@ -17,6 +19,10 @@ class CRYSPROJECT_API UCrysViewModel : public UMVVMViewModelBase
 public:
 	/** Initializes the ViewModel with the PlayerController. */
 	virtual void InitializeViewModel(APlayerController* PlayerController);
+	
+	/** Bind to this if you just need to know when a viewmodel is set. */
+	UFUNCTION(BlueprintPure, FieldNotify)
+	FMVVMEventField OnViewModelSet() const { return FMVVMEventField{}; }
 
 protected:
 	/**

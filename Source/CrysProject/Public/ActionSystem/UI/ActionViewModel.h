@@ -21,13 +21,14 @@ class CRYSPROJECT_API UActionViewModel : public UMVVMViewModelBase
 public:
 	FText GetActionName() const { return ActionName; }
 	TSoftObjectPtr<UTexture2D> GetIcon() const { return Icon; }
-	TSubclassOf<UActionUserWidget> GetWidgetClass() const { return WidgetClass; }
+	TSubclassOf<UActionUserWidget> GetActionUserWidgetClass() const { return ActionUserWidgetClass; }
 	UCrysAction* GetAction() const { return Action; }
 
 protected:
 	virtual void SetAction(UCrysAction* InAction);
 	void SetActionName(FText Value);
 	void SetIcon(TSoftObjectPtr<UTexture2D> Value);
+	void SetActionUserWidgetClass(TSubclassOf<UActionUserWidget> Value);
 
 private:
 	UPROPERTY(BlueprintReadOnly, FieldNotify, Getter, Category = "Viewmodel|ActionBar", meta = (AllowPrivateAccess = true))
@@ -37,8 +38,8 @@ private:
 	TSoftObjectPtr<UTexture2D> Icon;
 	
 	/** The widget to spawn to display information on the ActionBar. */
-	UPROPERTY(EditDefaultsOnly, Getter, BlueprintReadOnly, Category = "Viewmodel|ActionBar", meta = (AllowPrivateAccess = true))
-	TSubclassOf<UActionUserWidget> WidgetClass;
+	UPROPERTY(BlueprintReadOnly, FieldNotify, Getter, Category = "Viewmodel|ActionBar", meta = (AllowPrivateAccess = true))
+	TSubclassOf<UActionUserWidget> ActionUserWidgetClass;
 	
 	UPROPERTY(BlueprintReadOnly, FieldNotify, Getter, Category = "Viewmodel|ActionBar", meta = (AllowPrivateAccess = true))
 	TObjectPtr<UCrysAction> Action;

@@ -6,6 +6,7 @@
 #include "UObject/Object.h"
 #include "CrysAction.generated.h"
 
+class UActionUserWidget;
 class UActionViewModel;
 class ACrysPlayerController;
 class UCrysActionManagerComponent;
@@ -27,6 +28,7 @@ public:
 	UFUNCTION(BlueprintPure, Category = "CrysAction")
 	TSoftObjectPtr<UTexture2D> GetIcon() const {return Icon;}
 	
+	TSubclassOf<UActionUserWidget> GetActionUserWidgetClass() const { return ActionUserWidgetClass; }
 	TSubclassOf<UActionViewModel> GetActionViewModel() const { return ActionViewModel; }
 	
 	UFUNCTION(BlueprintCallable, Category = "CrysAction")
@@ -56,6 +58,10 @@ private:
 	/** The user facing icon on the hotbar. */
 	UPROPERTY(EditDefaultsOnly, meta = (AssetBundles = "UI"))
 	TSoftObjectPtr<UTexture2D> Icon;
+	
+	/** The widget to spawn to display information on an ActionBar. */
+	UPROPERTY(EditDefaultsOnly, meta = (AssetBundles = "UI"))
+	TSubclassOf<UActionUserWidget> ActionUserWidgetClass;
 	
 	/** Displays information about the action in a widget. */
 	UPROPERTY(EditDefaultsOnly, NoClear)

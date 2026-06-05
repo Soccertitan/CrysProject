@@ -24,8 +24,9 @@ public:
 	bool IsPressed() const { return bPressed; }
 	
 protected:
+	void SetInputActionListener(UCrysInputActionListener* InInputActionListener);
 	void SetIsPressed(bool InValue);
-	
+
 private:
 	UPROPERTY()
 	TObjectPtr<UInputAction> InputAction;
@@ -39,4 +40,6 @@ private:
 	void OnInputPressed(UCrysInputActionListener* Action);
 	UFUNCTION()
 	void OnInputReleased(UCrysInputActionListener* Action);
+	
+	friend class UInputActionManagerViewModel;
 };
