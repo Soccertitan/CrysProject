@@ -38,7 +38,7 @@ public:
 	virtual bool CanActivateAction() const;
 
 protected:
-	virtual void InitializeAction() {}
+	virtual void Initialize() {}
 
 	UFUNCTION(BlueprintNativeEvent, DisplayName = "ActivateAction")
 	void ActivateAction();

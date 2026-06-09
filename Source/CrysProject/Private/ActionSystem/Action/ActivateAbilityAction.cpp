@@ -21,9 +21,9 @@ bool UActivateAbilityAction::CanActivateAction() const
 	return true;
 }
 
-void UActivateAbilityAction::InitializeAction()
+void UActivateAbilityAction::Initialize()
 {
-	Super::InitializeAction();
+	Super::Initialize();
 	
 	if (GetPlayerController())
 	{

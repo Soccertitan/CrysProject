@@ -6,6 +6,7 @@
 #include "UI/ViewModel/CrysViewModel.h"
 #include "ActionManagerViewModel.generated.h"
 
+enum class ECrysActionInputMode : uint8;
 class UCrysActionManagerComponent;
 class UActionSlotViewModel;
 class UActionViewModel;
@@ -18,7 +19,10 @@ struct FActionViewModelContainer
 	GENERATED_BODY()
 	
 	UPROPERTY()
-	TArray<TObjectPtr<UActionSlotViewModel>> Items;
+	TArray<TObjectPtr<UActionSlotViewModel>> InputTagActionViewModels;
+	
+	UPROPERTY()
+	TArray<TObjectPtr<UActionSlotViewModel>> ActionViewModels;
 };
 
 /**
@@ -33,43 +37,56 @@ public:
 	virtual void InitializeViewModel(APlayerController* PlayerController) override;
 	
 	int32 GetActiveActionSetIndex() const { return ActiveActionSetIndex; }
+	ECrysActionInputMode GetInputMode() const { return InputMode; }
 	
-	/** Finds or creates an ActionVM from InputTag and Index. */
+	/** 
+	 * Finds or creates an ActionViewModel from InputTag/ActionIndex from the specified ActionSetIndex. 
+	 * If InputTag is invalid, checks the ActionIndex, if that is less than 0. Then no actions will be found or created.
+	 */
 	UFUNCTION(BlueprintCallable, Category = "Viewmodel|ActionBar")
-	UActionSlotViewModel* FindOrCreateActionSlotViewModel(const FGameplayTag& InputTag, int32 Index = 0);
+	UActionSlotViewModel* FindOrCreateActionSlotViewModel(const FGameplayTag& InputTag, const int32 ActionIndex, const int32 ActionSetIndex);
 	
 	/** Finds or creates an ActionVM from InputTag from the ActiveActionSetIndex. */
 	UFUNCTION(BlueprintCallable, Category = "Viewmodel|ActionBar")
-	UActionSlotViewModel* FindOrCreateActiveActionSlotViewModel(const FGameplayTag& InputTag);
+	UActionSlotViewModel* FindOrCreateActiveActionSlotViewModel(const FGameplayTag& InputTag, const int32 ActionIndex);
 	
-	UFUNCTION(BlueprintCallable, Category = "Viewmodel|ActionBar")
-	void SetAction(const FGameplayTag& InputTag, const int32 Index, const TSoftClassPtr<UCrysAction> ActionClass);
-	
-	UFUNCTION(BlueprintCallable, Category = "CrysActionManager")
-	void ClearAction(const FGameplayTag& InputTag, const int32 Index);
+	UFUNCTION(BlueprintPure, Category = "ViewModel|ActionBar")
+	UCrysActionManagerComponent* GetActionManagerComponent() const { return ActionManagerComponent; }
 
 protected:
 	void InitActionManager(APlayerController* PlayerController);
 	
 	UFUNCTION()
-	void SetActiveActionSetIndex(int32 Index);
+	void SetActiveActionSetIndex(const int32 InActionSetIndex);
+	UFUNCTION()
+	void SetInputMode(ECrysActionInputMode Value);
 
 private:
 	UPROPERTY()
 	TObjectPtr<UCrysActionManagerComponent> ActionManagerComponent;
 	
 	UPROPERTY()
-	TArray<FActionViewModelContainer> ActionSlotViewModelContainers;
+	TArray<FActionViewModelContainer> ActionViewModelContainers;
 	
+	/** View models are updates as the active action set index changes. */
 	UPROPERTY()
-	TArray<TObjectPtr<UActionSlotViewModel>> ActiveActionSlotViewModels;
+	FActionViewModelContainer ActiveActionViewModelContainer;
 	
 	/** The current set that is mapped to the InputActions. */
 	UPROPERTY(BlueprintReadOnly, FieldNotify, Getter, Category = "Viewmodel|ActionBar", meta = (AllowPrivateAccess = true))
 	int32 ActiveActionSetIndex = 0;
 	
-	UActionViewModel* InternalCreateActionViewModel(const FGameplayTag& InputTag, int32 Index);
+	/** The current input mode the ActionManager is in. */
+	UPROPERTY(BlueprintReadOnly, FieldNotify, Getter, Category = "Viewmodel|ActionBar", meta = (AllowPrivateAccess = true))
+	ECrysActionInputMode InputMode;
+	
+	UActionSlotViewModel* FindOrCreateActionSlotViewModelInternal(FActionViewModelContainer& ActionViewModelContainer, const FGameplayTag& InputTag, const int32 ActionIndex, const int32 ActionSetIndex);
+	
+	UActionViewModel* CreateActionViewModelInternal(const FGameplayTag& InputTag, const int32 ActionIndex, const int32 ActionSetIndex);
 	
 	UFUNCTION()
-	void OnActionMapUpdated(UCrysAction* Action, const FGameplayTag& InputTag, int32 Index);
+	void OnActionMapUpdated(UCrysAction* Action, const FGameplayTag& InputTag, const int32 ActionIndex, const int32 ActionSetIndex);
+	
+	/** Sets a new viewmodel for the ActionViewModelContainer. */
+	void UpdateActionViewModelInternal(FActionViewModelContainer& ActionViewModelContainer, const FGameplayTag& InputTag, const int32 ActionIndex, const int32 ActionSetIndex);
 };

@@ -8,8 +8,9 @@
 #include "ActionSlotViewModel.generated.h"
 
 class UActionViewModel;
+
 /**
- * A wrapper for an ActionViewModel.
+ * A wrapper for an ActionViewModel that defines the slot.
  */
 UCLASS()
 class CRYSPROJECT_API UActionSlotViewModel : public UMVVMViewModelBase

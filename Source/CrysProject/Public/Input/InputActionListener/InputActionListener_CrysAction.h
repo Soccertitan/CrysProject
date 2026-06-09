@@ -11,7 +11,7 @@ class UCrysActionManagerComponent;
 DECLARE_MULTICAST_DELEGATE_OneParam(FCrysActionActionSetIndexSignature, int32);
 
 /**
- * Activates the action in the currently selected index of the ActionManager.
+ * Activates the action from the ActiveActionSet index of the ActionManager.
  */
 UCLASS(Abstract)
 class CRYSPROJECT_API UInputActionListener_CrysAction : public UCrysInputActionListener
@@ -28,6 +28,10 @@ private:
 	/** The action "slot" to activate on the ActionBar. */
 	UPROPERTY(EditAnywhere, meta = (Categories="Input"))
 	FGameplayTag InputTag;
+	
+	/** The slot to activate if InputTag is invalid. */
+	UPROPERTY(EditAnywhere, meta = (ClampMin = -1))
+	int32 ActionIndex = -1;
 	
 	UPROPERTY()
 	TObjectPtr<UCrysActionManagerComponent> ActionManager;

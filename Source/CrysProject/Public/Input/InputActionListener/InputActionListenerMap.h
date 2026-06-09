@@ -29,6 +29,22 @@ struct FInputActionListenerData
 	{
 		return X.InputAction != Y.InputAction;
 	}
+	
+#if WITH_EDITORONLY_DATA
+	// Without an attribute such as VisibleAnywhere the editor TitleProperty code won't be able to find this property.
+	UPROPERTY(VisibleAnywhere, meta=(EditCondition="false", EditConditionHides))
+	FString EditorDisplayName;
+#endif
+
+	void PostSerialize(const FArchive& Ar);
+};
+template<>
+struct TStructOpsTypeTraits<FInputActionListenerData> : public TStructOpsTypeTraitsBase2<FInputActionListenerData>
+{
+	enum
+	{
+		WithPostSerialize = true,
+   };
 };
 
 /**
@@ -40,6 +56,6 @@ class CRYSPROJECT_API UInputActionListenerMap : public UPrimaryDataAsset
 	GENERATED_BODY()
 	
 public:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (NoResetToDefault, NoElementDuplicate))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (NoResetToDefault, TitleProperty = "EditorDisplayName"))
 	TArray<FInputActionListenerData> InputActionListenerMap;
 };

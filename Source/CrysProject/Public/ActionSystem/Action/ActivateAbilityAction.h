@@ -21,7 +21,7 @@ public:
 	virtual bool CanActivateAction() const override;
 	
 protected:
-	virtual void InitializeAction() override;
+	virtual void Initialize() override;
 	virtual void ActivateAction_Implementation() override;
 	
 private:

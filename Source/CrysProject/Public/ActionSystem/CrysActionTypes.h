@@ -15,7 +15,10 @@ struct FCrysActionMap
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (Categories = "Input"))
-	TMap<FGameplayTag, TSubclassOf<UCrysAction>> ActionMap;
+	TMap<FGameplayTag, TSubclassOf<UCrysAction>> InputTagActionMap;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<TSubclassOf<UCrysAction>> Actions;
 };
 
 /** Runtime data for action mappings in the CrysActionManagerComponent */
@@ -25,7 +28,11 @@ struct FCrysActionMapInstance
 	GENERATED_BODY()
 	
 	UPROPERTY(BlueprintReadOnly)
-	TMap<FGameplayTag, TObjectPtr<UCrysAction>> ActionMap;
+	TMap<FGameplayTag, TObjectPtr<UCrysAction>> InputTagActionMap;
+	
+	/** A generic array of actions that are mapped to an index. Typically, for keyboards that want to click on an action. */
+	UPROPERTY()
+	TArray<TObjectPtr<UCrysAction>> Actions;
 };
 
 /** Information on an action that can be used or mapped. */
@@ -36,4 +43,11 @@ struct FItemFragment_Action : public FItemFragment
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSoftClassPtr<UCrysAction> Action;
+};
+
+UENUM(BlueprintType)
+enum class ECrysActionInputMode : uint8
+{
+	Gamepad UMETA(DisplayName = "Gamepad"),
+	Keyboard UMETA(DisplayName = "Keyboard")
 };

@@ -19,6 +19,6 @@ void UInputActionListener_CrysAction::InputActionTriggered(const FInputActionVal
 	
 	if (IsPressed() && ActionManager)
 	{
-		ActionManager->TryActivateAction(InputTag);
+		ActionManager->TryActivateActiveAction(InputTag, ActionIndex);
 	}
 }
