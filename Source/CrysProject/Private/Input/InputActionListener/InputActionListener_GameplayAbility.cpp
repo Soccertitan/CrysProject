@@ -5,7 +5,6 @@
 
 #include "CrimAbilitySystemBlueprintFunctionLibrary.h"
 #include "InputActionValue.h"
-#include "Abilities/GameplayAbility.h"
 #include "Input/AbilityInputManagerComponent.h"
 
 void UInputActionListener_GameplayAbility::Initialize()
@@ -23,11 +22,11 @@ void UInputActionListener_GameplayAbility::InputActionTriggered(const FInputActi
 	{
 		if (Value.Get<bool>())
 		{
-			AbilityInputManagerComponent->InputPressed(AbilityClass.Get());
+			AbilityInputManagerComponent->InputPressed(AbilityInput);
 		}
 		else
 		{
-			AbilityInputManagerComponent->InputReleased(AbilityClass.Get());
+			AbilityInputManagerComponent->InputReleased(AbilityInput);
 		}
 	}
 }
@@ -38,7 +37,7 @@ void UInputActionListener_GameplayAbility::InputActionCanceled(const FInputActio
 	
 	if (AbilityInputManagerComponent)
 	{
-		AbilityInputManagerComponent->InputReleased(AbilityClass.Get());
+		AbilityInputManagerComponent->InputReleased(AbilityInput);
 	}
 }
 
@@ -48,6 +47,6 @@ void UInputActionListener_GameplayAbility::InputActionCompleted(const FInputActi
 	
 	if (AbilityInputManagerComponent)
 	{
-		AbilityInputManagerComponent->InputReleased(AbilityClass.Get());
+		AbilityInputManagerComponent->InputReleased(AbilityInput);
 	}
 }

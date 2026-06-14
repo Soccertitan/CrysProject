@@ -6,6 +6,7 @@
 #include "CrysInputActionListener.h"
 #include "InputActionListener_GameplayAbility.generated.h"
 
+class UAbilityInput;
 class UGameplayAbility;
 class UAbilityInputManagerComponent;
 
@@ -30,5 +31,5 @@ private:
 	TObjectPtr<UAbilityInputManagerComponent> AbilityInputManagerComponent;
 	
 	UPROPERTY(EditAnywhere)
-	TSoftClassPtr<UGameplayAbility> AbilityClass;
+	TObjectPtr<UAbilityInput> AbilityInput;
 };

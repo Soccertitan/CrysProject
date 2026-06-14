@@ -35,6 +35,6 @@ void UActivateAbilityAction::ActivateAction_Implementation()
 {
 	Super::ActivateAction_Implementation();
 	
-	AbilityInputComponent->InputPressed(AbilityClass.Get());
-	AbilityInputComponent->InputReleased(AbilityClass.Get());
+	// AbilityInputComponent->InputPressed(AbilityClass.Get());
+	// AbilityInputComponent->InputReleased(AbilityClass.Get());
 }

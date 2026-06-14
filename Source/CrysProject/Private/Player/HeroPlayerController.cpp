@@ -37,7 +37,7 @@ void AHeroPlayerController::OnRep_PlayerState()
 
 void AHeroPlayerController::PostProcessInput(const float DeltaTime, const bool bGamePaused)
 {
-	AbilityInputManagerComponent->ProcessAbilityInput(DeltaTime, bGamePaused);
+	AbilityInputManagerComponent->ProcessAbilityInput();
 	
 	Super::PostProcessInput(DeltaTime, bGamePaused);
 }
