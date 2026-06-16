@@ -5,6 +5,8 @@
 
 #include "CrimAbilitySystemBlueprintFunctionLibrary.h"
 #include "CrimTargetingSystemComponent.h"
+#include "CrysLogChannels.h"
+#include "EnhancedInputSubsystems.h"
 #include "Input/AbilityInputManagerComponent.h"
 #include "Player/HeroPlayerState.h"
 
@@ -19,6 +21,14 @@ AHeroPlayerController::AHeroPlayerController()
 UCrimTargetingSystemComponent* AHeroPlayerController::GetCrimTargetingSystemComponent_Implementation() const
 {
 	return TargetingSystemComponent;
+}
+
+void AHeroPlayerController::SetAbilityInputMode(const EAbilityInputMode InputMode)
+{
+	if (InputMode != GetAbilityInputMode())
+	{
+		InternalSetAbilityInputMode(InputMode);
+	}
 }
 
 void AHeroPlayerController::AcknowledgePossession(class APawn* P)
@@ -49,6 +59,13 @@ void AHeroPlayerController::OnPossess(APawn* InPawn)
 	InitAbilitySystemComponent();
 }
 
+void AHeroPlayerController::SetupInputComponent()
+{
+	Super::SetupInputComponent();
+	
+	InternalSetAbilityInputMode(AbilityInputMode);
+}
+
 void AHeroPlayerController::InitAbilitySystemComponent()
 {
 	AbilitySystemComponent = UCrimAbilitySystemBlueprintFunctionLibrary::GetAbilitySystemComponent(
@@ -56,5 +73,28 @@ void AHeroPlayerController::InitAbilitySystemComponent()
 	if (AbilitySystemComponent)
 	{
 		ICrimAbilitySystemInterface::Execute_SetCrimAbilitySystem(AbilityInputManagerComponent, AbilitySystemComponent);
+	}
+}
+
+void AHeroPlayerController::InternalSetAbilityInputMode(const EAbilityInputMode InputMode)
+{
+	if (EnhancedInputSubsystem)
+	{
+		if (AbilityInputModeInputMappingContextMap.Contains(AbilityInputMode))
+		{
+			EnhancedInputSubsystem->RemoveMappingContext(*AbilityInputModeInputMappingContextMap.Find(AbilityInputMode));
+		}
+		
+		AbilityInputMode = InputMode;
+		OnAbilityInputModeChangedDelegate.Broadcast(AbilityInputMode);
+		
+		if (AbilityInputModeInputMappingContextMap.Contains(AbilityInputMode))
+		{
+			EnhancedInputSubsystem->AddMappingContext(*AbilityInputModeInputMappingContextMap.Find(InputMode), AbilityInputMappingContextPriority);
+		}
+		else
+		{
+			UE_LOG(LogCrys, Error, TEXT("The HeroPlayerController [%s] is missing an InputMappingContext for AbilityInputMode [%hhd]"), *GetNameSafe(GetOwner()), InputMode);
+		}
 	}
 }

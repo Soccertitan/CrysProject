@@ -1,7 +1,7 @@
 ﻿// Copyright Soccertitan 2026
 
 
-#include "Input/InputActionListener/UI/InputActionListenerViewModel.h"
+#include "Input/UI/InputActionListenerViewModel.h"
 
 #include "Input/InputActionListener/CrysInputActionListener.h"
 

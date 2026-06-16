@@ -4,16 +4,16 @@
 #include "Input/InputActionListener/InputActionListener_CycleHotbar.h"
 
 #include "InputActionValue.h"
-#include "ActionSystem/CrysActionManagerComponent.h"
+#include "Input/AbilityInputManagerComponent.h"
 
 void UInputActionListener_CycleHotbar::InputActionTriggered(const FInputActionValue& Value)
 {
 	Super::InputActionTriggered(Value);
 	
-	if (ActionManagerComponent)
+	if (AbilityInputManagerComponent)
 	{
 		const bool bCycleForward = Value.GetMagnitude() > 0.f;
-		ActionManagerComponent->SwitchToNextActionSet(bCycleForward);
+		AbilityInputManagerComponent->SwitchToNextAbilityInputSet(bCycleForward);
 	}
 }
 
@@ -21,5 +21,5 @@ void UInputActionListener_CycleHotbar::Initialize()
 {
 	Super::Initialize();
 	
-	ActionManagerComponent = GetPlayerController()->FindComponentByClass<UCrysActionManagerComponent>();
+	AbilityInputManagerComponent = GetPlayerController()->FindComponentByClass<UAbilityInputManagerComponent>();
 }

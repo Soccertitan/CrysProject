@@ -1,12 +1,12 @@
 ﻿// Copyright Soccertitan 2026
 
 
-#include "Input/InputActionListener/UI/InputActionManagerViewModel.h"
+#include "Input/UI/InputActionManagerViewModel.h"
 
 #include "CrimEnhancedInputComponent.h"
 #include "CrysLogChannels.h"
 #include "Input/InputActionListener/CrysInputActionListener.h"
-#include "Input/InputActionListener/UI/InputActionListenerViewModel.h"
+#include "Input/UI/InputActionListenerViewModel.h"
 
 
 void UInputActionManagerViewModel::InitializeViewModel(APlayerController* PlayerController)

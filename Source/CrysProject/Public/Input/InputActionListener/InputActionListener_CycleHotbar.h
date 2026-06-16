@@ -6,7 +6,7 @@
 #include "CrysInputActionListener.h"
 #include "InputActionListener_CycleHotbar.generated.h"
 
-class UCrysActionManagerComponent;
+class UAbilityInputManagerComponent;
 
 /**
  * Switches a hotbar to the next or previous one. Cycles through.
@@ -24,5 +24,5 @@ protected:
 	
 private:
 	UPROPERTY()
-	TObjectPtr<UCrysActionManagerComponent> ActionManagerComponent;
+	TObjectPtr<UAbilityInputManagerComponent> AbilityInputManagerComponent;
 };

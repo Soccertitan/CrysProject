@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "CrysInputActionListener.h"
+#include "Input/AbilityInputSlot.h"
 #include "InputActionListener_GameplayAbility.generated.h"
 
 class UAbilityInput;
@@ -23,6 +24,10 @@ public:
 	virtual void InputActionCanceled(const FInputActionValue& Value) override;
 	virtual void InputActionCompleted(const FInputActionValue& Value) override;
 	
+#if WITH_EDITOR
+	virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
+#endif
+	
 protected:
 	virtual void Initialize() override;
 	
@@ -30,6 +35,18 @@ private:
 	UPROPERTY()
 	TObjectPtr<UAbilityInputManagerComponent> AbilityInputManagerComponent;
 	
-	UPROPERTY(EditAnywhere)
+	UPROPERTY()
+	bool bUseInputSlot = true;
+	
+	UPROPERTY(EditAnywhere, Category = "Ability", meta = (EditCondition = "bUseInputSlot", ShowOnlyInnerProperties))
+	FAbilityInputSlot InputSlot;
+	
+	UPROPERTY(EditAnywhere, Category = "Ability", meta = (EditCondition = "bUseInputSlot", ClampMin = 0))
+	int32 InputSet = 0;
+	
+	UPROPERTY(EditAnywhere, Category = "Ability", meta = (EditCondition = "bUseInputSlot==false"))
 	TObjectPtr<UAbilityInput> AbilityInput;
+	
+	void InternalAbilityInputPressed();
+	void InternalAbilityInputReleased();
 };

@@ -7,6 +7,23 @@
 #include "InputActionValue.h"
 #include "Input/AbilityInputManagerComponent.h"
 
+
+#if WITH_EDITOR
+void UInputActionListener_GameplayAbility::PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent)
+{
+	Super::PostEditChangeProperty(PropertyChangedEvent);
+	
+	if (bUseInputSlot)
+	{
+		AbilityInput = nullptr;
+	}
+	else
+	{
+		InputSlot = FAbilityInputSlot();
+	}
+}
+#endif
+
 void UInputActionListener_GameplayAbility::Initialize()
 {
 	Super::Initialize();
@@ -18,35 +35,49 @@ void UInputActionListener_GameplayAbility::InputActionTriggered(const FInputActi
 {
 	Super::InputActionTriggered(Value);
 	
-	if (AbilityInputManagerComponent)
-	{
-		if (Value.Get<bool>())
-		{
-			AbilityInputManagerComponent->InputPressed(AbilityInput);
-		}
-		else
-		{
-			AbilityInputManagerComponent->InputReleased(AbilityInput);
-		}
-	}
+	InternalAbilityInputPressed();
 }
 
 void UInputActionListener_GameplayAbility::InputActionCanceled(const FInputActionValue& Value)
 {
 	Super::InputActionCanceled(Value);
 	
-	if (AbilityInputManagerComponent)
-	{
-		AbilityInputManagerComponent->InputReleased(AbilityInput);
-	}
+	InternalAbilityInputReleased();
 }
 
 void UInputActionListener_GameplayAbility::InputActionCompleted(const FInputActionValue& Value)
 {
 	Super::InputActionCompleted(Value);
 	
+	InternalAbilityInputReleased();
+}
+
+void UInputActionListener_GameplayAbility::InternalAbilityInputPressed()
+{
 	if (AbilityInputManagerComponent)
 	{
-		AbilityInputManagerComponent->InputReleased(AbilityInput);
+		if (bUseInputSlot)
+		{
+			AbilityInputManagerComponent->InputSlotPressed(InputSlot, InputSet);
+		}
+		else
+		{
+			AbilityInputManagerComponent->InputPressed(AbilityInput);
+		}
+	}
+}
+
+void UInputActionListener_GameplayAbility::InternalAbilityInputReleased()
+{
+	if (AbilityInputManagerComponent)
+	{
+		if (bUseInputSlot)
+		{
+			AbilityInputManagerComponent->InputSlotReleased(InputSlot, InputSet);
+		}
+		else
+		{
+			AbilityInputManagerComponent->InputReleased(AbilityInput);
+		}
 	}
 }
