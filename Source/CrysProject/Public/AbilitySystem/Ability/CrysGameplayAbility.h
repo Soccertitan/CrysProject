@@ -33,6 +33,8 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintPure, Category = "Ability")
 	float GetCastTime() const;
 	
+	virtual float GetCooldownTime() const override;
+	
 	UFUNCTION(BlueprintPure, Category = "Ability")
 	FGameplayTagRequirements GetTargetTagRequirements() const { return TargetTagRequirements; }
 	

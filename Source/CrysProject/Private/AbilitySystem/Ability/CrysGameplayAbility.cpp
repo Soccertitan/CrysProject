@@ -48,6 +48,21 @@ float UCrysGameplayAbility::GetCastTime_Implementation() const
 
 void UCrysGameplayAbility::ApplyGameplayEffectToTarget(AActor* TargetActor, AActor* EffectCauser)
 {
+	//TODO: Implement
+}
+
+float UCrysGameplayAbility::GetCooldownTime() const
+{
+	float BaseCooldownTime = Super::GetCooldownTime();
+	FGameplayTagRequirements SourceTagRequirements;
+	SourceTagRequirements.RequireTags.AppendTags(GetAbilitySystemComponentFromActorInfo()->GetOwnedGameplayTags());
+	SourceTagRequirements.RequireTags.AppendTags(GetAssetTags());
+	float BaseCooldownTimeMultiplier = GetAbilitySystemComponentFromActorInfo()->GetFilteredAttributeValue(
+		UAbilityAttributeSet::GetAbilityCooldownMultiplierAttribute(), 
+		SourceTagRequirements,
+		FGameplayTagContainer());
+	
+	return FMath::Max(BaseCooldownTime * BaseCooldownTimeMultiplier, 0.f);
 }
 
 bool UCrysGameplayAbility::IsPrimaryTargetValid(AActor* TargetActor) const
