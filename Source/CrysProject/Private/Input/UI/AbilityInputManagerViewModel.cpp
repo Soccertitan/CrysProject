@@ -3,10 +3,14 @@
 
 #include "Input/UI/AbilityInputManagerViewModel.h"
 
+#include "CrimAbilitySystemBlueprintFunctionLibrary.h"
 #include "CrysLogChannels.h"
+#include "AbilitySystem/GameplayAbilityData.h"
 #include "AbilitySystem/UI/AbilityViewModel.h"
+#include "Input/AbilityInput.h"
 #include "Input/UI/AbilityInputSlotViewModel.h"
 #include "Input/AbilityInputManagerComponent.h"
+#include "Player/CrysPlayerState.h"
 #include "Player/HeroPlayerController.h"
 
 void UAbilityInputManagerViewModel::InitializeViewModel(APlayerController* PlayerController)
@@ -19,6 +23,8 @@ void UAbilityInputManagerViewModel::InitializeViewModel(APlayerController* Playe
 	check(HeroPlayerController);
 	SetInputMode(HeroPlayerController->GetAbilityInputMode());
 	HeroPlayerController->OnAbilityInputModeChangedDelegate.AddUniqueDynamic(this, &UAbilityInputManagerViewModel::SetInputMode);
+	
+	AbilitySystemComponent = UCrimAbilitySystemBlueprintFunctionLibrary::GetAbilitySystemComponent(PlayerController->GetPlayerState<ACrysPlayerState>());
 }
 
 UAbilityInputSlotViewModel* UAbilityInputManagerViewModel::FindOrCreateInputSlotViewModel(const FAbilityInputSlot& InputSlot, const int32 InputSet)
@@ -46,7 +52,15 @@ UAbilityInputSlotViewModel* UAbilityInputManagerViewModel::FindOrCreateInputSlot
 			InputSetViewModel.ViewModels.Add(Result);
 		}
 		
-		//TODO: Create the AbilityViewModel. Does it make sense to have it made globally or have this own it?
+		if (AbilityInputManagerComponent)
+		{
+			FAbilityInputInstance InputInstance = AbilityInputManagerComponent->FindAbilityInputInstance(InputSlot, InputSet);
+			Result->SetAbilityViewModel(CreateAbilityViewModel(InputInstance));
+		}
+		else
+		{
+			Result->SetAbilityViewModel(EmptyAbilityViewModel);
+		}
 	}
 	return Result;
 }
@@ -107,7 +121,7 @@ void UAbilityInputManagerViewModel::OnAbilityInputAdded(const FAbilityInputInsta
 	UAbilityInputSlotViewModel* ViewModel = FindInputSlotViewModel(AbilityInputInstance.InputSlot, InputSet);
 	if (ViewModel)
 	{
-		//TODO: Update/Create new AbilityViewModel.
+		ViewModel->SetAbilityViewModel(CreateAbilityViewModel(AbilityInputInstance));
 	}
 }
 
@@ -116,7 +130,7 @@ void UAbilityInputManagerViewModel::OnAbilityInputChanged(const FAbilityInputIns
 	UAbilityInputSlotViewModel* ViewModel = FindInputSlotViewModel(AbilityInputInstance.InputSlot, InputSet);
 	if (ViewModel)
 	{
-		//TODO: Update/Create new AbilityViewModel.
+		ViewModel->SetAbilityViewModel(CreateAbilityViewModel(AbilityInputInstance));
 	}
 }
 
@@ -127,4 +141,19 @@ void UAbilityInputManagerViewModel::OnAbilityInputRemoved(const FAbilityInputIns
 	{
 		ViewModel->SetAbilityViewModel(EmptyAbilityViewModel);
 	}
+}
+
+UAbilityViewModel* UAbilityInputManagerViewModel::CreateAbilityViewModel(const FAbilityInputInstance& AbilityInputInstance)
+{
+	if (AbilityInputInstance.AbilityInput)
+	{
+		if (UGameplayAbilityData* AbilityData = Cast<UGameplayAbilityData>(AbilityInputInstance.AbilityInput->CustomData))
+		{
+			UAbilityViewModel* NewVM = NewObject<UAbilityViewModel>(this, AbilityData->AbilityViewModel);
+			NewVM->SetAbilitySystemComponent(AbilitySystemComponent);
+			NewVM->SetGameplayAbilityData(AbilityData);
+			return NewVM;
+		}
+	}
+	return EmptyAbilityViewModel;
 }

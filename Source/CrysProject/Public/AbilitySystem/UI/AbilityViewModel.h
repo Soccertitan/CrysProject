@@ -6,6 +6,10 @@
 #include "MVVMViewModelBase.h"
 #include "AbilityViewModel.generated.h"
 
+class UGameplayAbilityData;
+class UCrimGameplayAbility;
+class UCrimAbilitySystemComponent;
+
 /**
  * Details about an ability.
  */
@@ -18,18 +22,34 @@ public:
 	FText GetAbilityName() const { return AbilityName; }
 	TSoftObjectPtr<UTexture2D> GetIcon() const { return Icon; }
 	
+	/** Use this to have the viewmodel use live data. */
+	void SetAbilitySystemComponent(UCrimAbilitySystemComponent* NewAbilitySystemComponent);
+	void SetGameplayAbilityData(UGameplayAbilityData* AbilityData);
+	
 protected:
 	void SetAbilityName(const FText& NewValue);
 	void SetIcon(const TSoftObjectPtr<UTexture2D>& NewValue);
 	
-	//TODO: Add virtual func to set the AbilityData.
+	UFUNCTION(BlueprintPure, Category = "Viewmodel|Ability")
+	UCrimAbilitySystemComponent* GetAbilitySystemComponent() const { return AbilitySystemComponent; }
+	UFUNCTION(BlueprintPure, Category = "Viewmodel|Ability")
+	UGameplayAbilityData* GetGameplayAbilityData() const { return GameplayAbilityData; }
+	
+	// Called whenever the ASC or AbilityData is set to new values.
+	virtual void UpdateViewModelData(UGameplayAbilityData* AbilityData);
+	
+	virtual void OnAbilitySystemComponentSet(UCrimAbilitySystemComponent* OldAbilitySystemComponent) {}
 	
 private:
+	// Can use the ASC to tailor the data displayed.
+	UPROPERTY()
+	TObjectPtr<UCrimAbilitySystemComponent> AbilitySystemComponent;
+	UPROPERTY()
+	TObjectPtr<UGameplayAbilityData> GameplayAbilityData;
+	
 	UPROPERTY(BlueprintReadOnly, FieldNotify, Getter, Category = "Viewmodel|Ability", meta = (AllowPrivateAccess = true))
 	FText AbilityName;
 	
 	UPROPERTY(BlueprintReadOnly, FieldNotify, Getter, Category = "Viewmodel|Ability", meta = (AllowPrivateAccess = true))
 	TSoftObjectPtr<UTexture2D> Icon;
-	
-	//TODO: Add property for the actual Ability data.
 };

@@ -8,6 +8,8 @@
 #include "AbilityInputManagerViewModel.generated.h"
 
 
+class UCrimAbilitySystemComponent;
+class UGameplayAbilityData;
 class UAbilityViewModel;
 class AHeroPlayerController;
 struct FAbilityInputSlot;
@@ -55,6 +57,9 @@ private:
 	UPROPERTY()
 	TObjectPtr<UAbilityInputManagerComponent> AbilityInputManagerComponent;
 	
+	UPROPERTY()
+	TObjectPtr<UCrimAbilitySystemComponent> AbilitySystemComponent;
+	
 	// All the view models that were created to be monitored by the view model.
 	UPROPERTY()
 	TArray<FAbilityInputSetViewModel> AbilityInputSetViewModels;
@@ -81,4 +86,6 @@ private:
 	void OnAbilityInputChanged(const FAbilityInputInstance& AbilityInputInstance, const int32 InputSet);
 	UFUNCTION()
 	void OnAbilityInputRemoved(const FAbilityInputInstance& AbilityInputInstance, const int32 InputSet);
+	
+	UAbilityViewModel* CreateAbilityViewModel(const FAbilityInputInstance& AbilityInputInstance);
 };

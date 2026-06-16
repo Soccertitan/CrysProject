@@ -35,13 +35,13 @@ private:
 	UPROPERTY()
 	TObjectPtr<UAbilityInputManagerComponent> AbilityInputManagerComponent;
 	
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, Category = "Ability")
 	bool bUseInputSlot = true;
 	
-	UPROPERTY(EditAnywhere, Category = "Ability", meta = (EditCondition = "bUseInputSlot", ShowOnlyInnerProperties))
+	UPROPERTY(EditAnywhere, Category = "Ability|Slot", meta = (EditCondition = "bUseInputSlot", ShowOnlyInnerProperties))
 	FAbilityInputSlot InputSlot;
 	
-	UPROPERTY(EditAnywhere, Category = "Ability", meta = (EditCondition = "bUseInputSlot", ClampMin = 0))
+	UPROPERTY(EditAnywhere, Category = "Ability|Slot", meta = (EditCondition = "bUseInputSlot", ClampMin = 0))
 	int32 InputSet = 0;
 	
 	UPROPERTY(EditAnywhere, Category = "Ability", meta = (EditCondition = "bUseInputSlot==false"))
