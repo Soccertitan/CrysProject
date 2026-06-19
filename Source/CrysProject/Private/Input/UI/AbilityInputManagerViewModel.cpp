@@ -145,9 +145,9 @@ void UAbilityInputManagerViewModel::OnAbilityInputRemoved(const FAbilityInputIns
 
 UAbilityViewModel* UAbilityInputManagerViewModel::CreateAbilityViewModel(const FAbilityInputInstance& AbilityInputInstance)
 {
-	if (AbilityInputInstance.AbilityInput)
+	if (AbilityInputInstance.Ability)
 	{
-		if (UGameplayAbilityData* AbilityData = Cast<UGameplayAbilityData>(AbilityInputInstance.AbilityInput->CustomData))
+		if (UGameplayAbilityData* AbilityData = Cast<UGameplayAbilityData>(AbilityInputInstance.Ability->CustomData))
 		{
 			UAbilityViewModel* NewVM = NewObject<UAbilityViewModel>(this, AbilityData->AbilityViewModel);
 			NewVM->SetAbilitySystemComponent(AbilitySystemComponent);
