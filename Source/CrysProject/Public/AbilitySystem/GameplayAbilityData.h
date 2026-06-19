@@ -30,9 +30,11 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
 	TSoftObjectPtr<UTexture2D> Icon;
 	
+	/** Specialized ViewModel to display information about an ability. */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI", NoClear)
 	TSubclassOf<UAbilityViewModel> AbilityViewModel;
 	
+	/** The widget class to use when showing an ability in a slot. */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
 	TSoftClassPtr<UAbilityInputSlotUserWidget> AbilityInputSlotUserWidgetClass;
 };

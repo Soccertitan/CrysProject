@@ -8,6 +8,7 @@
 #include "AbilityInputManagerViewModel.generated.h"
 
 
+class UAbilityInput;
 class UCrimAbilitySystemComponent;
 class UGameplayAbilityData;
 class UAbilityViewModel;
@@ -44,6 +45,10 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "Viewmodel|Ability")
 	UAbilityInputSlotViewModel* FindOrCreateInputSlotViewModel(const FAbilityInputSlot& InputSlot, const int32 InputSet);
+	
+	/** Sets the ability for the InputSlot. If the Ability is null, clears it. */
+	UFUNCTION(BlueprintCallable, Category = "Viewmodel|Ability")
+	void SetInputSlotAbility(UAbilityInputSlotViewModel* InputSlotViewModel, UAbilityInput* Ability);
 	
 protected:
 	UFUNCTION()

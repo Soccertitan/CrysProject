@@ -65,6 +65,24 @@ UAbilityInputSlotViewModel* UAbilityInputManagerViewModel::FindOrCreateInputSlot
 	return Result;
 }
 
+void UAbilityInputManagerViewModel::SetInputSlotAbility(UAbilityInputSlotViewModel* InputSlotViewModel, UAbilityInput* Ability)
+{
+	if (AbilityInputManagerComponent && InputSlotViewModel)
+	{
+		if (Ability)
+		{
+			FAbilityInputParams Params;
+			Params.Slot = InputSlotViewModel->GetInputSlot();
+			Params.Ability = Ability;
+			AbilityInputManagerComponent->SetAbilityInput(Params, InputSlotViewModel->InputSet);
+		}
+		else
+		{
+			AbilityInputManagerComponent->ClearAbilityInput(InputSlotViewModel->GetInputSlot(), InputSlotViewModel->InputSet);
+		}
+	}
+}
+
 void UAbilityInputManagerViewModel::SetActiveInputSet(const int32 InValue)
 {
 	UE_MVVM_SET_PROPERTY_VALUE(ActiveInputSet, InValue);
