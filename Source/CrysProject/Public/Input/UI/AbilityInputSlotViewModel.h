@@ -20,6 +20,14 @@ public:
 	FAbilityInputSlot GetInputSlot() const { return InputSlot; }
 	UAbilityViewModel* GetAbilityViewModel() const { return AbilityViewModel; }
 	
+	/** Tries to activate the ability from this slot. */
+	UFUNCTION(BlueprintCallable, Category = "Viewmodel|Ability")
+	void InputSlotPressed() const;
+	
+	/** Tries to activate the ability from this slot. */
+	UFUNCTION(BlueprintCallable, Category = "Viewmodel|Ability")
+	void InputSlotReleased() const;
+	
 protected:
 	void SetInputSlot(const FAbilityInputSlot& InValue);
 	void SetInputSet(const int32 InValue);

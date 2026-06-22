@@ -93,4 +93,6 @@ private:
 	void OnAbilityInputRemoved(const FAbilityInputInstance& AbilityInputInstance, const int32 InputSet);
 	
 	UAbilityViewModel* CreateAbilityViewModel(const FAbilityInputInstance& AbilityInputInstance);
+	
+	friend class UAbilityInputSlotViewModel;
 };
