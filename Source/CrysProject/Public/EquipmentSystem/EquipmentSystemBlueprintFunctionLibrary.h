@@ -4,8 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
+#include "StructUtils/InstancedStruct.h"
 #include "EquipmentSystemBlueprintFunctionLibrary.generated.h"
 
+struct FItem;
+class UEquipmentDefinition;
 class UEquipmentManagerComponent;
 /**
  * 
@@ -22,4 +25,7 @@ public:
 	 */
 	UFUNCTION(BlueprintPure, Category = "EquipmentSystem", meta = (DefaultToSelf = "Actor"))
 	static UEquipmentManagerComponent* GetEquipmentManagerComponent(AActor* Actor);
+	
+	UFUNCTION(BlueprintPure, Category = "EquipmentSystem")
+	static UEquipmentDefinition* FindEquipmentDefinition(const TInstancedStruct<FItem>& Item);
 };

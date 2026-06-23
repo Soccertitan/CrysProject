@@ -3,7 +3,8 @@
 
 #include "InventorySystem/UI/WeaponItemInstanceViewModel.h"
 
-#include "EquipmentSystem/ItemFragment_Equipment.h"
+#include "EquipmentSystem/EquipmentDefinition.h"
+#include "EquipmentSystem/ItemDefinitionFragment_Equipment.h"
 #include "UI/ViewModel/UITagViewModel.h"
 
 
@@ -42,17 +43,19 @@ void UWeaponItemInstanceViewModel::OnItemDefinitionSet_Implementation(const UIte
 {
 	Super::OnItemDefinitionSet_Implementation(ItemDefinition);
 	
-	if (const FItemFragment_Weapon* Fragment = ItemDefinition->FindFragmentByType<FItemFragment_Weapon>())
+	const FItemDefinitionFragment_Equipment* ItemFragment = ItemDefinition->FindFragmentByType<FItemDefinitionFragment_Equipment>();
+	if (ItemFragment && ItemFragment->EquipmentDefinition.Get())
 	{
-		SetWeapon(Fragment->Weapon);
+		const UEquipmentDefinition* EquipmentDef = ItemFragment->EquipmentDefinition.Get();
+		SetWeapon(EquipmentDef->Weapon);
 		SetWeaponLevel(GetUpgradeLevel());
 		
 		UUITagViewModel* WeaponSkill = NewObject<UUITagViewModel>(this);
-		WeaponSkill->SetGameplayTag(Fragment->Weapon.WeaponSkill);
+		WeaponSkill->SetGameplayTag(EquipmentDef->Weapon.WeaponSkill);
 		SetWeaponSkillViewModel(WeaponSkill);
 		
 		UUITagViewModel* DamageType = NewObject<UUITagViewModel>(this);
-		DamageType->SetGameplayTag(Fragment->Weapon.DamageType);
+		DamageType->SetGameplayTag(EquipmentDef->Weapon.DamageType);
 		SetDamageTypeViewModel(DamageType);
 	}
 }

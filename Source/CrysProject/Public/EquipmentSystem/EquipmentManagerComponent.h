@@ -5,10 +5,12 @@
 #include "CoreMinimal.h"
 #include "CrimAbilitySystemInterface.h"
 #include "EquipmentTypes.h"
+#include "AbilitySystem/Ability/Combat/CombatTypes.h"
 #include "Components/ActorComponent.h"
 #include "EquipmentManagerComponent.generated.h"
 
 
+struct FOnAttributeChangeData;
 class UCombatSystemComponent;
 class UJobDefinition;
 class UJobSystemComponent;

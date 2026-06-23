@@ -3,8 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ActiveGameplayEffectHandle.h"
 #include "GameplayTagContainer.h"
-#include "ItemFragment_Equipment.h"
+#include "InventoryTypes.h"
 #include "Net/Serialization/FastArraySerializer.h"
 
 #include "EquipmentTypes.generated.h"

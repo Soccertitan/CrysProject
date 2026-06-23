@@ -14,6 +14,10 @@
 #include "AbilitySystem/CrysAbilityBlueprintFunctionLibrary.h"
 #include "AbilitySystem/Ability/Combat/CombatSystemComponent.h"
 #include "AbilitySystem/AttributeSet/PrimaryAttributeSet.h"
+#include "EquipmentSystem/EquipmentDefinition.h"
+#include "EquipmentSystem/EquipmentSystemBlueprintFunctionLibrary.h"
+#include "EquipmentSystem/ItemDefinitionFragment_Equipment.h"
+#include "JobSystem/JobContainer.h"
 #include "JobSystem/JobDefinition.h"
 #include "JobSystem/JobSystemBlueprintFunctionLibrary.h"
 #include "JobSystem/JobSystemComponent.h"
@@ -114,8 +118,8 @@ void UEquipmentManagerComponent::EquipItem(FGameplayTag EquipSlot, const FItemIn
 	UnequipItemInternal(EquipSlot);
 	
 	// Unequips the item from an EquipmentManagerComponent if it's currently equipped.
-	const FItemShard_Equipment* ItemShard_Equipment = ItemInstance->GetItemPtr()->GetPtr<FItem>()->FindShardByType<FItemShard_Equipment>();
-	if (UEquipmentManagerComponent* EquippedTo = ItemShard_Equipment->GetEquipmentManagerComponent())
+	const FItemFragment_Equipment* ItemFragment_Equipment = ItemInstance->GetItemPtr()->GetPtr<FItem>()->FindFragmentByType<FItemFragment_Equipment>();
+	if (UEquipmentManagerComponent* EquippedTo = ItemFragment_Equipment->GetEquipmentManagerComponent())
 	{
 		if (const FEquippedItem* EquippedItem = EquippedTo->EquippedItemsContainer.FindItemByHandle(FItemInstanceHandle(Handle)))
 		{
@@ -154,42 +158,23 @@ FEquippedItem UEquipmentManagerComponent::GetEquippedItem(const FGameplayTag& Eq
 
 bool UEquipmentManagerComponent::CanEquipItem(const TInstancedStruct<FItem>& Item) const
 {
-	if (!Item.IsValid())
+	const UEquipmentDefinition* EquipmentDef = UEquipmentSystemBlueprintFunctionLibrary::FindEquipmentDefinition(Item);
+	if (!EquipmentDef)
 	{
 		return false;
 	}
 	
-	const UItemDefinition* ItemDefinition = UInventoryBlueprintFunctionLibrary::GetItemDefinition(Item);
-	if (!ItemDefinition)
-	{
-		return false;
-	}
-	
-	const FItemShard_Equipment* ItemShard_Equipment = Item.Get().FindShardByType<FItemShard_Equipment>();
-	if (!ItemShard_Equipment)
+	if (EquipmentDef->LevelRequirement > 0 &&
+		BaseLevel < EquipmentDef->LevelRequirement)
 	{
 		return false;
 	}
 
-	const FItemFragment_Equipment* ItemFragment_Equipment = ItemDefinition->FindFragmentByType<FItemFragment_Equipment>();
-	if (!ItemFragment_Equipment)
-	{
-		return false;
-	}
-	
-	if (ItemFragment_Equipment->LevelRequirement > 0)
-	{
-		if (BaseLevel < ItemFragment_Equipment->LevelRequirement)
-		{
-			return false;
-		}
-	}
-
-	if (ItemFragment_Equipment->Jobs.IsValid())
+	if (EquipmentDef->JobContainer && EquipmentDef->JobContainer->Jobs.IsValid())
 	{
 		if (MainJob)
 		{
-			if (!ItemFragment_Equipment->Jobs.HasTag(MainJob->JobTag))
+			if (!EquipmentDef->JobContainer->Jobs.HasTag(MainJob->JobTag))
 			{
 				return false;
 			}
@@ -205,28 +190,30 @@ bool UEquipmentManagerComponent::CanEquipItem(const TInstancedStruct<FItem>& Ite
 
 bool UEquipmentManagerComponent::CanEquipItemInSlot(FGameplayTag EquipSlot, const TInstancedStruct<FItem>& Item) const
 {
-	const UItemDefinition* ItemDefinition = UInventoryBlueprintFunctionLibrary::GetItemDefinition(Item);
-	if (!ItemDefinition)
+	if (!EquipSlot.IsValid())
 	{
 		return false;
 	}
 	
-	if (const FItemFragment_Equipment* ItemFragment_Equipment = ItemDefinition->FindFragmentByType<FItemFragment_Equipment>())
+	const UEquipmentDefinition* EquipmentDef = UEquipmentSystemBlueprintFunctionLibrary::FindEquipmentDefinition(Item);
+	if (!EquipmentDef)
 	{
-		if (!EquipSlot.MatchesTag(ItemFragment_Equipment->EquipSlot))
-		{
-			return false;
-		}
+		return false;
+	}
+	
+	if (!EquipSlot.MatchesTag(EquipmentDef->EquipSlot))
+	{
+		return false;
+	}
 		
-		// Prevent Weapons from being equipped in the SubHand unless they have the DualWield tag.
-		if (EquipSlot.MatchesTag(Crys::NativeGameplayTag::EquipSlot_Hand_Sub))
+	// Prevent Weapons from being equipped in the SubHand unless they have the DualWield tag.
+	if (EquipSlot.MatchesTag(Crys::NativeGameplayTag::EquipSlot_Hand_Sub))
+	{
+		if (EquipmentDef->bWeapon)
 		{
-			if (const FItemFragment_Weapon* ItemFragment_Weapon = ItemDefinition->FindFragmentByType<FItemFragment_Weapon>())
+			if (bDualWield == false)
 			{
-				if (bDualWield == false)
-				{
-					return false;
-				}
+				return false;
 			}
 		}
 	}
@@ -346,7 +333,7 @@ void UEquipmentManagerComponent::OnItemChangedInContainer(const FItemInstance& I
 		FItemInstanceHandle Handle(ItemInstance);
 		if (FEquippedItem* EquippedItem = EquippedItemsContainer.FindItemByHandle(Handle))
 		{
-			int32 ItemLevel = ItemInstance.GetItem().Get().FindShardByType<FItemShard_Equipment>()->Level;
+			int32 ItemLevel = ItemInstance.GetItem().Get().FindFragmentByType<FItemFragment_Equipment>()->Level;
 			AbilitySystemComponent->SetActiveGameplayEffectLevel(EquippedItem->GameplayEffectHandle, ItemLevel);
 			
 			if (WeaponEquipSlots.HasTag(EquippedItem->EquipSlot))
@@ -497,8 +484,8 @@ void UEquipmentManagerComponent::OnDualWieldTagCountChanged(FGameplayTag Tag, in
 		{
 			if (FItemInstance* ItemInstance = FindItem(EquippedItem->ItemInstanceHandle))
 			{
-				const UItemDefinition* ItemDefinition = UInventoryBlueprintFunctionLibrary::GetItemDefinition(ItemInstance->GetItem());
-				if (const FItemFragment_Weapon* WeaponFragment = ItemDefinition->FindFragmentByType<FItemFragment_Weapon>())
+				UEquipmentDefinition* EquipmentDef = UEquipmentSystemBlueprintFunctionLibrary::FindEquipmentDefinition(ItemInstance->GetItem());
+				if (EquipmentDef->bWeapon)
 				{
 					ClearWeapon(Crys::NativeGameplayTag::EquipSlot_Hand_Sub);
 				}
@@ -550,12 +537,12 @@ void UEquipmentManagerComponent::UnequipInvalidItems()
 FCrysWeapon UEquipmentManagerComponent::GetWeapon(const FItemInstance& ItemInstance, bool& bSuccess) const
 {
 	bSuccess = false;
-	if (const UItemDefinition* ItemDefinition = UInventoryBlueprintFunctionLibrary::GetItemDefinition(ItemInstance.GetItem()))
+	if (UEquipmentDefinition* EquipmentDef = UEquipmentSystemBlueprintFunctionLibrary::FindEquipmentDefinition(ItemInstance.GetItem()))
 	{
-		if (const FItemFragment_Weapon* WeaponFragment = ItemDefinition->FindFragmentByType<FItemFragment_Weapon>())
+		if (EquipmentDef->bWeapon)
 		{
-			FCrysWeapon Weapon = WeaponFragment->Weapon;
-			Weapon.SetLevel(ItemInstance.GetItem().Get<FItem>().FindShardByType<FItemShard_Equipment>()->Level);
+			FCrysWeapon Weapon = EquipmentDef->Weapon;
+			Weapon.SetLevel(ItemInstance.GetItem().Get<FItem>().FindFragmentByType<FItemFragment_Equipment>()->Level);
 			bSuccess = true;
 			return Weapon;
 		}
@@ -606,14 +593,14 @@ void UEquipmentManagerComponent::EquipItemInternal(const FGameplayTag& EquipSlot
 	NewEquippedItem.EquipSlot = EquipSlot;
 	NewEquippedItem.ItemInstanceHandle = FItemInstanceHandle(*ItemInstance);
 	NewEquippedItem.GameplayEffectHandle = ApplyEquipmentGameplayEffect(ItemInstance->GetItem());
-	NewEquippedItem.BlockedEquipSlots = UInventoryBlueprintFunctionLibrary::GetItemDefinition(ItemInstance->GetItem())->FindFragmentByType<FItemFragment_Equipment>()->BlockEquipSlots;
+	NewEquippedItem.BlockedEquipSlots = UEquipmentSystemBlueprintFunctionLibrary::FindEquipmentDefinition(ItemInstance->GetItem())->BlockEquipSlots;
 	
 	if (WeaponEquipSlots.HasTag(EquipSlot))
 	{
 		SetWeapon(EquipSlot, *ItemInstance);
 	}
 	
-	ItemInstance->GetItemPtr()->GetMutablePtr<FItem>()->FindMutableShardByType<FItemShard_Equipment>()->EquipmentManagerComponent = this;
+	ItemInstance->GetItemPtr()->GetMutablePtr<FItem>()->FindMutableFragmentByType<FItemFragment_Equipment>()->EquipmentManagerComponent = this;
 	ItemInstance->MarkItemDirty();
 	
 	FEquippedItem& EquippedItem = EquippedItemsContainer.Items.AddDefaulted_GetRef();
@@ -646,21 +633,20 @@ void UEquipmentManagerComponent::UnequipItemInternal(const FGameplayTag& EquipSl
 
 FActiveGameplayEffectHandle UEquipmentManagerComponent::ApplyEquipmentGameplayEffect(const TInstancedStruct<FItem>& Item)
 {
-	const FItemShard_Equipment* ItemShard_Equipment = Item.Get().FindShardByType<FItemShard_Equipment>();
-	const UItemDefinition* ItemDefinition = UInventoryBlueprintFunctionLibrary::GetItemDefinition(Item);
-	const FItemFragment_Equipment* ItemFragment_Equipment = ItemDefinition->FindFragmentByType<FItemFragment_Equipment>();
+	const FItemFragment_Equipment* ItemFrag_Equipment = Item.Get().FindFragmentByType<FItemFragment_Equipment>();
+	const UEquipmentDefinition* EquipmentDef = UEquipmentSystemBlueprintFunctionLibrary::FindEquipmentDefinition(Item);
 
 	FActiveGameplayEffectHandle Result;
 
-	const TSubclassOf<UGameplayEffect> EquipmentGE = ItemFragment_Equipment->GameplayEffect;
-	if (!ItemFragment_Equipment->GameplayEffect)
+	const TSubclassOf<UGameplayEffect> EquipmentGE = EquipmentDef->GameplayEffect;
+	if (!EquipmentGE)
 	{
-		UE_LOG(LogCrys, Warning, TEXT("GameplayEffect is invalid in [%s]"), *GetNameSafe(ItemDefinition));
+		UE_LOG(LogCrys, Warning, TEXT("GameplayEffect is invalid in [%s]"), *GetNameSafe(EquipmentDef));
 		return Result;
 	}
 
 	FGameplayEffectContextHandle ContextHandle = AbilitySystemComponent->MakeEffectContext();
-	FGameplayEffectSpecHandle Spec = AbilitySystemComponent->MakeOutgoingSpec(EquipmentGE, ItemShard_Equipment->Level, ContextHandle);
+	FGameplayEffectSpecHandle Spec = AbilitySystemComponent->MakeOutgoingSpec(EquipmentGE, ItemFrag_Equipment->Level, ContextHandle);
 
 	if (Spec.IsValid())
 	{
@@ -672,10 +658,10 @@ FActiveGameplayEffectHandle UEquipmentManagerComponent::ApplyEquipmentGameplayEf
 
 void UEquipmentManagerComponent::ClearEquipmentManagerFromItemInstance(FItemInstance* ItemInstance)
 {
-	FItemShard_Equipment* ItemShard = ItemInstance->GetItemPtr()->GetMutablePtr<FItem>()->FindMutableShardByType<FItemShard_Equipment>();
-	if (ItemShard->GetEquipmentManagerComponent() == this)
+	FItemFragment_Equipment* ItemFragment = ItemInstance->GetItemPtr()->GetMutablePtr<FItem>()->FindMutableFragmentByType<FItemFragment_Equipment>();
+	if (ItemFragment->GetEquipmentManagerComponent() == this)
 	{
-		ItemShard->EquipmentManagerComponent = nullptr;
+		ItemFragment->EquipmentManagerComponent = nullptr;
 		ItemInstance->MarkItemDirty();
 	}
 }

@@ -6,6 +6,7 @@
 #include "CrysItemInstanceViewModel.h"
 #include "EquipmentItemInstanceViewModel.generated.h"
 
+
 class UUITagViewModel;
 /**
  * 
@@ -16,6 +17,8 @@ class CRYSPROJECT_API UEquipmentItemInstanceViewModel : public UCrysItemInstance
 	GENERATED_BODY()
 	
 public:
+	UEquipmentItemInstanceViewModel();
+	
 	int32 GetLevelRequirement() const {return LevelRequirement;}
 	UFUNCTION(BlueprintPure, FieldNotify)
 	TArray<UUITagViewModel*> GetAllowedJobViewModels() const {return AllowedJobViewModels;}

@@ -3,9 +3,16 @@
 
 #include "InventorySystem/UI/EquipmentItemInstanceViewModel.h"
 
+#include "EquipmentSystem/EquipmentDefinition.h"
 #include "EquipmentSystem/EquipmentManagerComponent.h"
-#include "EquipmentSystem/ItemFragment_Equipment.h"
+#include "EquipmentSystem/ItemDefinitionFragment_Equipment.h"
+#include "JobSystem/JobContainer.h"
 #include "UI/ViewModel/UITagViewModel.h"
+
+UEquipmentItemInstanceViewModel::UEquipmentItemInstanceViewModel()
+{
+	Bundles.Add("Equipment");
+}
 
 void UEquipmentItemInstanceViewModel::SetLevelRequirement(int32 Value)
 {
@@ -28,10 +35,10 @@ void UEquipmentItemInstanceViewModel::OnItemSet_Implementation(const TInstancedS
 {
 	Super::OnItemSet_Implementation(Item);
 	
-	if (const FItemShard_Equipment* ItemShard = Item.Get<FItem>().FindShardByType<FItemShard_Equipment>())
+	if (const FItemFragment_Equipment* ItemFragment = Item.Get<FItem>().FindFragmentByType<FItemFragment_Equipment>())
 	{
-		SetUpgradeLevel(ItemShard->Level);
-		SetIsEquipped(IsValid(ItemShard->GetEquipmentManagerComponent()));
+		SetUpgradeLevel(ItemFragment->Level);
+		SetIsEquipped(IsValid(ItemFragment->GetEquipmentManagerComponent()));
 	}
 	else
 	{
@@ -44,21 +51,26 @@ void UEquipmentItemInstanceViewModel::OnItemDefinitionSet_Implementation(const U
 {
 	Super::OnItemDefinitionSet_Implementation(ItemDefinition);
 	
-	if (const FItemFragment_Equipment* ItemFragment = ItemDefinition->FindFragmentByType<FItemFragment_Equipment>())
+	const FItemDefinitionFragment_Equipment* ItemDefFragment = ItemDefinition->FindFragmentByType<FItemDefinitionFragment_Equipment>();
+	if (ItemDefFragment && ItemDefFragment->EquipmentDefinition.Get())
 	{
-		SetLevelRequirement(ItemFragment->LevelRequirement);
+		const UEquipmentDefinition* EquipmentDef = ItemDefFragment->EquipmentDefinition.Get();
+		SetLevelRequirement(EquipmentDef->LevelRequirement);
 
 		UUITagViewModel* NewVM = NewObject<UUITagViewModel>(this);
-		NewVM->SetGameplayTag(ItemFragment->EquipSlot);
+		NewVM->SetGameplayTag(EquipmentDef->EquipSlot);
 		SetEquipSlotViewModels(NewVM);
 		
-		TArray<UUITagViewModel*> AllowedJobs;
-		for (const FGameplayTag& Job : ItemFragment->Jobs.GetGameplayTagArray())
+		if (EquipmentDef->JobContainer && EquipmentDef->JobContainer->Jobs.IsValid())
 		{
-			UUITagViewModel* NewJobVM = NewObject<UUITagViewModel>(this);
-			NewJobVM->SetGameplayTag(Job);
-			AllowedJobs.Add(NewJobVM);
+			TArray<UUITagViewModel*> AllowedJobs;
+			for (const FGameplayTag& Job : EquipmentDef->JobContainer->Jobs.GetGameplayTagArray())
+			{
+				UUITagViewModel* NewJobVM = NewObject<UUITagViewModel>(this);
+				NewJobVM->SetGameplayTag(Job);
+				AllowedJobs.Add(NewJobVM);
+			}
+			SetAllowedJobViewModels(AllowedJobs);
 		}
-		SetAllowedJobViewModels(AllowedJobs);
 	}
 }
