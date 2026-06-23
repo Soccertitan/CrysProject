@@ -6,6 +6,7 @@
 #include "UI/ViewModel/CrysViewModel.h"
 #include "EquipmentManagerViewModel.generated.h"
 
+
 class UItemInstanceViewModel;
 struct FItemInstance;
 struct FEquippedItem;
@@ -15,6 +16,7 @@ class UEquippedItemViewModel;
 class UInventoryManagerComponent;
 class UEquipmentManagerComponent;
 class UItemInstanceViewModelFilter_EquipableItems;
+
 /**
  * 
  */
