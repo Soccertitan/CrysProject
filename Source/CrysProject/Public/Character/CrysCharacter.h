@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MeshMergeFunctionLibrary.h"
+#include "CrimSkeletalMergingLibrary.h"
 #include "GameFramework/Character.h"
 #include "CrysCharacter.generated.h"
 
@@ -53,5 +53,5 @@ private:
 	FText CharacterName;
 
 	UPROPERTY(EditAnywhere, ReplicatedUsing=OnRep_SkeletalMeshMergeParams, Category = "Character")
-	FSkeletalMeshMergeParams SkeletalMeshMergeParams;
+	FCrimSkeletalMeshMergeParams SkeletalMeshMergeParams;
 };

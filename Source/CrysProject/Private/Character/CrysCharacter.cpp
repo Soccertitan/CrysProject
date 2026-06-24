@@ -73,7 +73,7 @@ void ACrysCharacter::MergeSkeletalMeshes()
 	if (SkeletalMeshMergeParams.BaseMeshesToMerge.Num() > 0 ||
 		SkeletalMeshMergeParams.DynamicMeshesToMerge.Num() > 0)
 	{
-		if (USkeletalMesh* MergedMesh = UMeshMergeFunctionLibrary::MergeMeshes(SkeletalMeshMergeParams))
+		if (USkeletalMesh* MergedMesh = UCrimSkeletalMergingLibrary::MergeMeshes(SkeletalMeshMergeParams))
 		{
 			GetMesh()->SetSkeletalMesh(MergedMesh, false);
 		}
