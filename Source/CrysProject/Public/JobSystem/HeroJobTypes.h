@@ -51,7 +51,7 @@ struct FJobProgressItem : public FFastArraySerializerItem
 	TSoftObjectPtr<UJobDefinition> Job;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (ClampMin = 1))
-	int32 Level = 0;
+	int32 Level = 1;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (ClampMin = 0))
 	int32 Experience = 0;

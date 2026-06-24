@@ -7,6 +7,11 @@
 #include "JobSystem/JobDefinition.h"
 
 
+bool UJobViewModel::IsJobViewModelValid() const
+{
+	return JobDefinition ? true : false;
+}
+
 FText UJobViewModel::GetJobName() const
 {
 	return JobDefinition ? JobDefinition->JobName : FText();
@@ -24,7 +29,9 @@ FText UJobViewModel::GetDescription() const
 
 void UJobViewModel::SetJobDefinition(UJobDefinition* InHeroJob)
 {
+	JobDefStreamableHandle.Reset();
 	JobDefinition = InHeroJob;
+	UE_MVVM_BROADCAST_FIELD_VALUE_CHANGED(IsJobViewModelValid);
 	UE_MVVM_BROADCAST_FIELD_VALUE_CHANGED(GetJobName);
 	UE_MVVM_BROADCAST_FIELD_VALUE_CHANGED(GetShortName);
 	UE_MVVM_BROADCAST_FIELD_VALUE_CHANGED(GetDescription);

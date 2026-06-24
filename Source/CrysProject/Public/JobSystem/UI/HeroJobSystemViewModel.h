@@ -7,24 +7,26 @@
 #include "UI/ViewModel/CrysViewModel.h"
 #include "HeroJobSystemViewModel.generated.h"
 
+class UJobViewModel;
 class UHeroJobSystemComponent;
 class UHeroJobViewModel;
 
 /**
  * Allows the switching of the Jobs in the HeroJobSystemComponent and has information of the JobProgressItems.
  */
-UCLASS(Abstract)
+UCLASS()
 class CRYSPROJECT_API UHeroJobSystemViewModel : public UMVVMViewModelBase
 {
 	GENERATED_BODY()
 	
 public:
 	UFUNCTION(BlueprintCallable, Category = "Viewmodel|Job")
-	void SetHeroJobManagerComponent(UHeroJobSystemComponent* HeroJobSystem);
+	void SetHeroJobSystemComponent(UHeroJobSystemComponent* HeroJobSystem);
 	
 	UFUNCTION(BlueprintCallable, Category = "Viewmodel|Job")
 	UHeroJobViewModel* FindOrCreateHeroJobViewModel(TSoftObjectPtr<UJobDefinition> JobDefinition);
 	
+	UJobViewModel* GetRaceViewModel() const { return RaceViewModel; }
 	UHeroJobViewModel* GetMainJobViewModel() const { return MainJobViewModel; }
 	UHeroJobViewModel* GetSubJobViewModel() const { return SubJobViewModel; }
 	
@@ -57,10 +59,16 @@ public:
 	bool IsSwitchingJobs() const { return bSwitchingJobs; }
 	
 protected:
-	void SetMainJobViewModel(UHeroJobViewModel* InValue);
-	void SetSubJobViewModel(UHeroJobViewModel* InValue);
+	void SetRaceViewModel(UJobViewModel* NewValue);
+	void SetMainJobViewModel(UHeroJobViewModel* NewValue);
+	void SetSubJobViewModel(UHeroJobViewModel* NewValue);
+	
+	UHeroJobViewModel* CreateEmptyJobViewModel();
 	
 private:
+	UPROPERTY(BlueprintReadOnly, FieldNotify, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UJobViewModel> RaceViewModel;
+
 	/** The current MainJob the player is. */
 	UPROPERTY(BlueprintReadOnly, FieldNotify, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UHeroJobViewModel> MainJobViewModel;
@@ -83,6 +91,9 @@ private:
 	TObjectPtr<UHeroJobSystemComponent> HeroJobSystemComponent;
 	
 	UHeroJobViewModel* CreateHeroJobViewModel(TSoftObjectPtr<UJobDefinition> JobDefinition);
+	
+	UFUNCTION()
+	void OnRaceChanged(UJobDefinition* RaceDefinition);
 	
 	UFUNCTION()
 	void OnMainJobChanged(UJobDefinition* JobDefinition);

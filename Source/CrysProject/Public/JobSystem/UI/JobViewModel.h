@@ -18,6 +18,9 @@ class CRYSPROJECT_API UJobViewModel : public UMVVMViewModelBase
 	
 public:
 	UFUNCTION(BlueprintPure, FieldNotify, Category = "Viewmodel|Job")
+	bool IsJobViewModelValid() const;
+	
+	UFUNCTION(BlueprintPure, FieldNotify, Category = "Viewmodel|Job")
 	FText GetJobName() const;
 
 	UFUNCTION(BlueprintPure, FieldNotify, Category = "Viewmodel|Job")

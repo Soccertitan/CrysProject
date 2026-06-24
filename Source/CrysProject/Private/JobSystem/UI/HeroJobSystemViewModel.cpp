@@ -9,7 +9,7 @@
 #include "JobSystem/UI/JobViewModel.h"
 
 
-void UHeroJobSystemViewModel::SetHeroJobManagerComponent(UHeroJobSystemComponent* HeroJobSystem)
+void UHeroJobSystemViewModel::SetHeroJobSystemComponent(UHeroJobSystemComponent* HeroJobSystem)
 {
 	if (HeroJobSystemComponent == HeroJobSystem)
 	{
@@ -18,6 +18,7 @@ void UHeroJobSystemViewModel::SetHeroJobManagerComponent(UHeroJobSystemComponent
 	
 	if (HeroJobSystemComponent)
 	{
+		HeroJobSystemComponent->OnRaceChangedDelegate.RemoveAll(this);
 		HeroJobSystemComponent->OnMainJobChangedDelegate.RemoveAll(this);
 		HeroJobSystemComponent->OnSubJobChangedDelegate.RemoveAll(this);
 		HeroJobSystemComponent->OnTrySetJobDelegate.RemoveAll(this);
@@ -29,6 +30,7 @@ void UHeroJobSystemViewModel::SetHeroJobManagerComponent(UHeroJobSystemComponent
 	
 	if (HeroJobSystemComponent)
 	{
+		HeroJobSystemComponent->OnRaceChangedDelegate.AddUniqueDynamic(this, &UHeroJobSystemViewModel::OnRaceChanged);
 		HeroJobSystemComponent->OnMainJobChangedDelegate.AddUniqueDynamic(this, &UHeroJobSystemViewModel::OnMainJobChanged);
 		HeroJobSystemComponent->OnSubJobChangedDelegate.AddUniqueDynamic(this, &UHeroJobSystemViewModel::OnSubJobChanged);
 		HeroJobSystemComponent->OnTrySetJobDelegate.AddUniqueDynamic(this, &UHeroJobSystemViewModel::OnTrySetJob);
@@ -131,30 +133,44 @@ void UHeroJobSystemViewModel::TrySetSubJob(UHeroJobViewModel* JobViewModel)
 	}
 }
 
-void UHeroJobSystemViewModel::SetMainJobViewModel(UHeroJobViewModel* InValue)
+void UHeroJobSystemViewModel::SetRaceViewModel(UJobViewModel* NewValue)
+{
+	UE_MVVM_SET_PROPERTY_VALUE(RaceViewModel, NewValue);
+}
+
+void UHeroJobSystemViewModel::SetMainJobViewModel(UHeroJobViewModel* NewValue)
 {
 	if (MainJobViewModel)
 	{
 		MainJobViewModel->SetIsMainJob(false);
 	}
-	if (InValue)
+	if (NewValue)
 	{
-		InValue->SetIsMainJob(true);
+		NewValue->SetIsMainJob(true);
 	}
-	UE_MVVM_SET_PROPERTY_VALUE(MainJobViewModel, InValue);
+	UE_MVVM_SET_PROPERTY_VALUE(MainJobViewModel, NewValue);
 }
 
-void UHeroJobSystemViewModel::SetSubJobViewModel(UHeroJobViewModel* InValue)
+void UHeroJobSystemViewModel::SetSubJobViewModel(UHeroJobViewModel* NewValue)
 {
 	if (SubJobViewModel)
 	{
 		SubJobViewModel->SetIsSubJob(false);
 	}
-	if (InValue)
+	if (NewValue)
 	{
-		InValue->SetIsSubJob(true);
+		NewValue->SetIsSubJob(true);
 	}
-	UE_MVVM_SET_PROPERTY_VALUE(SubJobViewModel, InValue);
+	UE_MVVM_SET_PROPERTY_VALUE(SubJobViewModel, NewValue);
+}
+
+UHeroJobViewModel* UHeroJobSystemViewModel::CreateEmptyJobViewModel()
+{
+	UHeroJobViewModel* NewVM = NewObject<UHeroJobViewModel>(this);
+	UJobViewModel* JobViewModel = NewObject<UJobViewModel>(this);
+	NewVM->SetJobViewModel(JobViewModel);
+	
+	return NewVM;
 }
 
 UHeroJobViewModel* UHeroJobSystemViewModel::CreateHeroJobViewModel(TSoftObjectPtr<UJobDefinition> JobDefinition)
@@ -196,6 +212,16 @@ UHeroJobViewModel* UHeroJobSystemViewModel::CreateHeroJobViewModel(TSoftObjectPt
 	return NewVM;
 }
 
+void UHeroJobSystemViewModel::OnRaceChanged(UJobDefinition* RaceDefinition)
+{
+	UJobViewModel* NewVM = NewObject<UJobViewModel>(this);
+	if (RaceDefinition)
+	{
+		NewVM->SetJobDefinition(RaceDefinition);
+	}
+	SetRaceViewModel(NewVM);
+}
+
 void UHeroJobSystemViewModel::OnMainJobChanged(UJobDefinition* JobDefinition)
 {
 	if (JobDefinition)
@@ -219,7 +245,7 @@ void UHeroJobSystemViewModel::OnMainJobChanged(UJobDefinition* JobDefinition)
 	}
 	else
 	{
-		SetMainJobViewModel(nullptr);
+		SetMainJobViewModel(CreateEmptyJobViewModel());
 	}
 }
 
@@ -246,7 +272,7 @@ void UHeroJobSystemViewModel::OnSubJobChanged(UJobDefinition* JobDefinition)
 	}
 	else
 	{
-		SetSubJobViewModel(nullptr);
+		SetSubJobViewModel(CreateEmptyJobViewModel());
 	}
 }
 
@@ -282,6 +308,7 @@ void UHeroJobSystemViewModel::OnHeroJobSystemDataUpdated(const FHeroJobSystemDat
 
 void UHeroJobSystemViewModel::InitializeStartingData()
 {
+	OnRaceChanged(HeroJobSystemComponent->GetRace());
 	OnHeroJobSystemDataUpdated(HeroJobSystemComponent->GetHeroJobSystemData());
 	
 	UJobDefinition* MainJob = HeroJobSystemComponent->GetMainJob();
@@ -317,7 +344,7 @@ void UHeroJobSystemViewModel::InitializeStartingData()
 		}
 		else
 		{
-			SetMainJobViewModel(nullptr);
+			SetMainJobViewModel(CreateEmptyJobViewModel());
 		}
 	}
 	if (!bFoundSubJob)
@@ -328,7 +355,7 @@ void UHeroJobSystemViewModel::InitializeStartingData()
 		}
 		else
 		{
-			SetSubJobViewModel(nullptr);
+			SetSubJobViewModel(CreateEmptyJobViewModel());
 		}
 	}
 }
