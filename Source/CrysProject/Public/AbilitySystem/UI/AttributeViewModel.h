@@ -28,7 +28,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Viewmodel|Attribute")
 	void SetAttribute(UPARAM(meta = (Categories = "Attribute")) const FGameplayTag AttributeTag, float InCurrentValue, float InBaseValue);
 	
-	/** If the attribute was set with an ASC. You can evaluate the attribute up to the specified channel. */
+	/** 
+	 * If the attribute was set with an ASC. You can evaluate the attribute up to the specified channel. If there is no
+	 * ASC, returns the current value.
+	 */
 	UFUNCTION(BlueprintPure, Category = "Viewmodel|Attribute")
 	float EvaluateAttributeValueUpToChannel(EGameplayModEvaluationChannel Channel) const;
 
@@ -45,6 +48,8 @@ public:
 	bool IsAttributePercentValue() const {return AttributeTagInfo.bDisplayValueAsPercent;}
 	UFUNCTION(BlueprintPure, FieldNotify, Category = "Viewmodel|Attribute")
 	TSoftObjectPtr<UTexture2D> GetIcon() const {return UITagInfo.Icon;}
+	
+	FGameplayTag GetAttributeTag() const {return AttributeTagInfo.AttributeTag;}
 	
 protected:
 	void SetCurrentValue(float InValue);

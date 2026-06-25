@@ -3,6 +3,8 @@
 
 #include "UI/ViewModel/CrysViewModel.h"
 
+#include "GameFramework/PlayerController.h"
+
 void UCrysViewModel::InitializeViewModel(APlayerController* PlayerController)
 {
 	if (IsValid(PlayerController))
