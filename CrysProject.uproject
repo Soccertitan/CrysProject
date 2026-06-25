@@ -27,10 +27,6 @@
 			"Enabled": true
 		},
 		{
-			"Name": "StructUtils",
-			"Enabled": true
-		},
-		{
 			"Name": "TargetingSystem",
 			"Enabled": true
 		},
@@ -65,6 +61,14 @@
 		},
 		{
 			"Name": "Chooser",
+			"Enabled": true
+		},
+		{
+			"Name": "StateTree",
+			"Enabled": true
+		},
+		{
+			"Name": "ModelViewViewModel",
 			"Enabled": true
 		}
 	]

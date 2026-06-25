@@ -8,6 +8,7 @@
 #include "UI/UITagRelationship.h"
 #include "AttributeViewModel.generated.h"
 
+struct FOnAttributeChangeData;
 class UAbilitySystemComponent;
 struct FGameplayTag;
 /**
@@ -26,6 +27,10 @@ public:
 	/** Manually initializes the ViewModel with static data. */
 	UFUNCTION(BlueprintCallable, Category = "Viewmodel|Attribute")
 	void SetAttribute(UPARAM(meta = (Categories = "Attribute")) const FGameplayTag AttributeTag, float InCurrentValue, float InBaseValue);
+	
+	/** If the attribute was set with an ASC. You can evaluate the attribute up to the specified channel. */
+	UFUNCTION(BlueprintPure, Category = "Viewmodel|Attribute")
+	float EvaluateAttributeValueUpToChannel(EGameplayModEvaluationChannel Channel) const;
 
 	float GetCurrentValue() const {return CurrentValue;}
 	float GetBaseValue() const {return BaseValue;}

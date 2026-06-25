@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "AttributeSet.h"
-#include "GameplayEffectTypes.h"
 #include "GameplayTagContainer.h"
 #include "Engine/DataAsset.h"
 #include "AttributeTagRelationship.generated.h"
@@ -28,7 +27,7 @@ struct FAttributeTagInfo
 
 	/** Evaluates the GameplayAttribute with source tags. */
 	UPROPERTY(EditAnywhere)
-	FGameplayTagRequirements SourceTags;
+	FGameplayTagContainer SourceTags;
 
 	bool IsValid() const;
 

@@ -4,6 +4,7 @@
 #include "AbilitySystem/UI/AttributeViewModel.h"
 
 #include "AbilitySystemComponent.h"
+#include "CrimAbilitySystemBlueprintFunctionLibrary.h"
 #include "CrysBlueprintFunctionLibrary.h"
 #include "CrysLogChannels.h"
 #include "Settings/CrysGameData.h"
@@ -38,7 +39,7 @@ void UAttributeViewModel::SetAttributeWithASC(const FGameplayTag AttributeTag, U
 	if (AbilitySystemComponent->HasAttributeSetForAttribute(AttributeTagInfo.GameplayAttribute))
 	{
 		float NewCurrentValue = AbilitySystemComponent->GetFilteredAttributeValue(
-				   AttributeTagInfo.GameplayAttribute, AttributeTagInfo.SourceTags, FGameplayTagContainer());
+				   AttributeTagInfo.GameplayAttribute, FGameplayTagRequirements(AttributeTagInfo.SourceTags), FGameplayTagContainer());
 		SetCurrentValue(NewCurrentValue);
 		SetBaseValue(AbilitySystemComponent->GetNumericAttributeBase(AttributeTagInfo.GameplayAttribute));
 	}
@@ -50,6 +51,18 @@ void UAttributeViewModel::SetAttribute(const FGameplayTag AttributeTag, float In
 
 	SetCurrentValue(InCurrentValue);
 	SetBaseValue(InBaseValue);
+}
+
+float UAttributeViewModel::EvaluateAttributeValueUpToChannel(EGameplayModEvaluationChannel Channel) const
+{
+	bool bSuccess = false;
+	return UCrimAbilitySystemBlueprintFunctionLibrary::EvaluateAttributeValueWithTagsUpToChannel(
+		AbilitySystemComponent,
+		AttributeTagInfo.GameplayAttribute,
+		Channel,
+		AttributeTagInfo.SourceTags,
+		FGameplayTagContainer(),
+		bSuccess);
 }
 
 void UAttributeViewModel::SetCurrentValue(float InValue)
@@ -83,7 +96,7 @@ void UAttributeViewModel::OnAttributeValueChanged(const FOnAttributeChangeData& 
 	else
 	{
 		float NewCurrentValue = AbilitySystemComponent->GetFilteredAttributeValue(
-			AttributeTagInfo.GameplayAttribute, AttributeTagInfo.SourceTags, FGameplayTagContainer());
+			AttributeTagInfo.GameplayAttribute, FGameplayTagRequirements(AttributeTagInfo.SourceTags), FGameplayTagContainer());
 		SetCurrentValue(NewCurrentValue);
 	}
 
