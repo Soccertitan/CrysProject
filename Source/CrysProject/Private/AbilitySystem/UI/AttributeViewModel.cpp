@@ -53,16 +53,14 @@ void UAttributeViewModel::SetAttribute(const FGameplayTag AttributeTag, float In
 	SetBaseValue(InBaseValue);
 }
 
-float UAttributeViewModel::EvaluateAttributeValueUpToChannel(EGameplayModEvaluationChannel Channel, const FGameplayTagContainer AdditionalSourceTags) const
+float UAttributeViewModel::EvaluateAttributeValueUpToChannel(EGameplayModEvaluationChannel Channel) const
 {
 	bool bSuccess = false;
-	FGameplayTagContainer SourceTags (AttributeTagInfo.SourceTags);
-	SourceTags.AppendTags(AdditionalSourceTags);
 	const float ReturnValue = UCrimAbilitySystemBlueprintFunctionLibrary::EvaluateAttributeValueWithTagsUpToChannel(
 		AbilitySystemComponent,
 		AttributeTagInfo.GameplayAttribute,
 		Channel,
-		SourceTags,
+		AttributeTagInfo.SourceTags,
 		FGameplayTagContainer(),
 		bSuccess);
 	

@@ -99,10 +99,10 @@ public:
 protected:
 	/** The type of widget to create for each entry displayed in the list. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = UINavListEntry,
-		meta = (ExposeOnSpawn, DesignerRebuild, AllowPrivateAccess = true, MustImplement = "/Script/FinalFantasyXI.UINavListViewEntryInterface"))
+		meta = (ExposeOnSpawn, DesignerRebuild, AllowPrivateAccess = true, MustImplement = "/Script/CrysProject.UINavListViewEntryInterface"))
 	TSubclassOf<UUINavComponent> EntryWidgetClass;
 
-	/** The number of EntryWidgets to create as children in the ListView widget. */
+	/** The max number of EntryWidgets to create as children in the ListView widget. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = UINavListEntry, meta = (ExposeOnSpawn, ClampMin=1, ClampMax=100))
 	int32 NumberOfEntryWidgetsToCreate;
 

@@ -35,7 +35,7 @@ public:
 	 * ASC, returns the current value.
 	 */
 	UFUNCTION(BlueprintPure, Category = "Viewmodel|Attribute")
-	float EvaluateAttributeValueUpToChannel(EGameplayModEvaluationChannel Channel, const FGameplayTagContainer AdditionalSourceTags) const;
+	float EvaluateAttributeValueUpToChannel(EGameplayModEvaluationChannel Channel) const;
 
 	float GetCurrentValue() const {return CurrentValue;}
 	float GetBaseValue() const {return BaseValue;}

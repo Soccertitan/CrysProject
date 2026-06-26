@@ -6,7 +6,6 @@
 #include "InventoryBlueprintFunctionLibrary.h"
 #include "InventoryManagerComponent.h"
 #include "AbilitySystem/CrysAbilityBlueprintFunctionLibrary.h"
-#include "AbilitySystem/Ability/Combat/CombatBlueprintFunctionLibrary.h"
 #include "AbilitySystem/Ability/Combat/CombatSystemComponent.h"
 #include "EquipmentSystem/EquipmentManagerComponent.h"
 #include "EquipmentSystem/EquipmentSystemBlueprintFunctionLibrary.h"
@@ -68,13 +67,6 @@ void UEquipmentManagerViewModel::InitializeViewModel(APlayerController* PlayerCo
 				}
 			}
 		}
-	}
-	
-	CombatSystemComponent = UCombatBlueprintFunctionLibrary::GetCombatSystemComponent(PlayerState);
-	if (CombatSystemComponent)
-	{
-		CombatSystemComponent->OnPrimaryWeaponChangedDelegate.AddUniqueDynamic(this, &UEquipmentManagerViewModel::OnPrimaryWeaponChanged);
-		OnPrimaryWeaponChanged(CombatSystemComponent->GetPrimaryWeapon());
 	}
 }
 
@@ -181,9 +173,4 @@ void UEquipmentManagerViewModel::OnItemChanged(const FItemInstance& ItemInstance
 			ViewModel->GetItemInstanceViewModel()->SetItemInstance(ItemInstance);
 		}
 	}
-}
-
-void UEquipmentManagerViewModel::OnPrimaryWeaponChanged(const FCrysWeapon& Weapon)
-{
-	UE_MVVM_SET_PROPERTY_VALUE(PrimaryWeaponSkill, Weapon.WeaponSkill);
 }

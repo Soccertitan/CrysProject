@@ -8,8 +8,6 @@
 #include "EquipmentManagerViewModel.generated.h"
 
 
-struct FCrysWeapon;
-class UCombatSystemComponent;
 class UItemInstanceViewModel;
 struct FItemInstance;
 struct FEquippedItem;
@@ -48,23 +46,16 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Viewmodel|EquipSystem")
 	void UnequipItem(UPARAM(meta = (Categories = "EquipSlot")) FGameplayTag EquipSlot);
 	
-	FGameplayTag GetPrimaryWeaponSkill() const { return PrimaryWeaponSkill; }
-	
 protected:
 	
 private:
 	UPROPERTY(EditDefaultsOnly, Instanced, NoClear)
 	TObjectPtr<UItemInstanceViewModelFilter_EquipableItems> EquippableItemsFilter;
-	
-	UPROPERTY(BlueprintReadOnly, FieldNotify, meta = (AllowPrivateAccess = "true"))
-	FGameplayTag PrimaryWeaponSkill;
 
 	UPROPERTY()
 	TObjectPtr<UEquipmentManagerComponent> EquipmentManagerComponent;
 	UPROPERTY()
 	TObjectPtr<UInventoryManagerComponent> InventoryManagerComponent;
-	UPROPERTY()
-	TObjectPtr<UCombatSystemComponent> CombatSystemComponent;
 	
 	UPROPERTY()
 	TArray<TObjectPtr<UEquippedItemViewModel>> EquippedItemViewModels;
@@ -79,7 +70,4 @@ private:
 	void OnItemUnequipped(const FEquippedItem& EquippedItem);
 	UFUNCTION()
 	void OnItemChanged(const FItemInstance& ItemInstance);
-	
-	UFUNCTION()
-	void OnPrimaryWeaponChanged(const FCrysWeapon& Weapon);
 };
