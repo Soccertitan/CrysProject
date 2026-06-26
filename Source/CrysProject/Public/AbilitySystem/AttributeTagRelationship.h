@@ -53,6 +53,6 @@ public:
 	FAttributeTagInfo FindAttributeTagInfo(const FGameplayTag& AttributeTag, bool bLogNotFound = false) const;
 
 protected:
-	UPROPERTY(EditDefaultsOnly, meta = (Categories = "Attribute", NoResetToDefault, NoElementDuplicate, ForceInlineRow, TitleProperty = "{AttributeTag}"))
+	UPROPERTY(EditDefaultsOnly, meta = (NoResetToDefault, NoElementDuplicate, ForceInlineRow, TitleProperty = "{AttributeTag}"))
 	TArray<FAttributeTagInfo> AttributeTags;
 };
