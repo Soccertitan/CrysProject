@@ -6,7 +6,6 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "CrysAbilityBlueprintFunctionLibrary.generated.h"
 
-class UCombatSystemComponent;
 enum class EAbilityTargetType : uint8;
 /**
  * 
@@ -24,7 +23,4 @@ public:
 	/** Uses the AbilityTargetInterface to get the target of an ability. */
 	UFUNCTION(BlueprintPure, Category = "Ability", meta = (DefaultToSelf = "SourceActor"))
 	static AActor* GetAbilityTarget(AActor* SourceActor);
-	
-	UFUNCTION(BlueprintPure, Category = "Ability", meta = (DefaultToSelf = Actor))
-	static UCombatSystemComponent* GetCombatSystemComponent(AActor* Actor);
 };

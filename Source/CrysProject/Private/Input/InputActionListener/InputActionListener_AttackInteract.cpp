@@ -13,8 +13,9 @@
 #include "InputActionValue.h"
 #include "InteractionSystemBlueprintFunctionLibrary.h"
 #include "InteractorComponent.h"
-#include "AbilitySystem/CrysAbilityBlueprintFunctionLibrary.h"
+#include "AbilitySystem/Ability/Combat/CombatBlueprintFunctionLibrary.h"
 #include "AbilitySystem/Ability/Combat/CombatSystemComponent.h"
+#include "GameFramework/PlayerController.h"
 #include "GameFramework/PlayerState.h"
 
 UInputActionListener_AttackInteract::UInputActionListener_AttackInteract()
@@ -98,7 +99,7 @@ UCombatSystemComponent* UInputActionListener_AttackInteract::GetCombatSystemComp
 {
 	if (!CombatSystemComponent)
 	{
-		CombatSystemComponent = UCrysAbilityBlueprintFunctionLibrary::GetCombatSystemComponent(GetPlayerController()->GetPlayerState<APlayerState>());
+		CombatSystemComponent = UCombatBlueprintFunctionLibrary::GetCombatSystemComponent(GetPlayerController()->GetPlayerState<APlayerState>());
 	}
 	return CombatSystemComponent;
 }

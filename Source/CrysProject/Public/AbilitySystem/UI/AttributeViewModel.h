@@ -8,9 +8,11 @@
 #include "UI/UITagRelationship.h"
 #include "AttributeViewModel.generated.h"
 
+enum class EGameplayModEvaluationChannel : uint8;
 struct FOnAttributeChangeData;
 class UAbilitySystemComponent;
 struct FGameplayTag;
+
 /**
  * Takes an AttributeTag and displays information about that attribute.
  */
@@ -33,7 +35,7 @@ public:
 	 * ASC, returns the current value.
 	 */
 	UFUNCTION(BlueprintPure, Category = "Viewmodel|Attribute")
-	float EvaluateAttributeValueUpToChannel(EGameplayModEvaluationChannel Channel) const;
+	float EvaluateAttributeValueUpToChannel(EGameplayModEvaluationChannel Channel, const FGameplayTagContainer AdditionalSourceTags) const;
 
 	float GetCurrentValue() const {return CurrentValue;}
 	float GetBaseValue() const {return BaseValue;}

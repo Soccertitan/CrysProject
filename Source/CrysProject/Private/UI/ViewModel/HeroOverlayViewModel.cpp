@@ -6,7 +6,7 @@
 #include "CrimAbilitySystemBlueprintFunctionLibrary.h"
 #include "CrimTargetingSystemBlueprintFunctionLibrary.h"
 #include "CrimTargetingSystemComponent.h"
-#include "AbilitySystem/CrysAbilityBlueprintFunctionLibrary.h"
+#include "AbilitySystem/Ability/Combat/CombatBlueprintFunctionLibrary.h"
 #include "AbilitySystem/Ability/Combat/CombatSystemComponent.h"
 #include "Player/CrysPlayerController.h"
 #include "Player/CrysPlayerState.h"
@@ -26,7 +26,7 @@ void UHeroOverlayViewModel::InitializeViewModel(APlayerController* PlayerControl
 		CrysPC->OnRootWidgetRemovedDelegate.AddUObject(this, &UHeroOverlayViewModel::OnRootWidgetRemoved);
 	}
 	
-	CombatSystemComponent = UCrysAbilityBlueprintFunctionLibrary::GetCombatSystemComponent(PlayerController->GetPlayerState<APlayerState>());
+	CombatSystemComponent = UCombatBlueprintFunctionLibrary::GetCombatSystemComponent(PlayerController->GetPlayerState<APlayerState>());
 	if (CombatSystemComponent)
 	{
 		SetIsAutoAttacking(CombatSystemComponent->IsAutoAttacking());

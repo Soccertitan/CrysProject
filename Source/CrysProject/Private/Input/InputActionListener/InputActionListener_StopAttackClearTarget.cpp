@@ -6,8 +6,9 @@
 #include "CrimTargetingSystemBlueprintFunctionLibrary.h"
 #include "CrimTargetingSystemComponent.h"
 #include "InputActionValue.h"
-#include "AbilitySystem/CrysAbilityBlueprintFunctionLibrary.h"
+#include "AbilitySystem/Ability/Combat/CombatBlueprintFunctionLibrary.h"
 #include "AbilitySystem/Ability/Combat/CombatSystemComponent.h"
+#include "GameFramework/PlayerController.h"
 #include "GameFramework/PlayerState.h"
 
 
@@ -59,7 +60,7 @@ UCombatSystemComponent* UInputActionListener_StopAttackClearTarget::GetCombatSys
 {
 	if (!CombatSystemComponent)
 	{
-		CombatSystemComponent = UCrysAbilityBlueprintFunctionLibrary::GetCombatSystemComponent(GetPlayerController()->GetPlayerState<APlayerState>());
+		CombatSystemComponent = UCombatBlueprintFunctionLibrary::GetCombatSystemComponent(GetPlayerController()->GetPlayerState<APlayerState>());
 	}
 	
 	return CombatSystemComponent;

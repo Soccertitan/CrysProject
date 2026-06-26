@@ -5,9 +5,13 @@
 
 #include "InventoryBlueprintFunctionLibrary.h"
 #include "InventoryManagerComponent.h"
+#include "AbilitySystem/CrysAbilityBlueprintFunctionLibrary.h"
+#include "AbilitySystem/Ability/Combat/CombatBlueprintFunctionLibrary.h"
+#include "AbilitySystem/Ability/Combat/CombatSystemComponent.h"
 #include "EquipmentSystem/EquipmentManagerComponent.h"
 #include "EquipmentSystem/EquipmentSystemBlueprintFunctionLibrary.h"
 #include "EquipmentSystem/UI/EquippedItemViewModel.h"
+#include "GameFramework/PlayerController.h"
 #include "GameFramework/PlayerState.h"
 #include "InventorySystem/UI/Filter/ItemInstanceViewModelFilter_EquipableItems.h"
 #include "UI/InventoryUISubsystem.h"
@@ -25,7 +29,8 @@ void UEquipmentManagerViewModel::InitializeViewModel(APlayerController* PlayerCo
 {
 	Super::InitializeViewModel(PlayerController);
 	
-	EquipmentManagerComponent = UEquipmentSystemBlueprintFunctionLibrary::GetEquipmentManagerComponent(PlayerController->GetPlayerState<APlayerState>());
+	APlayerState* PlayerState = PlayerController->GetPlayerState<APlayerState>();
+	EquipmentManagerComponent = UEquipmentSystemBlueprintFunctionLibrary::GetEquipmentManagerComponent(PlayerState);
 	
 	if (EquipmentManagerComponent)
 	{
@@ -33,7 +38,7 @@ void UEquipmentManagerViewModel::InitializeViewModel(APlayerController* PlayerCo
 		EquipmentManagerComponent->OnItemUnequippedDelegate.AddUniqueDynamic(this, &UEquipmentManagerViewModel::OnItemUnequipped);
 	}
 	
-	InventoryManagerComponent = UInventoryBlueprintFunctionLibrary::GetInventoryManagerComponent(PlayerController->GetPlayerState<APlayerState>());
+	InventoryManagerComponent = UInventoryBlueprintFunctionLibrary::GetInventoryManagerComponent(PlayerState);
 	if (InventoryManagerComponent)
 	{
 		InventoryManagerComponent->OnItemAddedDelegate.AddUniqueDynamic(this, &UEquipmentManagerViewModel::OnItemChanged);
@@ -63,6 +68,13 @@ void UEquipmentManagerViewModel::InitializeViewModel(APlayerController* PlayerCo
 				}
 			}
 		}
+	}
+	
+	CombatSystemComponent = UCombatBlueprintFunctionLibrary::GetCombatSystemComponent(PlayerState);
+	if (CombatSystemComponent)
+	{
+		CombatSystemComponent->OnPrimaryWeaponChangedDelegate.AddUniqueDynamic(this, &UEquipmentManagerViewModel::OnPrimaryWeaponChanged);
+		OnPrimaryWeaponChanged(CombatSystemComponent->GetPrimaryWeapon());
 	}
 }
 
@@ -169,4 +181,9 @@ void UEquipmentManagerViewModel::OnItemChanged(const FItemInstance& ItemInstance
 			ViewModel->GetItemInstanceViewModel()->SetItemInstance(ItemInstance);
 		}
 	}
+}
+
+void UEquipmentManagerViewModel::OnPrimaryWeaponChanged(const FCrysWeapon& Weapon)
+{
+	UE_MVVM_SET_PROPERTY_VALUE(PrimaryWeaponSkill, Weapon.WeaponSkill);
 }

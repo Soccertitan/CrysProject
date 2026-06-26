@@ -42,7 +42,7 @@ void UJobViewModel::LoadJobDefinition(TSoftObjectPtr<UJobDefinition> InJobDefini
 	if (!InJobDefinition.IsNull())
 	{
 		FStreamableDelegate Delegate = FStreamableDelegate::CreateUObject(this, &UJobViewModel::OnJobDefinitionLoaded, InJobDefinition);
-		JobDefStreamableHandle = UAssetManager::Get().PreloadPrimaryAssets({InJobDefinition->GetPrimaryAssetId()}, {}, false, Delegate);
+		JobDefStreamableHandle = UAssetManager::Get().PreloadPrimaryAssets({UAssetManager::Get().GetPrimaryAssetIdForPath(InJobDefinition.ToSoftObjectPath())}, {}, false, Delegate);
 	}
 }
 

@@ -6,6 +6,7 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "CombatBlueprintFunctionLibrary.generated.h"
 
+class UCombatSystemComponent;
 struct FCrysWeapon;
 /**
  * 
@@ -16,6 +17,9 @@ class CRYSPROJECT_API UCombatBlueprintFunctionLibrary : public UBlueprintFunctio
 	GENERATED_BODY()
 	
 public:
+	UFUNCTION(BlueprintPure, Category = "Ability", meta = (DefaultToSelf = Actor))
+	static UCombatSystemComponent* GetCombatSystemComponent(AActor* Actor);
+	
 	UFUNCTION(BlueprintPure, Category = "Combat", DisplayName = "GetDamage")
 	static float GetWeaponDamage(const FCrysWeapon& Weapon);
 	

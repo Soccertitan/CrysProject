@@ -9,7 +9,7 @@
 #include "CrysBlueprintFunctionLibrary.h"
 #include "InteractorComponent.h"
 #include "InventoryBlueprintFunctionLibrary.h"
-#include "AbilitySystem/CrysAbilityBlueprintFunctionLibrary.h"
+#include "AbilitySystem/Ability/Combat/CombatBlueprintFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "EquipmentSystem/EquipmentSystemBlueprintFunctionLibrary.h"
 #include "GameFramework/PlayerState.h"
@@ -75,7 +75,7 @@ UEquipmentManagerComponent* AHeroCharacter::GetEquipmentManagerComponent_Impleme
 
 UCombatSystemComponent* AHeroCharacter::GetCombatSystemComponent_Implementation() const
 {
-	return UCrysAbilityBlueprintFunctionLibrary::GetCombatSystemComponent(GetPlayerState());
+	return UCombatBlueprintFunctionLibrary::GetCombatSystemComponent(GetPlayerState());
 }
 
 UCrimTargetingSystemComponent* AHeroCharacter::GetCrimTargetingSystemComponent_Implementation() const
