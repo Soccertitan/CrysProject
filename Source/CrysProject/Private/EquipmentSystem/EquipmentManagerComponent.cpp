@@ -104,7 +104,7 @@ void UEquipmentManagerComponent::EquipItem(FGameplayTag EquipSlot, const FItemIn
 	
 	if (!CanEquipItem(ItemInstance->GetItem()) || 
 		!CanEquipItemInSlot(EquipSlot, ItemInstance->GetItem()) ||
-		!IsEquipSlotBlocked(EquipSlot))
+		IsEquipSlotBlocked(EquipSlot))
 	{
 		return;
 	}
@@ -613,15 +613,21 @@ void UEquipmentManagerComponent::UnequipItemInternal(const FGameplayTag& EquipSl
 {
 	for (int32 idx = EquippedItemsContainer.Items.Num() - 1; idx >= 0; idx--)
 	{
-		FEquippedItem TempRemovedItem = EquippedItemsContainer.Items[idx];
-		if (TempRemovedItem.EquipSlot == EquipSlot)
+		if (EquippedItemsContainer.Items[idx].EquipSlot == EquipSlot)
 		{
+			FEquippedItem TempRemovedItem = EquippedItemsContainer.Items[idx];
 			EquippedItemsContainer.Items.RemoveAt(idx);
 			AbilitySystemComponent->RemoveActiveGameplayEffect(TempRemovedItem.GameplayEffectHandle);
 			
 			if (WeaponEquipSlots.HasTag(EquipSlot))
 			{
 				ClearWeapon(EquipSlot);
+			}
+			
+			if (FItemInstance* ItemInstance = TempRemovedItem.ItemInstanceHandle.GetItemInstance())
+			{
+				ItemInstance->GetItemPtr()->GetMutablePtr<FItem>()->FindMutableFragmentByType<FItemFragment_Equipment>()->EquipmentManagerComponent = nullptr;
+				ItemInstance->MarkItemDirty();
 			}
 			
 			OnItemUnequipped(TempRemovedItem);

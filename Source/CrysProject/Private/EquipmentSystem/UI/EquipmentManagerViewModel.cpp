@@ -133,6 +133,10 @@ UEquippedItemViewModel* UEquipmentManagerViewModel::InternalCreateEquippedItemVi
 		NewVM->SetItemInstanceViewModel(
 		UInventoryViewModelBlueprintFunctionLibrary::CreateItemInstanceViewModel(this, *ItemInstance));	
 	}
+	else
+	{
+		NewVM->SetItemInstanceViewModel(NewObject<UItemInstanceViewModel>(this));
+	}
 	EquippedItemViewModels.Add(NewVM);
 	return NewVM;
 }
