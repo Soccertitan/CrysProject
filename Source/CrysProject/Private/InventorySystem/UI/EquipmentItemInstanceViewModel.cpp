@@ -37,7 +37,6 @@ void UEquipmentItemInstanceViewModel::OnItemSet_Implementation(const TInstancedS
 	
 	if (const FItemFragment_Equipment* ItemFragment = Item.Get<FItem>().FindFragmentByType<FItemFragment_Equipment>())
 	{
-		SetUpgradeLevel(ItemFragment->Level);
 		SetIsEquipped(IsValid(ItemFragment->GetEquipmentManagerComponent()));
 	}
 	else

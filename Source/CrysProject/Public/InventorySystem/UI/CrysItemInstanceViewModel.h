@@ -22,6 +22,8 @@ protected:
 	void SetUpgradeLevel(int32 Value);
 	void SetIsEquipped(bool bValue);
 	
+	virtual void OnItemSet_Implementation(const TInstancedStruct<FItem>& Item) override;
+	
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, FieldNotify, Getter, meta = (AllowPrivateAccess = "true"))
 	int32 UpgradeLevel = 0;

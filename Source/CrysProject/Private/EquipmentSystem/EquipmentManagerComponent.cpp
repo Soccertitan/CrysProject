@@ -333,7 +333,7 @@ void UEquipmentManagerComponent::OnItemChangedInContainer(const FItemInstance& I
 		FItemInstanceHandle Handle(ItemInstance);
 		if (FEquippedItem* EquippedItem = EquippedItemsContainer.FindItemByHandle(Handle))
 		{
-			int32 ItemLevel = ItemInstance.GetItem().Get().FindFragmentByType<FItemFragment_Equipment>()->Level;
+			int32 ItemLevel = ItemInstance.GetItem().Get().GameplayTagStackContainer.GetStackCount(Crys::NativeGameplayTag::Item_UpgradeLevel);
 			AbilitySystemComponent->SetActiveGameplayEffectLevel(EquippedItem->GameplayEffectHandle, ItemLevel);
 			
 			if (WeaponEquipSlots.HasTag(EquippedItem->EquipSlot))
@@ -542,7 +542,7 @@ FCrysWeapon UEquipmentManagerComponent::GetWeapon(const FItemInstance& ItemInsta
 		if (EquipmentDef->bWeapon)
 		{
 			FCrysWeapon Weapon = EquipmentDef->Weapon;
-			Weapon.SetLevel(ItemInstance.GetItem().Get<FItem>().FindFragmentByType<FItemFragment_Equipment>()->Level);
+			Weapon.SetLevel(ItemInstance.GetItem().Get().GameplayTagStackContainer.GetStackCount(Crys::NativeGameplayTag::Item_UpgradeLevel));
 			bSuccess = true;
 			return Weapon;
 		}
@@ -639,7 +639,7 @@ void UEquipmentManagerComponent::UnequipItemInternal(const FGameplayTag& EquipSl
 
 FActiveGameplayEffectHandle UEquipmentManagerComponent::ApplyEquipmentGameplayEffect(const TInstancedStruct<FItem>& Item)
 {
-	const FItemFragment_Equipment* ItemFrag_Equipment = Item.Get().FindFragmentByType<FItemFragment_Equipment>();
+	const int32 UpgradeLevel = Item.Get().GameplayTagStackContainer.GetStackCount(Crys::NativeGameplayTag::Item_UpgradeLevel);
 	const UEquipmentDefinition* EquipmentDef = UEquipmentSystemBlueprintFunctionLibrary::FindEquipmentDefinition(Item);
 
 	FActiveGameplayEffectHandle Result;
@@ -652,7 +652,7 @@ FActiveGameplayEffectHandle UEquipmentManagerComponent::ApplyEquipmentGameplayEf
 	}
 
 	FGameplayEffectContextHandle ContextHandle = AbilitySystemComponent->MakeEffectContext();
-	FGameplayEffectSpecHandle Spec = AbilitySystemComponent->MakeOutgoingSpec(EquipmentGE, ItemFrag_Equipment->Level, ContextHandle);
+	FGameplayEffectSpecHandle Spec = AbilitySystemComponent->MakeOutgoingSpec(EquipmentGE, UpgradeLevel, ContextHandle);
 
 	if (Spec.IsValid())
 	{

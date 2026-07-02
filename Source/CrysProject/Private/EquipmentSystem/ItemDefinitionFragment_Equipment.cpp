@@ -9,25 +9,6 @@ UEquipmentManagerComponent* FItemFragment_Equipment::GetEquipmentManagerComponen
 	return EquipmentManagerComponent.Get();
 }
 
-bool FItemFragment_Equipment::IsMatching(const TInstancedStruct<FItemFragment>& Fragment) const
-{
-	if (FItemFragment::IsMatching(Fragment))
-	{
-		if (const FItemFragment_Equipment* Ptr = Fragment.GetPtr<FItemFragment_Equipment>())
-		{
-			if (Ptr->Level != Level)
-			{
-				return false;
-			}
-		}
-		else
-		{
-			return false;
-		}
-	}
-	return true;
-}
-
 TInstancedStruct<FItemFragment> FItemDefinitionFragment_Equipment::GetItemFragment() const
 {
 	TInstancedStruct<FItemFragment> WeaponFragment;

@@ -71,7 +71,7 @@ public:
 	UFUNCTION(BlueprintPure, Category = "EquipmentManager")
 	virtual bool CanEquipItem(UPARAM(ref) const TInstancedStruct<FItem>& Item) const;
 	
-	/** Checks if the item is allowed to be equipped at the slot. Checks if the slot is blocked and dual wield requirements.*/
+	/** Checks if the item is allowed to be equipped at the slot. Checks dual wield requirements. */
 	UFUNCTION(BlueprintPure, Category = "EquipmentManager")
 	virtual bool CanEquipItemInSlot(UPARAM(meta=(Categories="EquipSlot")) FGameplayTag EquipSlot, UPARAM(ref) const TInstancedStruct<FItem>& Item) const;
 	

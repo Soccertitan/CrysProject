@@ -8,7 +8,7 @@
 #include "ItemInstanceViewModelFilter_EquipableItems.generated.h"
 
 /**
- * 
+ * Expects an EquipmentManagerComponent to be passed in as the context.
  */
 UCLASS()
 class CRYSPROJECT_API UItemInstanceViewModelFilter_EquipableItems : public UItemInstanceViewModelFilter

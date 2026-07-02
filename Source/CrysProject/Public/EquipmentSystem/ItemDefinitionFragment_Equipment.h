@@ -20,14 +20,8 @@ struct FItemFragment_Equipment : public FItemFragment
 {
 	GENERATED_BODY()
 
-	/** The current level of the equipment. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, SaveGame)
-	int32 Level = 0;
-
 	/** The EquipmentManagerComponent the item is currently equipped to. */
 	UEquipmentManagerComponent* GetEquipmentManagerComponent() const;
-
-	virtual bool IsMatching(const TInstancedStruct<FItemFragment>& Fragment) const override;
 
 private:
 	/** The EquipmentManagerComponent the item is currently equipped to. */

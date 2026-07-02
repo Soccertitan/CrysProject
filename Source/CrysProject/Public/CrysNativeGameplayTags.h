@@ -50,6 +50,8 @@ namespace Crys::NativeGameplayTag
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(EquipSlot_Hand_Main);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(EquipSlot_Hand_Sub);
 	
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Item_UpgradeLevel);
+	
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Job);
 	
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_BasePotency);

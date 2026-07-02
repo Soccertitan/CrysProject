@@ -49,6 +49,8 @@ namespace Crys::NativeGameplayTag
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(EquipSlot_Hand_Main, "EquipSlot.Hand.Main", "Main Hand slot that can only hold a weapon.");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(EquipSlot_Hand_Sub, "EquipSlot.Hand.Sub", "Sub Hand slot for dual wielding, shield, ammo, or some other sub hand equipment");
 	
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Item_UpgradeLevel, "Item.UpgradeLevel", "The upgrade level of an item.");
+	
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Job, "Job", "Jobs and races characters can be.");
 	
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_BasePotency, "SetByCaller.BasePotency", "Abilities will use this tag to pass the base potency to the gameplay effect spec.");
