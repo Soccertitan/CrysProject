@@ -72,17 +72,21 @@ public:
 	/** Clears out the entire array of ListItems. */
 	UFUNCTION(BlueprintCallable, Category = "UINavWidget|ListView")
 	void ClearListItems();
-
-	/** Gets the Item from the component. */
-	UFUNCTION(BlueprintPure, Category = "UINavWidget|ListView")
-	UObject* GetListItemFromComponent(UUINavComponent* Component);
+	
+	/** Finds the Index of the ListItem and calls GoToListItemByIndex. */
+	UFUNCTION(BlueprintCallable, Category = "UINavWidget|ListView")
+	void GoToListItem(UObject* ListItem);
+	
+	/** Sets the page and widget focus based on the ListItemIndex. */
+	UFUNCTION(BlueprintCallable, Category = "UINavWidget|ListView")
+	void GoToListItemByIndex(int32 ListItemIndex);
 
 	/**
 	 * Gets the Item from the index.
-	 * @param Index The index to get the item from. Must be between 0 and GetNumItems().
+	 * @param ListItemIndex The index to get the ListItem from.
 	 */
 	UFUNCTION(BlueprintPure, Category = "UINavWidget|ListView")
-	UObject* GetListItemFromIndex(int32 Index = 0);
+	UObject* GetListItemFromIndex(int32 ListItemIndex = 0);
 
 	/** Returns the total number of items */
 	UFUNCTION(BlueprintPure, Category = "UINavWidget|ListView")

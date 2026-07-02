@@ -120,25 +120,31 @@ void UUINavWidgetListView::ClearListItems()
 	K2_OnItemsChanged({}, Removed);
 }
 
-UObject* UUINavWidgetListView::GetListItemFromComponent(UUINavComponent* Component)
+void UUINavWidgetListView::GoToListItem(UObject* ListItem)
 {
-	int32 ChildIndex = ListView->GetChildIndex(Component);
-	if (ChildIndex >= 0)
-	{
-		int32 ItemIndex = NumberOfEntryWidgetsToCreate * (CurrentPage - 1) + ChildIndex;
-		if (ListItems.IsValidIndex(ItemIndex))
-		{
-			return ListItems[ItemIndex];
-		}
-	}
-	return nullptr;
+	int32 Index = ListItems.Find(ListItem);
+	GoToListItemByIndex(Index);
 }
 
-UObject* UUINavWidgetListView::GetListItemFromIndex(int32 Index)
+void UUINavWidgetListView::GoToListItemByIndex(int32 ListItemIndex)
 {
-	if (ListItems.IsValidIndex(Index))
+	if (ListItemIndex >= 0)
 	{
-		return ListItems[Index];
+		int32 PageToGoToo = FMath::Max(FMath::DivideAndRoundUp(ListItemIndex + 1, NumberOfEntryWidgetsToCreate), 1);
+		int32 ListViewIndexToFocus = ListItemIndex - NumberOfEntryWidgetsToCreate * (PageToGoToo - 1);
+		GoToPage(PageToGoToo);
+		if (UWidget* WidgetToFocus = ListView->GetChildAt(ListViewIndexToFocus))
+		{
+			WidgetToFocus->SetFocus();
+		}
+	}
+}
+
+UObject* UUINavWidgetListView::GetListItemFromIndex(int32 ListItemIndex)
+{
+	if (ListItems.IsValidIndex(ListItemIndex))
+	{
+		return ListItems[ListItemIndex];
 	}
 	return nullptr;
 }

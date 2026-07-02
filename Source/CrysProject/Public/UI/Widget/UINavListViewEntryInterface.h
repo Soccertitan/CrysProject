@@ -25,6 +25,9 @@ public:
 	/** The ListItemObject to set for the Widget. */
 	UFUNCTION(BlueprintNativeEvent)
 	void SetListViewItem(UObject* ListItemObject);
+	
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UObject* GetListViewItem() const;
 
 	/** The widget should clear its ListItemObject. */
 	UFUNCTION(BlueprintNativeEvent)
