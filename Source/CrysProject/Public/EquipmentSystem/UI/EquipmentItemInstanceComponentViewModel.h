@@ -3,20 +3,29 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "EquipmentItemInstanceViewModel.h"
-#include "ScalableFloat.h"
 #include "AbilitySystem/Ability/Combat/CombatTypes.h"
-#include "WeaponItemInstanceViewModel.generated.h"
+#include "UI/ViewModel/Component/ItemInstanceComponentViewModel.h"
+#include "EquipmentItemInstanceComponentViewModel.generated.h"
 
+class UUITagViewModel;
 /**
- * 
+ * Viewmodel to display equipment data.
  */
 UCLASS()
-class CRYSPROJECT_API UWeaponItemInstanceViewModel : public UEquipmentItemInstanceViewModel
+class CRYSPROJECT_API UEquipmentItemInstanceComponentViewModel : public UItemInstanceComponentViewModel
 {
 	GENERATED_BODY()
 	
 public:
+	int32 GetLevelRequirement() const {return LevelRequirement;}
+	
+	UFUNCTION(BlueprintPure, FieldNotify)
+	TArray<UUITagViewModel*> GetAllowedJobViewModels() const {return AllowedJobViewModels;}
+	UFUNCTION(BlueprintPure, FieldNotify)
+	UUITagViewModel* GetEquipSlotViewModels() const {return EquipSlotViewModel;}
+	
+	bool IsWeapon() const { return bWeapon; }
+	
 	UFUNCTION(BlueprintPure, FieldNotify)
 	int32 GetDamage() const {return Weapon.GetDamage();}
 	UFUNCTION(BlueprintPure, FieldNotify)
@@ -25,6 +34,11 @@ public:
 	UUITagViewModel* GetDamageTypeViewModel() const {return DamageTypeViewModel;}
 	
 protected:
+	void SetLevelRequirement(int32 Value);
+	void SetAllowedJobViewModels(TArray<UUITagViewModel*> Value);
+	void SetEquipSlotViewModels(UUITagViewModel* Value);
+	
+	void SetIsWeapon(bool bValue);
 	void SetWeapon(const FCrysWeapon& Value);
 	void SetWeaponLevel(int32 Level);
 	void SetWeaponSkillViewModel(UUITagViewModel* Value);
@@ -34,6 +48,18 @@ protected:
 	virtual void OnItemDefinitionSet_Implementation(const UItemDefinition* ItemDefinition) override;
 	
 private:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, FieldNotify, Getter, meta = (AllowPrivateAccess = "true"))
+	int32 LevelRequirement = 0;
+	
+	UPROPERTY()
+	TObjectPtr<UUITagViewModel> EquipSlotViewModel;
+	
+	UPROPERTY()
+	TArray<TObjectPtr<UUITagViewModel>> AllowedJobViewModels;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, FieldNotify, Getter=IsWeapon, meta = (AllowPrivateAccess = "true"))
+	bool bWeapon = false;
+	
 	UPROPERTY()
 	FCrysWeapon Weapon;
 	

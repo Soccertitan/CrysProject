@@ -42,5 +42,6 @@ struct FItemDefinitionFragment_Equipment : public FItemDefinitionFragment
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AssetBundles="Equipment"))
 	TSoftObjectPtr<UEquipmentDefinition> EquipmentDefinition;
 
+	virtual TSubclassOf<UItemInstanceComponentViewModel> GetItemInstanceComponentViewModel() const override;
 	virtual TInstancedStruct<FItemFragment> GetItemFragment() const override;
 };
