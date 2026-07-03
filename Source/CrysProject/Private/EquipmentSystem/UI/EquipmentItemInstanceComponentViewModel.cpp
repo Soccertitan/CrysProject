@@ -89,8 +89,8 @@ void UEquipmentItemInstanceComponentViewModel::OnItemDefinitionSet_Implementatio
 			SetAllowedJobViewModels(AllowedJobs);
 		}
 		
-		SetIsWeapon(EquipmentDef->bWeapon);
-		if (EquipmentDef->bWeapon)
+		SetIsWeapon(EquipmentDef->bIsWeapon);
+		if (EquipmentDef->bIsWeapon)
 		{
 			SetWeapon(EquipmentDef->Weapon);
 			if (UCrysItemInstanceViewModel* ItemInstanceViewModel = Cast<UCrysItemInstanceViewModel>(GetOuter()))

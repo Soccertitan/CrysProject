@@ -209,7 +209,7 @@ bool UEquipmentManagerComponent::CanEquipItemInSlot(FGameplayTag EquipSlot, cons
 	// Prevent Weapons from being equipped in the SubHand unless they have the DualWield tag.
 	if (EquipSlot.MatchesTag(Crys::NativeGameplayTag::EquipSlot_Hand_Sub))
 	{
-		if (EquipmentDef->bWeapon)
+		if (EquipmentDef->bIsWeapon)
 		{
 			if (bDualWield == false)
 			{
@@ -485,7 +485,7 @@ void UEquipmentManagerComponent::OnDualWieldTagCountChanged(FGameplayTag Tag, in
 			if (FItemInstance* ItemInstance = FindItem(EquippedItem->ItemInstanceHandle))
 			{
 				UEquipmentDefinition* EquipmentDef = UEquipmentSystemBlueprintFunctionLibrary::FindEquipmentDefinition(ItemInstance->GetItem());
-				if (EquipmentDef->bWeapon)
+				if (EquipmentDef->bIsWeapon)
 				{
 					ClearWeapon(Crys::NativeGameplayTag::EquipSlot_Hand_Sub);
 				}
@@ -539,7 +539,7 @@ FCrysWeapon UEquipmentManagerComponent::GetWeapon(const FItemInstance& ItemInsta
 	bSuccess = false;
 	if (UEquipmentDefinition* EquipmentDef = UEquipmentSystemBlueprintFunctionLibrary::FindEquipmentDefinition(ItemInstance.GetItem()))
 	{
-		if (EquipmentDef->bWeapon)
+		if (EquipmentDef->bIsWeapon)
 		{
 			FCrysWeapon Weapon = EquipmentDef->Weapon;
 			Weapon.SetLevel(ItemInstance.GetItem().Get().GameplayTagStackContainer.GetStackCount(Crys::NativeGameplayTag::Item_UpgradeLevel));

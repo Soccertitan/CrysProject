@@ -14,7 +14,7 @@ void UEquipmentDefinition::PostEditChangeProperty(struct FPropertyChangedEvent& 
 	// Ensure that the EquipSlot tags are not also in the BlockedEquipSlots.
 	BlockEquipSlots.RemoveTag(EquipSlot);
 
-	if (bWeapon)
+	if (bIsWeapon)
 	{
 		FGameplayTagContainer AllowedWeaponSlots;
 		AllowedWeaponSlots.AddTagFast(Crys::NativeGameplayTag::EquipSlot_Hand_Main);

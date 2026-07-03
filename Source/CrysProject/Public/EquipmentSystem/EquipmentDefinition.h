@@ -44,7 +44,7 @@ public:
 	TSubclassOf<UGameplayEffect> GameplayEffect;
 	
 	UPROPERTY(EditDefaultsOnly, AssetRegistrySearchable, BlueprintReadOnly, Category = "Equipment")
-	bool bWeapon = false;
+	bool bIsWeapon = false;
 	
 	/** The weapon that is used. */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Equipment", meta = (EditCondition=bWeapon))
