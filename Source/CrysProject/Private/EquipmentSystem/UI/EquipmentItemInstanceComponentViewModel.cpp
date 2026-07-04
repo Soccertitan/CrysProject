@@ -3,6 +3,8 @@
 
 #include "EquipmentSystem/UI/EquipmentItemInstanceComponentViewModel.h"
 
+#include "GameplayEffect.h"
+#include "AbilitySystem/GameplayEffect/Component/GameplayEffectUIData_AttributeText.h"
 #include "EquipmentSystem/EquipmentDefinition.h"
 #include "EquipmentSystem/EquipmentManagerComponent.h"
 #include "EquipmentSystem/ItemDefinitionFragment_Equipment.h"
@@ -14,6 +16,11 @@
 void UEquipmentItemInstanceComponentViewModel::SetLevelRequirement(int32 Value)
 {
 	UE_MVVM_SET_PROPERTY_VALUE(LevelRequirement, Value);
+}
+
+void UEquipmentItemInstanceComponentViewModel::SetAttributeText(FText Value)
+{
+	UE_MVVM_SET_PROPERTY_VALUE(AttributeText, Value);
 }
 
 void UEquipmentItemInstanceComponentViewModel::SetAllowedJobViewModels(TArray<UUITagViewModel*> Value)
@@ -70,6 +77,7 @@ void UEquipmentItemInstanceComponentViewModel::OnItemDefinitionSet_Implementatio
 	const FItemDefinitionFragment_Equipment* ItemDefFragment = ItemDefinition->FindFragmentByType<FItemDefinitionFragment_Equipment>();
 	if (ItemDefFragment && ItemDefFragment->EquipmentDefinition.Get())
 	{
+		UCrysItemInstanceViewModel* ItemInstanceViewModel = Cast<UCrysItemInstanceViewModel>(GetOuter());
 		const UEquipmentDefinition* EquipmentDef = ItemDefFragment->EquipmentDefinition.Get();
 		SetLevelRequirement(EquipmentDef->LevelRequirement);
 
@@ -93,7 +101,7 @@ void UEquipmentItemInstanceComponentViewModel::OnItemDefinitionSet_Implementatio
 		if (EquipmentDef->bIsWeapon)
 		{
 			SetWeapon(EquipmentDef->Weapon);
-			if (UCrysItemInstanceViewModel* ItemInstanceViewModel = Cast<UCrysItemInstanceViewModel>(GetOuter()))
+			if (ItemInstanceViewModel)
 			{
 				SetWeaponLevel(ItemInstanceViewModel->GetUpgradeLevel());
 			}
@@ -109,6 +117,16 @@ void UEquipmentItemInstanceComponentViewModel::OnItemDefinitionSet_Implementatio
 			UUITagViewModel* DamageType = NewObject<UUITagViewModel>(this);
 			DamageType->SetGameplayTag(EquipmentDef->Weapon.DamageType);
 			SetDamageTypeViewModel(DamageType);
+		}
+		
+		if (TSubclassOf<UGameplayEffect> GameplayEffectClass = EquipmentDef->GameplayEffect)
+		{
+			UGameplayEffect* GE = GameplayEffectClass->GetDefaultObject<UGameplayEffect>();
+			if (const UGameplayEffectUIData_AttributeText* GameplayEffectUIData_AttributeText = GE->FindComponent<UGameplayEffectUIData_AttributeText>())
+			{
+				const int32 UpgradeLevel = ItemInstanceViewModel ? ItemInstanceViewModel->GetUpgradeLevel() : 0;
+				SetAttributeText(GameplayEffectUIData_AttributeText->GetAttributeDescription(UpgradeLevel));
+			}
 		}
 	}
 }

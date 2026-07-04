@@ -8,6 +8,11 @@
 #include "EquipmentSystem/ItemDefinitionFragment_Equipment.h"
 
 
+UCrysItemInstanceViewModel::UCrysItemInstanceViewModel()
+{
+	Bundles.Add("Equipment");
+}
+
 void UCrysItemInstanceViewModel::SetUpgradeLevel(int32 Value)
 {
 	UE_MVVM_SET_PROPERTY_VALUE(UpgradeLevel, Value);

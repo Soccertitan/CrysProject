@@ -18,6 +18,7 @@ class CRYSPROJECT_API UEquipmentItemInstanceComponentViewModel : public UItemIns
 	
 public:
 	int32 GetLevelRequirement() const {return LevelRequirement;}
+	FText GetAttributeText() const {return AttributeText;}
 	
 	UFUNCTION(BlueprintPure, FieldNotify)
 	TArray<UUITagViewModel*> GetAllowedJobViewModels() const {return AllowedJobViewModels;}
@@ -35,6 +36,7 @@ public:
 	
 protected:
 	void SetLevelRequirement(int32 Value);
+	void SetAttributeText(FText Value);
 	void SetAllowedJobViewModels(TArray<UUITagViewModel*> Value);
 	void SetEquipSlotViewModels(UUITagViewModel* Value);
 	
@@ -50,6 +52,9 @@ protected:
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, FieldNotify, Getter, meta = (AllowPrivateAccess = "true"))
 	int32 LevelRequirement = 0;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, FieldNotify, Getter, meta = (AllowPrivateAccess = "true"))
+	FText AttributeText = FText();
 	
 	UPROPERTY()
 	TObjectPtr<UUITagViewModel> EquipSlotViewModel;

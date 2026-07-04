@@ -7,6 +7,8 @@
 #include "UI/UITagRelationship.h"
 #include "UITagViewModel.generated.h"
 
+
+class UTexture2D;
 /**
  * Display information on Gameplay Tags.
  */

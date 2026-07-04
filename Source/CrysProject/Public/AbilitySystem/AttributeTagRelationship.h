@@ -51,6 +51,8 @@ class CRYSPROJECT_API UAttributeTagRelationship : public UPrimaryDataAsset
 	
 public:
 	FAttributeTagInfo FindAttributeTagInfo(const FGameplayTag& AttributeTag, bool bLogNotFound = false) const;
+	
+	FAttributeTagInfo FindAttributeTagInfo(const FGameplayAttribute& GameplayAttribute, const FGameplayTagContainer& SourceTags, bool bLogNotFound = false) const;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, meta = (NoResetToDefault, NoElementDuplicate, ForceInlineRow, TitleProperty = "{AttributeTag}"))

@@ -30,3 +30,20 @@ FAttributeTagInfo UAttributeTagRelationship::FindAttributeTagInfo(const FGamepla
 	}
 	return FAttributeTagInfo();
 }
+
+FAttributeTagInfo UAttributeTagRelationship::FindAttributeTagInfo(const FGameplayAttribute& GameplayAttribute, const FGameplayTagContainer& SourceTags, bool bLogNotFound) const
+{
+	for (const FAttributeTagInfo& Item : AttributeTags)
+	{
+		if (Item.GameplayAttribute == GameplayAttribute && Item.SourceTags == SourceTags)
+		{
+			return Item;
+		}
+	}
+	
+	if (bLogNotFound)
+	{
+		UE_LOG(LogCrys, Error, TEXT("Cannot find info for GameplayAttribute [%s] and SourceTags [%s] in UAttributeTagRelationship [%s]"), *GameplayAttribute.AttributeName, *SourceTags.ToString(), *GetNameSafe(this));
+	}
+	return FAttributeTagInfo();
+}

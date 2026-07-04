@@ -15,6 +15,8 @@ class CRYSPROJECT_API UCrysItemInstanceViewModel : public UItemInstanceViewModel
 	GENERATED_BODY()
 	
 public:
+	UCrysItemInstanceViewModel();
+	
 	int32 GetUpgradeLevel() const { return UpgradeLevel; }
 	bool IsEquipped() const { return bEquipped;}
 	
