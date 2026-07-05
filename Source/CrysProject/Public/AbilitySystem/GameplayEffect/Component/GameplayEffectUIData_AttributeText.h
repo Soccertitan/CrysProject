@@ -22,6 +22,8 @@ struct FGameplayEffectUIDataAttributeText
 	
 	TEnumAsByte<EGameplayModOp::Type> ModifierOp;
 	bool bDisplayValueAsPercent = false;
+	
+	static FTextFormat TextFormat;
 };
 
 /**
@@ -39,6 +41,8 @@ public:
 	virtual void OnGameplayEffectChanged() override;
 	
 	static FText GetModifierOpText(TEnumAsByte<EGameplayModOp::Type> ModifierOp);
+	
+	static FTextFormat TextFormat;
 	
 private:
 	UPROPERTY(VisibleAnywhere)

@@ -12,27 +12,32 @@
 
 #define LOCTEXT_NAMESPACE "GameplayEffectUIData_AttributeText"
 
+FTextFormat FGameplayEffectUIDataAttributeText::TextFormat = LOCTEXT("AttributeText", "{ShortName}{Modifier}{Value}");
+FTextFormat UGameplayEffectUIData_AttributeText::TextFormat = LOCTEXT("GeneratedAttributeText", "{Start} {Append}");
+
 FText FGameplayEffectUIDataAttributeText::GenerateText(float Value) const
 {
 	FFormatNamedArguments Args;
 	Args.Add(TEXT("ShortName"), ShortName);
+	Args.Add(TEXT("Value"), Value);
+	
 	FText ModifierOpChecked = ModifierOpText;
 	if (ModifierOp == EGameplayModOp::AddBase || ModifierOp == EGameplayModOp::AddFinal)
 	{
 		ModifierOpChecked = Value > 0.f ? ModifierOpText : FText();
+		
+		if (bDisplayValueAsPercent)
+		{
+			Args.Add(TEXT("Value"), FText::AsPercent(Value));
+		}
+	}
+	else if (ModifierOp == EGameplayModOp::Division || ModifierOp == EGameplayModOp::DivideAdditive)
+	{
+		Args.Add(TEXT("Value"), FMath::SafeDivide(1, Value));
 	}
 	Args.Add(TEXT("Modifier"), ModifierOpChecked);
-	if (bDisplayValueAsPercent)
-	{
-		Args.Add(TEXT("Percent"), FText::AsPercent(Value));
-	}
-	else
-	{
-		Args.Add(TEXT("Percent"), FText());
-	}
-	Args.Add(TEXT("Value"), Value);
 	
-	return FText::Format(LOCTEXT("AttributeText", "{ShortName}{Modifier}{Value}{Percent}"), Args);
+	return FText::Format(TextFormat , Args);
 }
 
 FText UGameplayEffectUIData_AttributeText::GetModifierOpText(TEnumAsByte<EGameplayModOp::Type> ModifierOp)
@@ -44,12 +49,12 @@ FText UGameplayEffectUIData_AttributeText::GetModifierOpText(TEnumAsByte<EGamepl
 	
 	if (ModifierOp == EGameplayModOp::Multiplicitive || ModifierOp == EGameplayModOp::MultiplyAdditive || ModifierOp == EGameplayModOp::MultiplyCompound)
 	{
-		return LOCTEXT("Multiply", "x");
+		return LOCTEXT("Multiply", "*");
 	}
 	
 	if (ModifierOp == EGameplayModOp::Division || ModifierOp == EGameplayModOp::DivideAdditive)
 	{
-		return LOCTEXT("Divide", "/");
+		return LOCTEXT("Multiply", "*");
 	}
 	
 	return LOCTEXT("Override", "=");
@@ -62,8 +67,8 @@ FText UGameplayEffectUIData_AttributeText::GetAttributeDescription(const float L
 	{
 		const FGameplayEffectUIDataAttributeText& AttributeText = AttributeTexts[Index];
 		float AttributeValue = 0.f;
-		bool bStaticFound = GetOwner()->Modifiers[Index].ModifierMagnitude.GetStaticMagnitudeIfPossible(Level, AttributeValue);
-		if (bStaticFound && AttributeValue != 0.f)
+		const bool bStaticFound = GetOwner()->Modifiers[Index].ModifierMagnitude.GetStaticMagnitudeIfPossible(Level, AttributeValue);
+		if (bStaticFound)
 		{
 			const FText GeneratedText = AttributeText.GenerateText(AttributeValue);
 			if (Result.IsEmpty())
@@ -76,7 +81,7 @@ FText UGameplayEffectUIData_AttributeText::GetAttributeDescription(const float L
 				Args.Add(TEXT("Start"), Result);
 				Args.Add(TEXT("Append"), GeneratedText);
 				
-				Result = FText::Format(LOCTEXT("GeneratedAttributeText", "{Start} {Append}"), Args);
+				Result = FText::Format(TextFormat, Args);
 			}
 		}
 	}
