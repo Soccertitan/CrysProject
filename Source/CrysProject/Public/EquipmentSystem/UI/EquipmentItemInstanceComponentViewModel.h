@@ -19,14 +19,10 @@ class CRYSPROJECT_API UEquipmentItemInstanceComponentViewModel : public UItemIns
 public:
 	int32 GetLevelRequirement() const {return LevelRequirement;}
 	FText GetAttributeText() const {return AttributeText;}
-	
-	UFUNCTION(BlueprintPure, FieldNotify)
-	TArray<UUITagViewModel*> GetAllowedJobViewModels() const {return AllowedJobViewModels;}
-	UFUNCTION(BlueprintPure, FieldNotify)
-	UUITagViewModel* GetEquipSlotViewModels() const {return EquipSlotViewModel;}
+	UUITagViewModel* GetEquipSlotViewModel() const {return EquipSlotViewModel;}
+	FText GetAllowedJobs() const {return AllowedJobs;}
 	
 	bool IsWeapon() const { return bWeapon; }
-	
 	UFUNCTION(BlueprintPure, FieldNotify)
 	int32 GetDamage() const {return Weapon.GetDamage();}
 	UFUNCTION(BlueprintPure, FieldNotify)
@@ -37,8 +33,8 @@ public:
 protected:
 	void SetLevelRequirement(int32 Value);
 	void SetAttributeText(FText Value);
-	void SetAllowedJobViewModels(TArray<UUITagViewModel*> Value);
-	void SetEquipSlotViewModels(UUITagViewModel* Value);
+	void SetAllowedJobs(FText Value);
+	void SetEquipSlotViewModel(UUITagViewModel* Value);
 	
 	void SetIsWeapon(bool bValue);
 	void SetWeapon(const FCrysWeapon& Value);
@@ -56,11 +52,11 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, FieldNotify, Getter, meta = (AllowPrivateAccess = "true"))
 	FText AttributeText = FText();
 	
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, FieldNotify, Getter, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UUITagViewModel> EquipSlotViewModel;
 	
-	UPROPERTY()
-	TArray<TObjectPtr<UUITagViewModel>> AllowedJobViewModels;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, FieldNotify, Getter, meta = (AllowPrivateAccess = "true"))
+	FText AllowedJobs;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, FieldNotify, Getter=IsWeapon, meta = (AllowPrivateAccess = "true"))
 	bool bWeapon = false;

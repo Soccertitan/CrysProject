@@ -44,7 +44,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Job", meta = (MultiLine))
 	FText Description;
 
-	/** The tag is used as an identifier to find this Job, Equipment requirements, and other lookups. */
+	/** The tag to add to the AbilitySystemComponent when this job is equipped. */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Job", meta = (Categories = "Job"))
 	FGameplayTag JobTag;
 

@@ -115,6 +115,14 @@ private:
 	
 	/** If true, the BaseAttribute will not be updated. This will be true when changing jobs and levels. */
 	bool bChangingJobs = false;
+	
+	/** Removes the OldJob JobTag with the NewJob on the ASC. */
+	void UpdateJobTags(const UJobDefinition* OldJob, const UJobDefinition* NewJob) const;
+	
+	/** Adds the job tags to the ASC. */
+	void SetJobTags();
+	/** Removes all job tags from the ASC. */
+	void ClearJobTags();
 
 	/**
 	 * Called when anything attributes related to the job or race changes. Or if a different race/job is set.

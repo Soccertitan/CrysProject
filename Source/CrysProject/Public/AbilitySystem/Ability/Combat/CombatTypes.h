@@ -20,7 +20,7 @@ struct FMultiAttackProbability
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = 0.f))
 	FScalableFloat Probability = 0.f;
 	
-	/** The number of bonus attacks to do when this */
+	/** The number of bonus attacks to do. When this is chosen. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = 0))
 	int32 NumOfBonusAttacks = 0;
 };
@@ -58,7 +58,7 @@ private:
 	
 public:
 	/** The skill the weapon uses to determine effectiveness. */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (Categories = "WeaponSkill"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (Categories = "Attribute.Skill.Weapon"))
 	FGameplayTag WeaponSkill;
 	
 private:

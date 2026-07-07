@@ -7,9 +7,11 @@
 #include "CrimAbilitySystemComponent.h"
 #include "CrimGameplayAbilityTargetData.h"
 #include "CrysNativeGameplayTags.h"
+#include "TimerManager.h"
 #include "AbilitySystem/CrysAbilityBlueprintFunctionLibrary.h"
 #include "AbilitySystem/AttributeSet/AttackerAttributeSet.h"
 #include "AbilitySystem/AttributeSet/PrimaryAttributeSet.h"
+#include "Engine/World.h"
 #include "Net/UnrealNetwork.h"
 
 

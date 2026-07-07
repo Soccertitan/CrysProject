@@ -6,12 +6,13 @@
 #include "GameplayEffect.h"
 #include "AbilitySystem/GameplayEffect/Component/GameplayEffectUIData_AttributeText.h"
 #include "EquipmentSystem/EquipmentDefinition.h"
-#include "EquipmentSystem/EquipmentManagerComponent.h"
 #include "EquipmentSystem/ItemDefinitionFragment_Equipment.h"
 #include "InventorySystem/UI/CrysItemInstanceViewModel.h"
 #include "JobSystem/JobContainer.h"
 #include "UI/ViewModel/UITagViewModel.h"
 
+
+#define LOCTEXT_NAMESPACE "EquipmentItemInstanceComponentViewModel"
 
 void UEquipmentItemInstanceComponentViewModel::SetLevelRequirement(int32 Value)
 {
@@ -23,16 +24,14 @@ void UEquipmentItemInstanceComponentViewModel::SetAttributeText(FText Value)
 	UE_MVVM_SET_PROPERTY_VALUE(AttributeText, Value);
 }
 
-void UEquipmentItemInstanceComponentViewModel::SetAllowedJobViewModels(TArray<UUITagViewModel*> Value)
+void UEquipmentItemInstanceComponentViewModel::SetAllowedJobs(FText Value)
 {
-	AllowedJobViewModels = Value;
-	UE_MVVM_BROADCAST_FIELD_VALUE_CHANGED(GetAllowedJobViewModels);
+	UE_MVVM_SET_PROPERTY_VALUE(AllowedJobs, Value);
 }
 
-void UEquipmentItemInstanceComponentViewModel::SetEquipSlotViewModels(UUITagViewModel* Value)
+void UEquipmentItemInstanceComponentViewModel::SetEquipSlotViewModel(UUITagViewModel* Value)
 {
-	EquipSlotViewModel = Value;
-	UE_MVVM_BROADCAST_FIELD_VALUE_CHANGED(GetEquipSlotViewModels);
+	UE_MVVM_SET_PROPERTY_VALUE(EquipSlotViewModel, Value);
 }
 
 void UEquipmentItemInstanceComponentViewModel::SetIsWeapon(bool bValue)
@@ -83,18 +82,15 @@ void UEquipmentItemInstanceComponentViewModel::OnItemDefinitionSet_Implementatio
 
 		UUITagViewModel* NewVM = NewObject<UUITagViewModel>(this);
 		NewVM->SetGameplayTag(EquipmentDef->EquipSlot);
-		SetEquipSlotViewModels(NewVM);
+		SetEquipSlotViewModel(NewVM);
 		
-		if (EquipmentDef->JobContainer && EquipmentDef->JobContainer->Jobs.IsValid())
+		if (EquipmentDef->JobContainer && !EquipmentDef->JobContainer->JobText.IsEmpty())
 		{
-			TArray<UUITagViewModel*> AllowedJobs;
-			for (const FGameplayTag& Job : EquipmentDef->JobContainer->Jobs.GetGameplayTagArray())
-			{
-				UUITagViewModel* NewJobVM = NewObject<UUITagViewModel>(this);
-				NewJobVM->SetGameplayTag(Job);
-				AllowedJobs.Add(NewJobVM);
-			}
-			SetAllowedJobViewModels(AllowedJobs);
+			SetAllowedJobs(EquipmentDef->JobContainer->JobText);
+		}
+		else
+		{
+			SetAllowedJobs(LOCTEXT("AllJobs", "All Jobs"));
 		}
 		
 		SetIsWeapon(EquipmentDef->bIsWeapon);
@@ -130,3 +126,5 @@ void UEquipmentItemInstanceComponentViewModel::OnItemDefinitionSet_Implementatio
 		}
 	}
 }
+
+#undef LOCTEXT_NAMESPACE

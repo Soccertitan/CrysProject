@@ -6,7 +6,7 @@
 #include "InventoryBlueprintFunctionLibrary.h"
 #include "InventoryManagerComponent.h"
 #include "AbilitySystem/CrysAbilityBlueprintFunctionLibrary.h"
-#include "AbilitySystem/Ability/Combat/CombatSystemComponent.h"
+#include "Engine/World.h"
 #include "EquipmentSystem/EquipmentManagerComponent.h"
 #include "EquipmentSystem/EquipmentSystemBlueprintFunctionLibrary.h"
 #include "EquipmentSystem/UI/EquippedItemViewModel.h"

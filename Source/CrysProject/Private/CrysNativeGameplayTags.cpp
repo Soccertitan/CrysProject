@@ -39,6 +39,8 @@ namespace Crys::NativeGameplayTag
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_MultiAttackChance_Triple, "Attribute.MultiAttackChance.Triple", "Three attacks for auto attacks.");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_MultiAttackChance_Quadruple, "Attribute.MultiAttackChance.Quadruple", "Four attacks for auto attacks.");
 	
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Skill_Weapon, "Attribute.Skill.Weapon", "Base GameplayTag for weapon skills.");
+	
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(DamageType, "DamageType", "Root tag to describe a damage type. Add these tags to the resistance attribute.");
 	
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(EnhancedInput_Modes_AbilityTargeting, "EnhancedInput.Modes.AbilityTargeting", "When an ability starts targeting.");

@@ -40,6 +40,8 @@ namespace Crys::NativeGameplayTag
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_MultiAttackChance_Triple);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_MultiAttackChance_Quadruple);
 	
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Skill_Weapon);
+	
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(DamageType);
 	
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(EnhancedInput_Modes_AbilityTargeting);

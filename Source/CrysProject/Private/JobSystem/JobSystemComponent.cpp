@@ -58,6 +58,7 @@ void UJobSystemComponent::SetJobs(FJobParams JobParams)
 	
 	if (Race != JobParams.Race)
 	{
+		UpdateJobTags(Race, JobParams.Race);
 		Race = JobParams.Race;
 		OnRaceChangedDelegate.Broadcast(Race);
 		MARK_PROPERTY_DIRTY_FROM_NAME(ThisClass, Race, this);
@@ -65,6 +66,7 @@ void UJobSystemComponent::SetJobs(FJobParams JobParams)
 	}
 	if (MainJob != JobParams.MainJob)
 	{
+		UpdateJobTags(MainJob, JobParams.MainJob);
 		MainJob = JobParams.MainJob;
 		OnMainJobChangedDelegate.Broadcast(MainJob);
 		MARK_PROPERTY_DIRTY_FROM_NAME(ThisClass, MainJob, this);
@@ -72,6 +74,7 @@ void UJobSystemComponent::SetJobs(FJobParams JobParams)
 	}
 	if (SubJob != JobParams.SubJob)
 	{
+		UpdateJobTags(SubJob, JobParams.SubJob);
 		SubJob = JobParams.SubJob;
 		OnSubJobChangedDelegate.Broadcast(SubJob);
 		MARK_PROPERTY_DIRTY_FROM_NAME(ThisClass, SubJob, this);
@@ -126,6 +129,7 @@ void UJobSystemComponent::SetCrimAbilitySystem_Implementation(UCrimAbilitySystem
 	if (AbilitySystemComponent)
 	{
 		RemoveBindingToAttributeDelegates();
+		ClearJobTags();
 		
 		RemoveActiveGameplayEffects(ActiveGameplayEffects.RaceActiveGameplayEffectHandles);
 		RemoveActiveGameplayEffects(ActiveGameplayEffects.MainJobActiveGameplayEffectHandles);
@@ -137,6 +141,7 @@ void UJobSystemComponent::SetCrimAbilitySystem_Implementation(UCrimAbilitySystem
 	if (HasAuthority())
 	{
 		BindToAttributeDelegates();
+		SetJobTags();
 		ApplyBaseAttributes();
 		ApplyGameplayEffects();
 		MaximizeHpMpAttributes();
@@ -232,6 +237,35 @@ void UJobSystemComponent::OverrideBaseAttribute(const float Value, const FGamepl
 		ModifierInfo.Attribute = Attribute;
 		AbilitySystemComponent->ApplyGameplayEffectToSelf(InstantGE, 1.0f, AbilitySystemComponent->MakeEffectContext());
 	}
+}
+
+void UJobSystemComponent::UpdateJobTags(const UJobDefinition* OldJob, const UJobDefinition* NewJob) const
+{
+	if (AbilitySystemComponent)
+	{
+		if (OldJob)
+		{
+			AbilitySystemComponent->RemoveLooseGameplayTag(OldJob->JobTag, 1, EGameplayTagReplicationState::TagOnly);
+		}
+		if (NewJob)
+		{
+			AbilitySystemComponent->AddLooseGameplayTag(NewJob->JobTag, 1, EGameplayTagReplicationState::TagOnly);
+		}
+	}
+}
+
+void UJobSystemComponent::SetJobTags()
+{
+	UpdateJobTags(nullptr, Race);
+	UpdateJobTags(nullptr, MainJob);
+	UpdateJobTags(nullptr, SubJob);
+}
+
+void UJobSystemComponent::ClearJobTags()
+{
+	UpdateJobTags(Race, nullptr);
+	UpdateJobTags(MainJob, nullptr);
+	UpdateJobTags(SubJob, nullptr);
 }
 
 void UJobSystemComponent::ApplyBaseAttributes() const

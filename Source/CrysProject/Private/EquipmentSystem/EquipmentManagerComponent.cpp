@@ -170,11 +170,20 @@ bool UEquipmentManagerComponent::CanEquipItem(const TInstancedStruct<FItem>& Ite
 		return false;
 	}
 
-	if (EquipmentDef->JobContainer && EquipmentDef->JobContainer->Jobs.IsValid())
+	if (EquipmentDef->JobContainer && !EquipmentDef->JobContainer->Jobs.IsEmpty())
 	{
 		if (MainJob)
 		{
-			if (!EquipmentDef->JobContainer->Jobs.HasTag(MainJob->JobTag))
+			bool bFoundJob = false;
+			for (const TSoftObjectPtr<UJobDefinition>& Job : EquipmentDef->JobContainer->Jobs)
+			{
+				if (MainJob == Job)
+				{
+					bFoundJob = true;
+					break;
+				}
+			}
+			if (!bFoundJob)
 			{
 				return false;
 			}
