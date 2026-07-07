@@ -173,7 +173,7 @@ float UDamageExecCalc::CalculateDamage(const float BaseDamage, FAbilityDamageCon
 	
 	float DamageRatioCap = 0.f;
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(AttackDefenseRatioCapAttributeDef, EvaluateParams, DamageRatioCap);
-	float DamageRatio = FMath::Min(Attack/Defense, DamageRatioCap);
+	float DamageRatio = FMath::Min(0.f, FMath::Min(Attack/Defense, DamageRatioCap));
 	
 	float DamageRatioCritBonus = 0.f;
 	if (AbilityDamageContext->bCriticalHit)
