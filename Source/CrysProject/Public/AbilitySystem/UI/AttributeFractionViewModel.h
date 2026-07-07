@@ -11,7 +11,7 @@ class UAbilitySystemComponent;
 class UAttributeViewModel;
 
 /**
- * Takes two attributes and treats them as a Numerator/Denominator value relationship. For ease in getting percentages
+ * Takes two attributes and treats them as a Dividend/Divisor value relationship. For ease in getting percentages
  * between the current values of both. Most common example is HitPoints.
  */
 UCLASS()
@@ -24,16 +24,16 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Viewmodel|Attribute")
 	void SetAttributesWithASC(
-		UPARAM(meta = (Categories = "Attribute")) const FGameplayTag NumeratorAttributeTag,
-		UPARAM(meta = (Categories = "Attribute")) const FGameplayTag DenominatorAttributeTag,
+		UPARAM(meta = (Categories = "Attribute")) const FGameplayTag DividendAttributeTag,
+		UPARAM(meta = (Categories = "Attribute")) const FGameplayTag DivisorAttributeTag,
 		UAbilitySystemComponent* InAbilitySystemComponent);
 
 	UFUNCTION(BlueprintCallable, Category = "Viewmodel|Attribute")
-	void SetAttributes(UPARAM(meta = (Categories = "Attribute"))const FGameplayTag NumeratorAttributeTag, const float NumeratorCurrentValue, const float NumeratorBaseValue,
-		UPARAM(meta = (Categories = "Attribute")) const FGameplayTag DenominatorAttributeTag, const float DenominatorCurrentValue, const float DenominatorBaseValue);
+	void SetAttributes(UPARAM(meta = (Categories = "Attribute"))const FGameplayTag DividendAttributeTag, const float DividendCurrentValue, const float DividendBaseValue,
+		UPARAM(meta = (Categories = "Attribute")) const FGameplayTag DivisorAttributeTag, const float DivisorCurrentValue, const float DivisorBaseValue);
 
-	UAttributeViewModel* GetNumeratorAttribute() const {return NumeratorAttribute;}
-	UAttributeViewModel* GetDenominatorAttribute() const {return DenominatorAttribute;}
+	UAttributeViewModel* GetDividendAttribute() const {return DividendAttribute;}
+	UAttributeViewModel* GetDivisorAttribute() const {return DivisorAttribute;}
 	
 	UFUNCTION(BlueprintPure, FieldNotify, Category = "Viewmodel|Attribute")
 	float GetPercentCurrentValue() const;
@@ -41,11 +41,11 @@ public:
 private:
 	/** The numerator value of the attribute. */
 	UPROPERTY(BlueprintReadOnly, FieldNotify, Getter, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UAttributeViewModel> NumeratorAttribute;
+	TObjectPtr<UAttributeViewModel> DividendAttribute;
 
 	/** The denominator value for the current attribute. */
 	UPROPERTY(BlueprintReadOnly, FieldNotify, Getter, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UAttributeViewModel> DenominatorAttribute;
+	TObjectPtr<UAttributeViewModel> DivisorAttribute;
 
 	void CreateViewModelsAndBindToDelegates();
 	void BroadcastValueChanged(UObject* Object, UE::FieldNotification::FFieldId FieldId);

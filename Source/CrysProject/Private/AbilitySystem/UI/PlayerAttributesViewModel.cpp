@@ -41,23 +41,23 @@ UAttributeViewModel* UPlayerAttributesViewModel::FindOrCreateAttributeViewModel(
 }
 
 UAttributeFractionViewModel* UPlayerAttributesViewModel::FindOrCreateAttributeFractionViewModel(
-	const FGameplayTag& NumeratorAttributeTag, const FGameplayTag DenominatorAttributeTag)
+	const FGameplayTag& DividendAttributeTag, const FGameplayTag DivisorAttributeTag)
 {
-	if (NumeratorAttributeTag.IsValid() && DenominatorAttributeTag.IsValid())
+	if (DividendAttributeTag.IsValid() && DivisorAttributeTag.IsValid())
 	{
 		for (TWeakObjectPtr<UAttributeFractionViewModel> WeakViewModel : AttributeFractionViewModels)
 		{
 			if (UAttributeFractionViewModel* ViewModel = WeakViewModel.Get())
 			{
-				if (ViewModel->GetNumeratorAttribute()->GetAttributeTag() == NumeratorAttributeTag &&
-					ViewModel->GetDenominatorAttribute()->GetAttributeTag() == DenominatorAttributeTag)
+				if (ViewModel->GetDividendAttribute()->GetAttributeTag() == DividendAttributeTag &&
+					ViewModel->GetDivisorAttribute()->GetAttributeTag() == DivisorAttributeTag)
 				{
 					return ViewModel;
 				}
 			}
 		}
 		UAttributeFractionViewModel* NewViewModel = NewObject<UAttributeFractionViewModel>();
-		NewViewModel->SetAttributesWithASC(NumeratorAttributeTag, DenominatorAttributeTag, AbilitySystemComponent);
+		NewViewModel->SetAttributesWithASC(DividendAttributeTag, DivisorAttributeTag, AbilitySystemComponent);
 		AttributeFractionViewModels.Add(NewViewModel);
 		return NewViewModel;
 	}

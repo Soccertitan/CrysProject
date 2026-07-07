@@ -15,8 +15,22 @@
   <component name="ChangeListManager">
     <list default="true" id="145cc1d0-073c-4181-81b8-120deddf1918" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.CrysProject.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CrysProject.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/InventorySystem" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/InventorySystem" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Private/AbilitySystem/ExecCalc/DamageExecCalc.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Private/AbilitySystem/ExecCalc/DamageExecCalc.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultGameplayTags.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultGameplayTags.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/Items/ED_Test.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/Items/ED_Test.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Component/Attribute/WBP_Attribute_Fraction.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Component/Attribute/WBP_Attribute_Fraction.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Component/ProgressBar/WBP_AttributeProgressBar.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Component/ProgressBar/WBP_AttributeProgressBar.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Component/ProgressBar/WBP_AttributeProgressBar_TP.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Component/ProgressBar/WBP_AttributeProgressBar_TP.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Component/WBP_Job_Level.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Component/WBP_Job_Level.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Equipment/WBP_Menu_Equipment.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Equipment/WBP_Menu_Equipment.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Status/WBP_Status_Hero.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Status/WBP_Status_Hero.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/ViewModel/VM_HeroOverlay.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/ViewModel/VM_HeroOverlay.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/WBP_MainMenu_Hero.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/WBP_MainMenu_Hero.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Private/AbilitySystem/UI/AttributeFractionViewModel.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Private/AbilitySystem/UI/AttributeFractionViewModel.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Private/AbilitySystem/UI/PlayerAttributesViewModel.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Private/AbilitySystem/UI/PlayerAttributesViewModel.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Private/UI/Widget/CrysUINavWidget.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Private/UI/Widget/CrysUINavWidget.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Public/AbilitySystem/UI/AttributeFractionViewModel.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Public/AbilitySystem/UI/AttributeFractionViewModel.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Public/AbilitySystem/UI/PlayerAttributesViewModel.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Public/AbilitySystem/UI/PlayerAttributesViewModel.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Public/UI/Widget/CrysUINavWidget.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Public/UI/Widget/CrysUINavWidget.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,61 +64,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.0000002616243213" />
-      <entry key="S2" value="1.0226161944093264" />
-      <entry key="S5" value="1.21966856235361" />
-      <entry key="S10" value="1.4689698502330266" />
-      <entry key="S30" value="1.87796930379959" />
-      <entry key="S60" value="2.3295687360916086" />
-      <entry key="M2" value="2.8847284353727525" />
-      <entry key="M5" value="3.4878502232032305" />
-      <entry key="M10" value="6.221740032836025" />
-      <entry key="M15" value="14.962559003555118" />
-      <entry key="M30" value="54.17206253257822" />
-      <entry key="H1" value="111.25990748545813" />
-      <entry key="H2" value="160.9955520457125" />
-      <entry key="H4" value="194.00107547144052" />
-      <entry key="D1" value="226.78803117692283" />
-      <entry key="W1" value="232.95550230194303" />
+      <entry key="MS100" value="1.990950430297052" />
+      <entry key="MS500" value="5.406871464621317" />
+      <entry key="S2" value="13.19433737036098" />
+      <entry key="S5" value="23.373283387687533" />
+      <entry key="S10" value="33.57455648407925" />
+      <entry key="S30" value="47.07329755618464" />
+      <entry key="S60" value="52.47527318052205" />
+      <entry key="M2" value="57.76215876563124" />
+      <entry key="M5" value="68.59621074235955" />
+      <entry key="M10" value="77.59996315354181" />
+      <entry key="M15" value="82.90836541846711" />
+      <entry key="M30" value="102.36208426018355" />
+      <entry key="H1" value="149.4053279578921" />
+      <entry key="H2" value="209.2288026690011" />
+      <entry key="H4" value="258.1717914550948" />
+      <entry key="D1" value="313.8336142825937" />
+      <entry key="W1" value="325.0727379872563" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="2.520983467063211E-28" />
-      <entry key="MS500" value="3.02213596696842E-6" />
-      <entry key="S2" value="0.041694474052430285" />
-      <entry key="S5" value="0.28056364811046786" />
-      <entry key="S10" value="0.5296825918514481" />
-      <entry key="S30" value="0.809105648985381" />
-      <entry key="S60" value="0.8995030010985962" />
-      <entry key="M2" value="0.9484213675789953" />
-      <entry key="M5" value="0.9897525071069696" />
-      <entry key="M10" value="1.695991744568877" />
-      <entry key="M15" value="3.8789450150043887" />
-      <entry key="M30" value="12.853220184129194" />
-      <entry key="H1" value="25.083896848993028" />
-      <entry key="H2" value="35.3467295657109" />
-      <entry key="H4" value="42.022434016993714" />
-      <entry key="D1" value="48.569757221543256" />
-      <entry key="W1" value="49.79306904349873" />
+      <entry key="MS100" value="1.6641133425043826E-101" />
+      <entry key="MS500" value="7.700357722874962E-21" />
+      <entry key="S2" value="1.4417234074384849E-5" />
+      <entry key="S5" value="0.019076808502502984" />
+      <entry key="S10" value="0.23967646591852426" />
+      <entry key="S30" value="1.8688410185616462" />
+      <entry key="S60" value="3.9812859890857446" />
+      <entry key="M2" value="6.667657360871865" />
+      <entry key="M5" value="10.480227489817262" />
+      <entry key="M10" value="12.794577030610448" />
+      <entry key="M15" value="14.027502450073936" />
+      <entry key="M30" value="18.4788689041956" />
+      <entry key="H1" value="28.824387524768152" />
+      <entry key="H2" value="41.56629021248733" />
+      <entry key="H4" value="51.80035374459927" />
+      <entry key="D1" value="63.298099091041564" />
+      <entry key="W1" value="65.6048862983873" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="7.822948023336149E-4" />
-      <entry key="MS500" value="0.2391524927168072" />
-      <entry key="S2" value="0.7391074503569494" />
-      <entry key="S5" value="1.2803454555487546" />
-      <entry key="S10" value="1.8392724797197786" />
-      <entry key="S30" value="2.5963572059528692" />
-      <entry key="S60" value="3.1491146593058885" />
-      <entry key="M2" value="3.769723769189544" />
-      <entry key="M5" value="4.44222276307107" />
-      <entry key="M10" value="7.895918731085596" />
-      <entry key="M15" value="18.822235632494905" />
-      <entry key="M30" value="67.00640355236088" />
-      <entry key="H1" value="136.3280147916117" />
-      <entry key="H2" value="196.33169542166902" />
-      <entry key="H4" value="236.0173356532716" />
-      <entry key="D1" value="275.3566148698643" />
-      <entry key="W1" value="282.7483998315831" />
+      <entry key="MS100" value="1.8496579262700397" />
+      <entry key="MS500" value="5.327620004398713" />
+      <entry key="S2" value="13.148310915470203" />
+      <entry key="S5" value="23.352330819877498" />
+      <entry key="S10" value="33.751989454682615" />
+      <entry key="S30" value="48.84037824092852" />
+      <entry key="S60" value="56.35109461999102" />
+      <entry key="M2" value="64.33974287216769" />
+      <entry key="M5" value="79.01398678415227" />
+      <entry key="M10" value="90.35263897395158" />
+      <entry key="M15" value="96.90345049711644" />
+      <entry key="M30" value="120.81813607906206" />
+      <entry key="H1" value="178.21197795023997" />
+      <entry key="H2" value="250.7825496769146" />
+      <entry key="H4" value="309.96442598063334" />
+      <entry key="D1" value="377.1301581613928" />
+      <entry key="W1" value="390.67739444092206" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
@@ -116,39 +130,39 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.MCP Project settings loaded": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "Uproject.CrysProject.executor": "Debug",
-    "cidr.known.project.marker": "true",
-    "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "UnrealLinkOptionsId",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;Uproject.CrysProject.executor&quot;: &quot;Debug&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;UnrealLinkOptionsId&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="CrysProject" type="Uproject" factoryName="rider.uproject">
       <configuration_1 setup="1">
         <option name="CONFIGURATION" value="DebugGame Editor" />
         <option name="PLATFORM" value="Win64" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.8/Engine/Binaries/Win64/UnrealEditor-Win64-DebugGame.exe" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;C:\Users\trist\OneDrive\Documents\Unreal Projects\CrysProject\CrysProject.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Binaries/Win64/UnrealEditor-Win64-DebugGame.exe" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;C:\Users\trist\Unreal Projects\CrysProject\CrysProject.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.8" />
+        <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="1" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -161,7 +175,7 @@
         <option name="EXECUTABLE_PATH" value="$PROJECT_DIR$/Binaries/Win64/CrysProject-Win64-DebugGame.exe" />
         <option name="MANDATORY_PROGRAM_PARAMETERS" value="" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.8" />
+        <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="1" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -171,10 +185,10 @@
         <option name="CONFIGURATION" value="Development Editor" />
         <option name="PLATFORM" value="Win64" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
-        <option name="EXECUTABLE_PATH" value="$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.8/Engine/Binaries/Win64/UnrealEditor.exe" />
-        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;C:\Users\trist\OneDrive\Documents\Unreal Projects\CrysProject\CrysProject.uproject&quot;" />
+        <option name="EXECUTABLE_PATH" value="$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Binaries/Win64/UnrealEditor.exe" />
+        <option name="MANDATORY_PROGRAM_PARAMETERS" value=" &quot;C:\Users\trist\Unreal Projects\CrysProject\CrysProject.uproject&quot;" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.8" />
+        <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="1" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -187,7 +201,7 @@
         <option name="EXECUTABLE_PATH" value="$PROJECT_DIR$/Binaries/Win64/CrysProject.exe" />
         <option name="MANDATORY_PROGRAM_PARAMETERS" value="" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.8" />
+        <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="1" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -200,7 +214,7 @@
         <option name="EXECUTABLE_PATH" value="$PROJECT_DIR$/Binaries/Win64/CrysProject-Win64-Shipping.exe" />
         <option name="MANDATORY_PROGRAM_PARAMETERS" value="" />
         <option name="CUSTOM_PROGRAM_PARAMETERS" value="" />
-        <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../../../../../Program Files/Epic Games/UE_5.8" />
+        <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8" />
         <option name="PASS_PARENT_ENVS" value="1" />
         <option name="USE_EXTERNAL_CONSOLE" value="1" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
@@ -223,7 +237,8 @@
       <updated>1735790720557</updated>
       <workItem from="1783432216518" duration="690000" />
       <workItem from="1783435469762" duration="275000" />
-      <workItem from="1783435850769" duration="6157000" />
+      <workItem from="1783435850769" duration="13302000" />
+      <workItem from="1783463331720" duration="327000" />
     </task>
     <servers />
   </component>

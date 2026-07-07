@@ -28,7 +28,7 @@ public:
 	
 	/** Finds an existing ViewModel or initializes a new one with the cached ASC. */
 	UFUNCTION(BlueprintCallable, Category = "Viewmodel|Attribute")
-	UAttributeFractionViewModel* FindOrCreateAttributeFractionViewModel(const FGameplayTag& NumeratorAttributeTag, const FGameplayTag DenominatorAttributeTag);
+	UAttributeFractionViewModel* FindOrCreateAttributeFractionViewModel(const FGameplayTag& DividendAttributeTag, const FGameplayTag DivisorAttributeTag);
 	
 protected:
 	UFUNCTION(BlueprintPure, Category = "Viewmodel|Attribute")

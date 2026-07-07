@@ -12,8 +12,8 @@ UAttributeFractionViewModel::UAttributeFractionViewModel()
 {
 }
 
-void UAttributeFractionViewModel::SetAttributesWithASC(const FGameplayTag NumeratorAttributeTag, 
-	const FGameplayTag DenominatorAttributeTag, UAbilitySystemComponent* InAbilitySystemComponent)
+void UAttributeFractionViewModel::SetAttributesWithASC(const FGameplayTag DividendAttributeTag, 
+	const FGameplayTag DivisorAttributeTag, UAbilitySystemComponent* InAbilitySystemComponent)
 {
 	if (!InAbilitySystemComponent)
 	{
@@ -23,46 +23,46 @@ void UAttributeFractionViewModel::SetAttributesWithASC(const FGameplayTag Numera
 
 	CreateViewModelsAndBindToDelegates();
 
-	NumeratorAttribute->SetAttributeWithASC(NumeratorAttributeTag, InAbilitySystemComponent);
-	DenominatorAttribute->SetAttributeWithASC(DenominatorAttributeTag, InAbilitySystemComponent);
+	DividendAttribute->SetAttributeWithASC(DividendAttributeTag, InAbilitySystemComponent);
+	DivisorAttribute->SetAttributeWithASC(DivisorAttributeTag, InAbilitySystemComponent);
 }
 
-void UAttributeFractionViewModel::SetAttributes(const FGameplayTag NumeratorAttributeTag,
-	const float NumeratorCurrentValue, const float NumeratorBaseValue, const FGameplayTag DenominatorAttributeTag,
-	const float DenominatorCurrentValue, const float DenominatorBaseValue)
+void UAttributeFractionViewModel::SetAttributes(const FGameplayTag DividendAttributeTag,
+	const float DividendCurrentValue, const float DividendBaseValue, const FGameplayTag DivisorAttributeTag,
+	const float DivisorCurrentValue, const float DivisorBaseValue)
 {
 	CreateViewModelsAndBindToDelegates();
 
-	NumeratorAttribute->SetAttribute(NumeratorAttributeTag, NumeratorCurrentValue, NumeratorBaseValue);
-	DenominatorAttribute->SetAttribute(DenominatorAttributeTag, DenominatorCurrentValue, DenominatorBaseValue);
+	DividendAttribute->SetAttribute(DividendAttributeTag, DividendCurrentValue, DividendBaseValue);
+	DivisorAttribute->SetAttribute(DivisorAttributeTag, DivisorCurrentValue, DivisorBaseValue);
 }
 
 float UAttributeFractionViewModel::GetPercentCurrentValue() const
 {
-	if (!NumeratorAttribute || !DenominatorAttribute)
+	if (!DividendAttribute || !DivisorAttribute)
 	{
 		return 0.f;
 	}
 
-	if (FMath::IsNearlyZero(DenominatorAttribute->GetCurrentValue()))
+	if (FMath::IsNearlyZero(DivisorAttribute->GetCurrentValue()))
 	{
 		return 0.f;
 	}
-	return NumeratorAttribute->GetCurrentValue() / DenominatorAttribute->GetCurrentValue();
+	return DividendAttribute->GetCurrentValue() / DivisorAttribute->GetCurrentValue();
 }
 
 void UAttributeFractionViewModel::CreateViewModelsAndBindToDelegates()
 {
 	FFieldValueChangedDelegate Delegate = FFieldValueChangedDelegate::CreateUObject(this, &UAttributeFractionViewModel::BroadcastValueChanged);
-	if (!NumeratorAttribute)
+	if (!DividendAttribute)
 	{
-		NumeratorAttribute = NewObject<UAttributeViewModel>(this, UAttributeViewModel::StaticClass());
-		NumeratorAttribute->AddFieldValueChangedDelegate(UAttributeViewModel::FFieldNotificationClassDescriptor::CurrentValue, Delegate);
+		DividendAttribute = NewObject<UAttributeViewModel>(this, UAttributeViewModel::StaticClass());
+		DividendAttribute->AddFieldValueChangedDelegate(UAttributeViewModel::FFieldNotificationClassDescriptor::CurrentValue, Delegate);
 	}
-	if (!DenominatorAttribute)
+	if (!DivisorAttribute)
 	{
-		DenominatorAttribute = NewObject<UAttributeViewModel>(this, UAttributeViewModel::StaticClass());
-		DenominatorAttribute->AddFieldValueChangedDelegate(UAttributeViewModel::FFieldNotificationClassDescriptor::CurrentValue, Delegate);
+		DivisorAttribute = NewObject<UAttributeViewModel>(this, UAttributeViewModel::StaticClass());
+		DivisorAttribute->AddFieldValueChangedDelegate(UAttributeViewModel::FFieldNotificationClassDescriptor::CurrentValue, Delegate);
 	}
 }
 
