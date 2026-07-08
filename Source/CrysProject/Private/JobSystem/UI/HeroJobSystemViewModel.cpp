@@ -47,7 +47,7 @@ UHeroJobViewModel* UHeroJobSystemViewModel::FindOrCreateHeroJobViewModel(TSoftOb
 	{
 		for (TObjectPtr<UHeroJobViewModel>& ViewModel : HeroJobViewModels)
 		{
-			if (ViewModel->JobViewModel->GetJobDefinition() == JobDefinition.Get())
+			if (ViewModel->JobViewModel->GetJobDefinitionSoft() == JobDefinition)
 			{
 				return ViewModel;
 			}

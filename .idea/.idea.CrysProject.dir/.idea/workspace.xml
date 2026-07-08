@@ -14,13 +14,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="145cc1d0-073c-4181-81b8-120deddf1918" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.CrysProject.dir/.idea/indexLayout.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.CrysProject.dir/.idea/projectSettingsUpdater.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.CrysProject.dir/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.CrysProject.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CrysProject.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Component/Attribute/WBP_Attribute.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Component/Attribute/WBP_Attribute.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Component/Attribute/WBP_Attribute_AutoHide.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Component/Attribute/WBP_Attribute_AutoHide.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Component/Attribute/WBP_Attribute_Job.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Component/Attribute/WBP_Attribute_Job.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Component/WBP_Job_Level.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Component/WBP_Job_Level.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Job/WBP_Button_Job.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Job/WBP_Button_Job.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Job/WBP_JobSelect.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Job/WBP_JobSelect.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Job/WBP_Menu_PlayerJobs.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Job/WBP_Menu_PlayerJobs.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CrysProject.uproject.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/CrysProject.uproject.DotSettings.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Private/JobSystem/HeroJobSystemComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Private/JobSystem/HeroJobSystemComponent.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Status/WBP_Status_Hero.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Status/WBP_Status_Hero.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Private/JobSystem/UI/HeroJobSystemViewModel.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Private/JobSystem/UI/HeroJobSystemViewModel.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Private/JobSystem/UI/HeroJobViewModel.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Private/JobSystem/UI/HeroJobViewModel.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Private/JobSystem/UI/JobViewModel.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Private/JobSystem/UI/JobViewModel.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Public/JobSystem/UI/JobViewModel.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Public/JobSystem/UI/JobViewModel.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,8 +52,10 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="cidr-memory-view://4" root0="FORCE_HIGHLIGHTING" />
+    <setting file="cidr-memory-view://11" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Editor/UnrealEd/Private/Kismet2/KismetDebugUtilities.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Core/Public/UObject/NameTypes.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Slate/Private/Framework/Application/SlateApplication.cpp" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="McpProjectServerCommands">
     <commands />
@@ -55,61 +63,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="3.283933150400551E-8" />
-      <entry key="MS500" value="0.03186244464897793" />
-      <entry key="S2" value="0.5213748673442236" />
-      <entry key="S5" value="4.009218200521955" />
-      <entry key="S10" value="13.45870780978501" />
-      <entry key="S30" value="34.91373311710257" />
-      <entry key="S60" value="45.548840832177824" />
-      <entry key="M2" value="54.223802712481955" />
-      <entry key="M5" value="67.38870268412118" />
-      <entry key="M10" value="77.34154792023136" />
-      <entry key="M15" value="83.00973288805034" />
-      <entry key="M30" value="102.80605888014325" />
-      <entry key="H1" value="149.9992161886924" />
-      <entry key="H2" value="209.94434379287924" />
-      <entry key="H4" value="258.9962599702567" />
-      <entry key="D1" value="314.79804583910453" />
-      <entry key="W1" value="326.0674746576695" />
+      <entry key="MS100" value="7.059864403718791E-5" />
+      <entry key="MS500" value="0.14782887503051784" />
+      <entry key="S2" value="0.6201184947362076" />
+      <entry key="S5" value="0.8449955457526083" />
+      <entry key="S10" value="1.0466938648864506" />
+      <entry key="S30" value="1.4862777341485895" />
+      <entry key="S60" value="1.7755945028343867" />
+      <entry key="M2" value="2.4425990566077744" />
+      <entry key="M5" value="4.078731412798726" />
+      <entry key="M10" value="5.505638025562319" />
+      <entry key="M15" value="7.633764787043053" />
+      <entry key="M30" value="21.82526352807213" />
+      <entry key="H1" value="64.88667392729246" />
+      <entry key="H2" value="137.63476930163245" />
+      <entry key="H4" value="211.34998862124084" />
+      <entry key="D1" value="309.6139454122161" />
+      <entry key="W1" value="331.234084525845" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="1.0009303105449647" />
-      <entry key="MS500" value="1.2475863072301165" />
-      <entry key="S2" value="1.7443858816048308" />
-      <entry key="S5" value="2.2774990472140813" />
-      <entry key="S10" value="2.91937016549381" />
-      <entry key="S30" value="4.855080011416091" />
-      <entry key="S60" value="7.119286097690214" />
-      <entry key="M2" value="10.009762246582488" />
-      <entry key="M5" value="14.088505417339958" />
-      <entry key="M10" value="16.559717900631217" />
-      <entry key="M15" value="17.857179362972314" />
-      <entry key="M30" value="22.36934288374038" />
-      <entry key="H1" value="32.74146340328187" />
-      <entry key="H2" value="45.50749149237729" />
-      <entry key="H4" value="55.76399105665752" />
-      <entry key="D1" value="67.29073456721224" />
-      <entry key="W1" value="69.60379684322676" />
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.000000000000045" />
+      <entry key="S2" value="1.0007120214119205" />
+      <entry key="S5" value="1.100471016376404" />
+      <entry key="S10" value="1.5434423278267775" />
+      <entry key="S30" value="2.763401517460993" />
+      <entry key="S60" value="3.85645798750605" />
+      <entry key="M2" value="5.675762901717221" />
+      <entry key="M5" value="8.675048707333907" />
+      <entry key="M10" value="10.535407313261642" />
+      <entry key="M15" value="11.631336877036315" />
+      <entry key="M30" value="15.43352335486317" />
+      <entry key="H1" value="25.228484710956522" />
+      <entry key="H2" value="41.109829949299545" />
+      <entry key="H4" value="56.894090638007896" />
+      <entry key="D1" value="77.66880365194855" />
+      <entry key="W1" value="82.2099335212862" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.004743093826336754" />
-      <entry key="MS500" value="0.3983863546836781" />
-      <entry key="S2" value="1.6744338818746323" />
-      <entry key="S5" value="5.890002478576865" />
-      <entry key="S10" value="16.08593546479108" />
-      <entry key="S30" value="39.57656565040672" />
-      <entry key="S60" value="52.514166086947675" />
-      <entry key="M2" value="64.1169951628373" />
-      <entry key="M5" value="81.40299523981562" />
-      <entry key="M10" value="93.85310048931373" />
-      <entry key="M15" value="100.8302042047411" />
-      <entry key="M30" value="125.1503811071108" />
-      <entry key="H1" value="182.72182489852486" />
-      <entry key="H2" value="255.43872604267526" />
-      <entry key="H4" value="314.7522454096073" />
-      <entry key="D1" value="382.0871767485465" />
-      <entry key="W1" value="395.6710347135825" />
+      <entry key="MS100" value="0.03286861036361474" />
+      <entry key="MS500" value="0.6502656539918312" />
+      <entry key="S2" value="1.4609213487006012" />
+      <entry key="S5" value="1.8580416410335483" />
+      <entry key="S10" value="2.495150047211991" />
+      <entry key="S30" value="4.167546429886781" />
+      <entry key="S60" value="5.570518058402793" />
+      <entry key="M2" value="8.071463733081867" />
+      <entry key="M5" value="12.724178048529803" />
+      <entry key="M10" value="16.02276256301219" />
+      <entry key="M15" value="19.25126750219955" />
+      <entry key="M30" value="37.24799796824851" />
+      <entry key="H1" value="90.10418858813986" />
+      <entry key="H2" value="178.73456916893937" />
+      <entry key="H4" value="268.2368195569107" />
+      <entry key="D1" value="387.2810493261589" />
+      <entry key="W1" value="413.44375997501515" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
@@ -231,7 +239,7 @@
       <workItem from="1783435850769" duration="13302000" />
       <workItem from="1783463331720" duration="2283000" />
       <workItem from="1783518499703" duration="5329000" />
-      <workItem from="1783536459790" duration="2052000" />
+      <workItem from="1783536459790" duration="5333000" />
     </task>
     <servers />
   </component>

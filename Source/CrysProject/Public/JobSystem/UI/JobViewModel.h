@@ -31,6 +31,7 @@ public:
 
 	void SetJobDefinition(UJobDefinition* InHeroJob);
 	UJobDefinition* GetJobDefinition() const { return JobDefinition; }
+	TSoftObjectPtr<UJobDefinition> GetJobDefinitionSoft() const { return JobDefinitionSoft; }
 	
 	void LoadJobDefinition(TSoftObjectPtr<UJobDefinition> JobDefinition);
 	
@@ -39,8 +40,11 @@ private:
 	UPROPERTY()
 	TObjectPtr<UJobDefinition> JobDefinition;
 	
+	UPROPERTY()
+	TSoftObjectPtr<UJobDefinition> JobDefinitionSoft;
+	
 	/** Cached handle for the JobDefinition. */
 	TSharedPtr<FStreamableHandle> JobDefStreamableHandle;
 	
-	void OnJobDefinitionLoaded(TSoftObjectPtr<UJobDefinition> JobDefinition);
+	void OnJobDefinitionLoaded();
 };

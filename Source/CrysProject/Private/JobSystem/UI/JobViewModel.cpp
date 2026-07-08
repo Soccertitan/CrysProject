@@ -31,6 +31,7 @@ void UJobViewModel::SetJobDefinition(UJobDefinition* InHeroJob)
 {
 	JobDefStreamableHandle.Reset();
 	JobDefinition = InHeroJob;
+	JobDefinitionSoft = InHeroJob;
 	UE_MVVM_BROADCAST_FIELD_VALUE_CHANGED(IsJobViewModelValid);
 	UE_MVVM_BROADCAST_FIELD_VALUE_CHANGED(GetJobName);
 	UE_MVVM_BROADCAST_FIELD_VALUE_CHANGED(GetShortName);
@@ -39,14 +40,15 @@ void UJobViewModel::SetJobDefinition(UJobDefinition* InHeroJob)
 
 void UJobViewModel::LoadJobDefinition(TSoftObjectPtr<UJobDefinition> InJobDefinition)
 {
+	JobDefinitionSoft = InJobDefinition;
 	if (!InJobDefinition.IsNull())
 	{
-		FStreamableDelegate Delegate = FStreamableDelegate::CreateUObject(this, &UJobViewModel::OnJobDefinitionLoaded, InJobDefinition);
+		FStreamableDelegate Delegate = FStreamableDelegate::CreateUObject(this, &UJobViewModel::OnJobDefinitionLoaded);
 		JobDefStreamableHandle = UAssetManager::Get().PreloadPrimaryAssets({UAssetManager::Get().GetPrimaryAssetIdForPath(InJobDefinition.ToSoftObjectPath())}, {}, false, Delegate);
 	}
 }
 
-void UJobViewModel::OnJobDefinitionLoaded(TSoftObjectPtr<UJobDefinition> InJobDefinition)
+void UJobViewModel::OnJobDefinitionLoaded()
 {
-	SetJobDefinition(InJobDefinition.Get());
+	SetJobDefinition(JobDefinitionSoft.Get());
 }
