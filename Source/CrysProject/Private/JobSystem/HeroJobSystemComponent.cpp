@@ -61,6 +61,7 @@ void UHeroJobSystemComponent::TrySetJobs(UJobDefinition* InMainJob, UJobDefiniti
 	}
 	
 	JobParams.MainJob = InMainJob;
+	JobParams.MainJobLevel = MainJobProgress.Level;
 	JobParams.SubJobEffectiveness = HeroJobSystemData.SubJobEffectiveness;
 	JobParams.bMaximizeHpMp = true;
 	
