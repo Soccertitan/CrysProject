@@ -4,6 +4,7 @@
 #include "CrysProject/Public/AbilitySystem/AttributeTagRelationship.h"
 
 #include "CrysLogChannels.h"
+#include "UObject/ObjectSaveContext.h"
 
 bool FAttributeTagInfo::IsValid() const
 {
@@ -47,3 +48,15 @@ FAttributeTagInfo UAttributeTagRelationship::FindAttributeTagInfo(const FGamepla
 	}
 	return FAttributeTagInfo();
 }
+
+#if WITH_EDITORONLY_DATA
+void UAttributeTagRelationship::PreSave(FObjectPreSaveContext SaveContext)
+{
+	Super::PreSave(SaveContext);
+	
+	Algo::Sort(AttributeTags, [](const FAttributeTagInfo& A, const FAttributeTagInfo& B)
+	{
+		return A.AttributeTag < B.AttributeTag;
+	});
+}
+#endif

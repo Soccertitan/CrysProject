@@ -4,8 +4,11 @@
 #include "AbilitySystem/CrysAbilityBlueprintFunctionLibrary.h"
 
 #include "CrysBlueprintFunctionLibrary.h"
+#include "CrysLogChannels.h"
 #include "AbilitySystem/AbilityTargetType.h"
+#include "AbilitySystem/GameplayTagInfoFragment_Attribute.h"
 #include "AbilitySystem/Ability/AbilityTargetInterface.h"
+#include "System/CrysGameplayTagRelationship.h"
 
 
 bool UCrysAbilityBlueprintFunctionLibrary::IsAbilityTargetType(EAbilityTargetType AbilityTargetType, AActor* SourceActor, AActor* TargetActor)
@@ -43,6 +46,30 @@ AActor* UCrysAbilityBlueprintFunctionLibrary::GetAbilityTarget(AActor* SourceAct
 	if (SourceActor && SourceActor->Implements<UAbilityTargetInterface>())
 	{
 		return IAbilityTargetInterface::Execute_GetAbilityTarget(SourceActor);
+	}
+	return nullptr;
+}
+
+const FCrysGameplayTagInfo* UCrysAbilityBlueprintFunctionLibrary::FindAttributeGameplayTagInfo(
+	const UCrysGameplayTagRelationship* GameplayTagRelationship, const FGameplayAttribute& GameplayAttribute,
+	const FGameplayTagContainer& SourceTags, bool bLogNotFound)
+{
+	if (GameplayTagRelationship)
+	{
+		for (const FCrysGameplayTagInfo& GameplayTagInfo : GameplayTagRelationship->GameplayTagInfos)
+		{
+			if (const FGameplayTagInfoFragment_Attribute* Fragment = GameplayTagInfo.FindFragmentByType<FGameplayTagInfoFragment_Attribute>())
+			{
+				if (Fragment->GameplayAttribute == GameplayAttribute && Fragment->SourceTags == SourceTags)
+				{
+					return &GameplayTagInfo;
+				}
+			}
+		}
+		if (bLogNotFound)
+		{
+			UE_LOG(LogCrys, Error, TEXT("Cannot find info for GameplayAttribute [%s] and SourceTags [%s] in [%s]"), *GameplayAttribute.AttributeName, *SourceTags.ToString(), *GetNameSafe(GameplayTagRelationship));
+		}
 	}
 	return nullptr;
 }

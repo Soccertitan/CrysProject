@@ -14,19 +14,39 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="145cc1d0-073c-4181-81b8-120deddf1918" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Source/CrysProject/Private/AbilitySystem/GameplayEffect/Component/CrysGameplayEffectUIData.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/CrysProject/Private/AbilitySystem/GameplayTagInfoFragment_Attribute.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/CrysProject/Private/System/CrysGameplayTagRelationship.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/CrysProject/Private/UI/GameplayTagInfoFragment_UI.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/CrysProject/Public/AbilitySystem/GameplayEffect/Component/CrysGameplayEffectUIData.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/CrysProject/Public/AbilitySystem/GameplayEffect/Component/GameplayEffectTextAttributes.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/CrysProject/Public/AbilitySystem/GameplayTagInfoFragment_Attribute.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/CrysProject/Public/System/CrysGameplayTagRelationship.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/CrysProject/Public/UI/GameplayTagInfoFragment_UI.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.CrysProject.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CrysProject.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Component/Attribute/WBP_Attribute.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Component/Attribute/WBP_Attribute.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Component/Attribute/WBP_Attribute_AutoHide.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Component/Attribute/WBP_Attribute_AutoHide.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Component/Attribute/WBP_Attribute_Job.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Component/Attribute/WBP_Attribute_Job.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultGame.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultGame.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/Items/ED_Test.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/Items/ED_Test.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/Items/GE_TestItem.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/Items/GE_TestItem.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/Settings/ATR_Default.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/Settings/ATR_Default.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/Settings/UTR_Default.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/Settings/UTR_Default.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Component/WBP_ItemDetails.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Component/WBP_ItemDetails.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Component/WBP_Job_Level.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Component/WBP_Job_Level.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Equipment/WBP_Equipment_PlayerStats.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Equipment/WBP_Equipment_PlayerStats.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Job/WBP_Button_Job.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Job/WBP_Button_Job.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Job/WBP_JobSelect.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Job/WBP_JobSelect.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Job/WBP_Menu_PlayerJobs.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Job/WBP_Menu_PlayerJobs.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Status/WBP_Status_Hero.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Status/WBP_Status_Hero.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Private/JobSystem/UI/HeroJobSystemViewModel.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Private/JobSystem/UI/HeroJobSystemViewModel.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Private/JobSystem/UI/HeroJobViewModel.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Private/JobSystem/UI/HeroJobViewModel.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Private/JobSystem/UI/JobViewModel.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Private/JobSystem/UI/JobViewModel.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Public/JobSystem/UI/JobViewModel.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Public/JobSystem/UI/JobViewModel.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/WBP_MainMenu_Hero.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/WBP_MainMenu_Hero.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Private/AbilitySystem/AttributeTagRelationship.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Private/AbilitySystem/AttributeTagRelationship.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Private/AbilitySystem/CrysAbilityBlueprintFunctionLibrary.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Private/AbilitySystem/CrysAbilityBlueprintFunctionLibrary.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Private/AbilitySystem/GameplayEffect/Component/GameplayEffectUIData_AttributeText.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Private/AbilitySystem/GameplayEffect/Component/GameplayEffectTextAttributes.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Private/CrysBlueprintFunctionLibrary.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Private/CrysBlueprintFunctionLibrary.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Private/EquipmentSystem/UI/EquipmentItemInstanceComponentViewModel.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Private/EquipmentSystem/UI/EquipmentItemInstanceComponentViewModel.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Private/UI/UITagRelationship.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Private/UI/UITagRelationship.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Public/AbilitySystem/AttributeTagRelationship.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Public/AbilitySystem/AttributeTagRelationship.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Public/AbilitySystem/CrysAbilityBlueprintFunctionLibrary.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Public/AbilitySystem/CrysAbilityBlueprintFunctionLibrary.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Public/AbilitySystem/GameplayEffect/Component/GameplayEffectUIData_AttributeText.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Public/CrysBlueprintFunctionLibrary.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Public/CrysBlueprintFunctionLibrary.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Public/Settings/CrysGameData.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Public/Settings/CrysGameData.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Public/UI/UITagRelationship.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Public/UI/UITagRelationship.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,10 +72,22 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="cidr-memory-view://11" root0="FORCE_HIGHLIGHTING" />
+    <setting file="cidr-memory-view://22" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Editor/UnrealEd/Private/Kismet2/KismetDebugUtilities.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Core/Public/Containers/Array.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Core/Public/Internationalization/Text.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Core/Public/UObject/NameTypes.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/CoreUObject/Public/UObject/Object.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Engine/Classes/Engine/DataAsset.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Engine/Private/DataAsset.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/GameplayTags/Classes/GameplayTagContainer.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Slate/Private/Framework/Application/SlateApplication.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/CrysProject/Private/AbilitySystem/GameplayTagInfoFragment_Attribute.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/CrysProject/Private/System/CrysGameplayTagRelationship.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/CrysProject/Private/UI/GameplayTagInfoFragment_UI.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/CrysProject/Public/AbilitySystem/GameplayTagInfoFragment_Attribute.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/CrysProject/Public/System/CrysGameplayTagRelationship.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/CrysProject/Public/UI/GameplayTagInfoFragment_UI.h" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="McpProjectServerCommands">
     <commands />
@@ -63,61 +95,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="7.059864403718791E-5" />
-      <entry key="MS500" value="0.14782887503051784" />
-      <entry key="S2" value="0.6201184947362076" />
-      <entry key="S5" value="0.8449955457526083" />
-      <entry key="S10" value="1.0466938648864506" />
-      <entry key="S30" value="1.4862777341485895" />
-      <entry key="S60" value="1.7755945028343867" />
-      <entry key="M2" value="2.4425990566077744" />
-      <entry key="M5" value="4.078731412798726" />
-      <entry key="M10" value="5.505638025562319" />
-      <entry key="M15" value="7.633764787043053" />
-      <entry key="M30" value="21.82526352807213" />
-      <entry key="H1" value="64.88667392729246" />
-      <entry key="H2" value="137.63476930163245" />
-      <entry key="H4" value="211.34998862124084" />
-      <entry key="D1" value="309.6139454122161" />
-      <entry key="W1" value="331.234084525845" />
+      <entry key="MS100" value="1.0000000000001084" />
+      <entry key="MS500" value="1.002552275886511" />
+      <entry key="S2" value="1.2249440920115193" />
+      <entry key="S5" value="1.5821858548315455" />
+      <entry key="S10" value="1.939166779599085" />
+      <entry key="S30" value="3.2483862026416004" />
+      <entry key="S60" value="5.394973492389545" />
+      <entry key="M2" value="10.568579091196996" />
+      <entry key="M5" value="29.25635703816163" />
+      <entry key="M10" value="57.5767789061085" />
+      <entry key="M15" value="85.94253872285333" />
+      <entry key="M30" value="160.83929034321528" />
+      <entry key="H1" value="268.4063419455119" />
+      <entry key="H2" value="422.2764165487117" />
+      <entry key="H4" value="599.5550524344936" />
+      <entry key="D1" value="1017.8877584532746" />
+      <entry key="W1" value="1232.035461746149" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.000000000000045" />
-      <entry key="S2" value="1.0007120214119205" />
-      <entry key="S5" value="1.100471016376404" />
-      <entry key="S10" value="1.5434423278267775" />
-      <entry key="S30" value="2.763401517460993" />
-      <entry key="S60" value="3.85645798750605" />
-      <entry key="M2" value="5.675762901717221" />
-      <entry key="M5" value="8.675048707333907" />
-      <entry key="M10" value="10.535407313261642" />
-      <entry key="M15" value="11.631336877036315" />
-      <entry key="M30" value="15.43352335486317" />
-      <entry key="H1" value="25.228484710956522" />
-      <entry key="H2" value="41.109829949299545" />
-      <entry key="H4" value="56.894090638007896" />
-      <entry key="D1" value="77.66880365194855" />
-      <entry key="W1" value="82.2099335212862" />
+      <entry key="MS100" value="2.180320770108898E-215" />
+      <entry key="MS500" value="1.1687028618547394E-43" />
+      <entry key="S2" value="1.8798560295362733E-11" />
+      <entry key="S5" value="6.444272216895138E-5" />
+      <entry key="S10" value="0.013537650820527753" />
+      <entry key="S30" value="0.7446951773363102" />
+      <entry key="S60" value="2.5737582833010846" />
+      <entry key="M2" value="6.090696928318877" />
+      <entry key="M5" value="13.615963511297863" />
+      <entry key="M10" value="20.660962048351053" />
+      <entry key="M15" value="25.80385816548688" />
+      <entry key="M30" value="36.94763427295557" />
+      <entry key="H1" value="51.788638669860305" />
+      <entry key="H2" value="74.3798897491762" />
+      <entry key="H4" value="102.26355986347829" />
+      <entry key="D1" value="182.94027904979458" />
+      <entry key="W1" value="230.20683033508658" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.03286861036361474" />
-      <entry key="MS500" value="0.6502656539918312" />
-      <entry key="S2" value="1.4609213487006012" />
-      <entry key="S5" value="1.8580416410335483" />
-      <entry key="S10" value="2.495150047211991" />
-      <entry key="S30" value="4.167546429886781" />
-      <entry key="S60" value="5.570518058402793" />
-      <entry key="M2" value="8.071463733081867" />
-      <entry key="M5" value="12.724178048529803" />
-      <entry key="M10" value="16.02276256301219" />
-      <entry key="M15" value="19.25126750219955" />
-      <entry key="M30" value="37.24799796824851" />
-      <entry key="H1" value="90.10418858813986" />
-      <entry key="H2" value="178.73456916893937" />
-      <entry key="H4" value="268.2368195569107" />
-      <entry key="D1" value="387.2810493261589" />
-      <entry key="W1" value="413.44375997501515" />
+      <entry key="MS100" value="2.148748549653624E-7" />
+      <entry key="MS500" value="0.047152264491982517" />
+      <entry key="S2" value="0.6302611282211055" />
+      <entry key="S5" value="1.2461963719367504" />
+      <entry key="S10" value="1.735851910165264" />
+      <entry key="S30" value="3.8195122198723817" />
+      <entry key="S60" value="7.775380275137609" />
+      <entry key="M2" value="16.45998275429083" />
+      <entry key="M5" value="42.71052445558873" />
+      <entry key="M10" value="78.12160508320662" />
+      <entry key="M15" value="111.65253537987772" />
+      <entry key="M30" value="197.72225716645704" />
+      <entry key="H1" value="320.1510635045972" />
+      <entry key="H2" value="496.62573824454586" />
+      <entry key="H4" value="701.7981097664048" />
+      <entry key="D1" value="1200.8224435093339" />
+      <entry key="W1" value="1462.241329944321" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
@@ -125,6 +157,9 @@
   &quot;associatedIndex&quot;: 0
 }</component>
   <component name="ProjectId" id="3GB5dyapKXtdtFZsTVGzTmZYb75" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -239,7 +274,7 @@
       <workItem from="1783435850769" duration="13302000" />
       <workItem from="1783463331720" duration="2283000" />
       <workItem from="1783518499703" duration="5329000" />
-      <workItem from="1783536459790" duration="5333000" />
+      <workItem from="1783536459790" duration="27423000" />
     </task>
     <servers />
   </component>

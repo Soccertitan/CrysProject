@@ -10,6 +10,7 @@
 #include "Player/CrysPlayerState.h"
 #include "Settings/CrysGameData.h"
 #include "System/CrysAssetManager.h"
+#include "System/CrysGameplayTagRelationship.h"
 #include "UI/CrysHUD.h"
 #include "UI/ViewModel/CrysViewModel.h"
 
@@ -90,6 +91,21 @@ UCrysViewModel* UCrysBlueprintFunctionLibrary::FindOrCreateViewModel(const TSubc
 		}
 	}
 	return nullptr;
+}
+
+FCrysGameplayTagInfo UCrysBlueprintFunctionLibrary::FindCrysGameplayTagInfo(const FGameplayTag& Tag, bool bLogNotFound)
+{
+	const UCrysGameplayTagRelationship* GameplayTagRelationship = UCrysAssetManager::GetAsset(GetDefault<UCrysGameData>()->GameplayTagRelationship);
+	if (!GameplayTagRelationship)
+	{
+		if (bLogNotFound)
+		{
+			UE_LOG(LogCrys, Error, TEXT("GameplayTagRelationship is invalid in [%s]"), *GetDefault<UCrysGameData>()->GetName());
+		}
+		return FCrysGameplayTagInfo();
+	}
+
+	return GameplayTagRelationship->FindInfo(Tag, bLogNotFound);
 }
 
 FAttributeTagInfo UCrysBlueprintFunctionLibrary::FindAttributeTagInfo(const FGameplayTag& Tag, bool bLogNotFound)

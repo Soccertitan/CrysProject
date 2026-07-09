@@ -22,6 +22,10 @@ struct FUITagInfo
 	UPROPERTY(EditAnywhere)
 	FText ShortName;
 	
+	/** The text that is shown when generating text from GameplayEffects. */
+	UPROPERTY(EditAnywhere)
+	FText GameplayEffectAttributeText;
+	
 	UPROPERTY(EditAnywhere, meta = (MultiLine=true))
 	FText Description;
 	
@@ -49,6 +53,11 @@ class CRYSPROJECT_API UUITagRelationship : public UPrimaryDataAsset
 public:
 	FUITagInfo FindUITagInfo(UPARAM(ref) const FGameplayTag& Tag, bool bLogNotFound = false) const;
 
+#if WITH_EDITORONLY_DATA
+	/** Sorting the UITags based on Tag. */
+	virtual void PreSave(FObjectPreSaveContext SaveContext) override;
+#endif
+	
 protected:
 	UPROPERTY(EditDefaultsOnly, meta = (NoResetToDefault, NoElementDuplicate, ForceInlineRow, TitleProperty = "{Tag}"))
 	TArray<FUITagInfo> UITags;

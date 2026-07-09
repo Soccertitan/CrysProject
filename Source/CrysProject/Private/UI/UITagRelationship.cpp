@@ -4,6 +4,7 @@
 #include "UI/UITagRelationship.h"
 
 #include "CrysLogChannels.h"
+#include "UObject/ObjectSaveContext.h"
 
 FUITagInfo UUITagRelationship::FindUITagInfo(const FGameplayTag& Tag, bool bLogNotFound) const
 {
@@ -21,3 +22,16 @@ FUITagInfo UUITagRelationship::FindUITagInfo(const FGameplayTag& Tag, bool bLogN
 	}
 	return FUITagInfo();
 }
+
+#if WITH_EDITORONLY_DATA
+void UUITagRelationship::PreSave(FObjectPreSaveContext SaveContext)
+{
+	Super::PreSave(SaveContext);
+	
+	UITags.Sort([](const FUITagInfo& A, const FUITagInfo& B)
+	{
+		return A.Tag < B.Tag;
+	});
+}
+#endif
+

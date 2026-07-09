@@ -17,6 +17,9 @@ struct FAttributeTagInfo
 	UPROPERTY(EditAnywhere, meta = (Categories = "Attribute"))
 	FGameplayTag AttributeTag;
 	
+	UPROPERTY(EditAnywhere)
+	FText DisplayText;
+	
 	/** Set to true to display the value as a percent. i.e. 0.12 will display as 12.*/
 	UPROPERTY(EditAnywhere)
 	bool bDisplayValueAsPercent = false;
@@ -53,6 +56,11 @@ public:
 	FAttributeTagInfo FindAttributeTagInfo(const FGameplayTag& AttributeTag, bool bLogNotFound = false) const;
 	
 	FAttributeTagInfo FindAttributeTagInfo(const FGameplayAttribute& GameplayAttribute, const FGameplayTagContainer& SourceTags, bool bLogNotFound = false) const;
+	
+#if WITH_EDITORONLY_DATA
+	/** Sorting the AttributeTags based on Tag. */
+	virtual void PreSave(FObjectPreSaveContext SaveContext) override;
+#endif
 
 protected:
 	UPROPERTY(EditDefaultsOnly, meta = (NoResetToDefault, NoElementDuplicate, ForceInlineRow, TitleProperty = "{AttributeTag}"))

@@ -6,7 +6,12 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "CrysAbilityBlueprintFunctionLibrary.generated.h"
 
+struct FGameplayTagContainer;
+struct FGameplayAttribute;
+class UCrysGameplayTagRelationship;
+struct FCrysGameplayTagInfo;
 enum class EAbilityTargetType : uint8;
+
 /**
  * 
  */
@@ -23,4 +28,6 @@ public:
 	/** Uses the AbilityTargetInterface to get the target of an ability. */
 	UFUNCTION(BlueprintPure, Category = "Ability", meta = (DefaultToSelf = "SourceActor"))
 	static AActor* GetAbilityTarget(AActor* SourceActor);
+	
+	static const FCrysGameplayTagInfo* FindAttributeGameplayTagInfo(const UCrysGameplayTagRelationship* GameplayTagRelationship, const FGameplayAttribute& GameplayAttribute, const FGameplayTagContainer& SourceTags, bool bLogNotFound = false); 
 };
