@@ -5,9 +5,11 @@
 #include "CoreMinimal.h"
 #include "MVVMViewModelBase.h"
 #include "AbilitySystem/AttributeTagRelationship.h"
+#include "System/CrysGameplayTagRelationship.h"
 #include "UI/UITagRelationship.h"
 #include "AttributeViewModel.generated.h"
 
+struct FGameplayTagInfoFragment_UI;
 enum class EGameplayModEvaluationChannel : uint8;
 struct FOnAttributeChangeData;
 class UAbilitySystemComponent;
@@ -36,22 +38,26 @@ public:
 	 */
 	UFUNCTION(BlueprintPure, Category = "Viewmodel|Attribute")
 	float EvaluateAttributeValueUpToChannel(EGameplayModEvaluationChannel Channel) const;
+	UFUNCTION(BlueprintPure, Category = "ViewModel|Attribute")
+	FText EvaluateAttributeValueTextUpToChannel(EGameplayModEvaluationChannel Channel) const;
 
 	float GetCurrentValue() const {return CurrentValue;}
+	UFUNCTION(BlueprintPure, FieldNotify, Category = "Viewmodel|Attribute")
+	FText GetCurrentValueText() const;
 	float GetBaseValue() const {return BaseValue;}
+	UFUNCTION(BlueprintPure, FieldNotify, Category = "Viewmodel|Attribute")
+	FText GetBaseValueText() const;
 
 	UFUNCTION(BlueprintPure, FieldNotify, Category = "Viewmodel|Attribute")
-	FText GetAttributeName() const {return UITagInfo.Name;}
+	FText GetAttributeName() const;
 	UFUNCTION(BlueprintPure, FieldNotify, Category = "Viewmodel|Attribute")
-	FText GetShortName() const {return UITagInfo.ShortName;}
+	FText GetShortName() const;
 	UFUNCTION(BlueprintPure, FieldNotify, Category = "Viewmodel|Attribute")
-	FText GetDescription() const {return UITagInfo.Description;}
+	FText GetDescription() const;
 	UFUNCTION(BlueprintPure, FieldNotify, Category = "Viewmodel|Attribute")
-	bool IsAttributePercentValue() const {return AttributeTagInfo.bDisplayValueAsPercent;}
-	UFUNCTION(BlueprintPure, FieldNotify, Category = "Viewmodel|Attribute")
-	TSoftObjectPtr<UTexture2D> GetIcon() const {return UITagInfo.Icon;}
+	TSoftObjectPtr<UTexture2D> GetIcon() const;
 	
-	FGameplayTag GetAttributeTag() const {return AttributeTagInfo.AttributeTag;}
+	FGameplayTag GetAttributeTag() const {return GameplayTagInfo.Tag;}
 	
 protected:
 	void SetCurrentValue(float InValue);
@@ -63,9 +69,7 @@ protected:
 private:
 	/** The static details of the attribute. */
 	UPROPERTY()
-	FAttributeTagInfo AttributeTagInfo;
-	UPROPERTY()
-	FUITagInfo UITagInfo;
+	FCrysGameplayTagInfo GameplayTagInfo;
 
 	/** Cached ASC */
 	UPROPERTY()
@@ -78,6 +82,7 @@ private:
 	UPROPERTY(BlueprintReadOnly, FieldNotify, Getter, Category = "Viewmodel|Attribute", meta = (AllowPrivateAccess = true))
 	float BaseValue = 0.f;
 
-	void FindAndSetAttributeTagInfo(const FGameplayTag& AttributeTag);
+	void FindAndSetGameplayTagTagInfo(const FGameplayTag& AttributeTag);
 	void OnAttributeValueChanged(const FOnAttributeChangeData& Data);
+	FText GetValueText(float Value) const;
 };

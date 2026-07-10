@@ -9,6 +9,7 @@
 #include "Settings/CrysGameData.h"
 #include "System/CrysAssetManager.h"
 #include "System/CrysGameplayTagRelationship.h"
+#include "UI/GameplayTagInfoFragment_NumberFormattingOptions.h"
 
 
 #define LOCTEXT_NAMESPACE "CrysGamepalyEffectText"
@@ -69,7 +70,8 @@ void FGameplayEffectTextAttributes::OnGameplayEffectChanged(UGameplayEffect* Own
 			
 			const FGameplayTagInfoFragment_Attribute* Fragment_Attribute = GameplayTagInfo->FindFragmentByType<FGameplayTagInfoFragment_Attribute>();
 			AttributeText.DisplayText = Fragment_Attribute->GameplayEffectText;
-			AttributeText.bDisplayValueAsPercent = Fragment_Attribute->bDisplayValueAsPercent;
+			const FGameplayTagInfoFragment_NumberFormatingOptions* Fragment_Formatting = GameplayTagInfo->FindFragmentByType<FGameplayTagInfoFragment_NumberFormatingOptions>();
+			AttributeText.bDisplayValueAsPercent = Fragment_Formatting ? Fragment_Formatting->bDisplayValueAsPercent : FGameplayTagInfoFragment_NumberFormatingOptions().bDisplayValueAsPercent;
 		}
 	}
 }
