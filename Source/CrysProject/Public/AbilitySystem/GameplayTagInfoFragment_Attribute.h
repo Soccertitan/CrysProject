@@ -16,7 +16,7 @@ struct FGameplayTagInfoFragment_Attribute : public FCrysGameplayTagInfoFragment
 	
 	/** The text that is used when generating the AttributeText in a GameplayEffect. */
 	UPROPERTY(EditAnywhere, meta = (MultiLine))
-	FText DisplayText;
+	FText GameplayEffectText;
 	
 	/** Set to true to display the value as a percent. i.e. 0.12 will display as 12% */
 	UPROPERTY(EditAnywhere)

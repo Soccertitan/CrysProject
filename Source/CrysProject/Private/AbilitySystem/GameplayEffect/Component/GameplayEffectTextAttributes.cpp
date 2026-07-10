@@ -68,7 +68,7 @@ void FGameplayEffectTextAttributes::OnGameplayEffectChanged(UGameplayEffect* Own
 			AttributeText.ModifierOpText = GetModifierOpText(Modifier.ModifierOp);
 			
 			const FGameplayTagInfoFragment_Attribute* Fragment_Attribute = GameplayTagInfo->FindFragmentByType<FGameplayTagInfoFragment_Attribute>();
-			AttributeText.DisplayText = Fragment_Attribute->DisplayText;
+			AttributeText.DisplayText = Fragment_Attribute->GameplayEffectText;
 			AttributeText.bDisplayValueAsPercent = Fragment_Attribute->bDisplayValueAsPercent;
 		}
 	}
