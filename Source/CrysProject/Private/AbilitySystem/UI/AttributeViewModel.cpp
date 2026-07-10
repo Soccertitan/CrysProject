@@ -126,11 +126,13 @@ TSoftObjectPtr<UTexture2D> UAttributeViewModel::GetIcon() const
 void UAttributeViewModel::SetCurrentValue(float InValue)
 {
 	UE_MVVM_SET_PROPERTY_VALUE(CurrentValue, InValue);
+	UE_MVVM_BROADCAST_FIELD_VALUE_CHANGED(GetCurrentValueText);
 }
 
 void UAttributeViewModel::SetBaseValue(float InValue)
 {
 	UE_MVVM_SET_PROPERTY_VALUE(BaseValue, InValue);
+	UE_MVVM_BROADCAST_FIELD_VALUE_CHANGED(GetBaseValueText);
 }
 
 void UAttributeViewModel::FindAndSetGameplayTagTagInfo(const FGameplayTag& AttributeTag)

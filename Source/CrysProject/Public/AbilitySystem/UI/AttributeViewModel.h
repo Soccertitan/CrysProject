@@ -4,9 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "MVVMViewModelBase.h"
-#include "AbilitySystem/AttributeTagRelationship.h"
 #include "System/CrysGameplayTagRelationship.h"
-#include "UI/UITagRelationship.h"
 #include "AttributeViewModel.generated.h"
 
 struct FGameplayTagInfoFragment_UI;

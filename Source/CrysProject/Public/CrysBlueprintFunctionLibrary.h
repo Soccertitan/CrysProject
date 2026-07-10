@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GenericTeamAgentInterface.h"
-#include "AbilitySystem/AttributeTagRelationship.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "UI/UITagRelationship.h"
 #include "CrysBlueprintFunctionLibrary.generated.h"
@@ -52,7 +51,6 @@ public:
 	// static UCombatTextComponent* GetCombatTextComponent(AActor* Actor);
 	
 	static FCrysGameplayTagInfo FindCrysGameplayTagInfo(const FGameplayTag& Tag, bool bLogNotFound = false);
-	static FAttributeTagInfo FindAttributeTagInfo(const FGameplayTag& Tag, bool bLogNotFound = false);
 	static FUITagInfo FindUITagInfo(const FGameplayTag& Tag, bool bLogNotFound = false);
 	
 	UFUNCTION(BlueprintPure, Category = "CrysFunctionLibrary")

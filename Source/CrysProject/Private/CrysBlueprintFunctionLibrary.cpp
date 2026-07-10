@@ -108,21 +108,6 @@ FCrysGameplayTagInfo UCrysBlueprintFunctionLibrary::FindCrysGameplayTagInfo(cons
 	return GameplayTagRelationship->FindInfo(Tag, bLogNotFound);
 }
 
-FAttributeTagInfo UCrysBlueprintFunctionLibrary::FindAttributeTagInfo(const FGameplayTag& Tag, bool bLogNotFound)
-{
-	const UAttributeTagRelationship* AttributeTagRelationship = UCrysAssetManager::GetAsset(GetDefault<UCrysGameData>()->AttributeTagRelationship);
-	if (!AttributeTagRelationship)
-	{
-		if (bLogNotFound)
-		{
-			UE_LOG(LogCrys, Error, TEXT("AttributeTagRelationship is invalid in [%s]"), *GetDefault<UCrysGameData>()->GetName());
-		}
-		return FAttributeTagInfo();
-	}
-
-	return AttributeTagRelationship->FindAttributeTagInfo(Tag, bLogNotFound);
-}
-
 FUITagInfo UCrysBlueprintFunctionLibrary::FindUITagInfo(const FGameplayTag& Tag, bool bLogNotFound)
 {
 	const UUITagRelationship* UITagRelationship = UCrysAssetManager::GetAsset(GetDefault<UCrysGameData>()->UITagRelationship);
