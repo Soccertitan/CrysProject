@@ -26,8 +26,4 @@ public:
 	// The default AutoAttack GE to use when one is not specified on the weapon.
 	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = "AbilitySystem")
 	TSoftClassPtr<UGameplayEffect> AutoAttackGameplayEffectClass;
-	
-	// Maps Gameplay tags to UI info.
-	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = "UI")
-	TSoftObjectPtr<UUITagRelationship> UITagRelationship;
 };

@@ -10,10 +10,9 @@
 #include "AbilitySystem/GameplayTagInfoFragment_Attribute.h"
 #include "Settings/CrysGameData.h"
 #include "UI/GameplayTagInfoFragment_NumberFormattingOptions.h"
-#include "UI/GameplayTagInfoFragment_UI.h"
 
 
-void UAttributeViewModel::SetAttributeWithASC(const FGameplayTag AttributeTag, UAbilitySystemComponent* InAbilitySystemComponent)
+void UAttributeViewModel::SetAttributeWithASC(const FGameplayTag InAttributeTag, UAbilitySystemComponent* InAbilitySystemComponent)
 {
 	if (!InAbilitySystemComponent)
 	{
@@ -21,34 +20,33 @@ void UAttributeViewModel::SetAttributeWithASC(const FGameplayTag AttributeTag, U
 		return;
 	}
 
-	FindAndSetGameplayTagTagInfo(AttributeTag);
-
-	const FGameplayTagInfoFragment_Attribute* Fragment_Attribute = GameplayTagInfo.FindFragmentByType<FGameplayTagInfoFragment_Attribute>();
-	if (!Fragment_Attribute || !Fragment_Attribute->GameplayAttribute.IsValid())
+	FindAndSetGameplayTagTagInfo(InAttributeTag);
+	
+	if (!Fragment_Attribute.GameplayAttribute.IsValid())
 	{
-		UE_LOG(LogCrys, Error, TEXT("Invalid GameplayAttribute found with AttributeTag [%s] in [%s]"), *AttributeTag.ToString(), *GetDefault<UCrysGameData>()->GetName());
+		UE_LOG(LogCrys, Error, TEXT("Invalid GameplayAttribute found with AttributeTag [%s] in [%s]"), *InAttributeTag.ToString(), *GetDefault<UCrysGameData>()->GetName());
 		return;
 	}
 
 	if (AbilitySystemComponent)
 	{
-		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Fragment_Attribute->GameplayAttribute).RemoveAll(this);
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Fragment_Attribute.GameplayAttribute).RemoveAll(this);
 	}
 	AbilitySystemComponent = InAbilitySystemComponent;
-	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Fragment_Attribute->GameplayAttribute).AddUObject(this, &UAttributeViewModel::OnAttributeValueChanged);
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Fragment_Attribute.GameplayAttribute).AddUObject(this, &UAttributeViewModel::OnAttributeValueChanged);
 
-	if (AbilitySystemComponent->HasAttributeSetForAttribute(Fragment_Attribute->GameplayAttribute))
+	if (AbilitySystemComponent->HasAttributeSetForAttribute(Fragment_Attribute.GameplayAttribute))
 	{
 		float NewCurrentValue = AbilitySystemComponent->GetFilteredAttributeValue(
-				   Fragment_Attribute->GameplayAttribute, FGameplayTagRequirements(Fragment_Attribute->SourceTags), FGameplayTagContainer());
+				   Fragment_Attribute.GameplayAttribute, FGameplayTagRequirements(Fragment_Attribute.SourceTags), FGameplayTagContainer());
 		SetCurrentValue(NewCurrentValue);
-		SetBaseValue(AbilitySystemComponent->GetNumericAttributeBase(Fragment_Attribute->GameplayAttribute));
+		SetBaseValue(AbilitySystemComponent->GetNumericAttributeBase(Fragment_Attribute.GameplayAttribute));
 	}
 }
 
-void UAttributeViewModel::SetAttribute(const FGameplayTag AttributeTag, float InCurrentValue, float InBaseValue)
+void UAttributeViewModel::SetAttribute(const FGameplayTag InAttributeTag, float InCurrentValue, float InBaseValue)
 {
-	FindAndSetGameplayTagTagInfo(AttributeTag);
+	FindAndSetGameplayTagTagInfo(InAttributeTag);
 
 	SetCurrentValue(InCurrentValue);
 	SetBaseValue(InBaseValue);
@@ -57,70 +55,30 @@ void UAttributeViewModel::SetAttribute(const FGameplayTag AttributeTag, float In
 float UAttributeViewModel::EvaluateAttributeValueUpToChannel(EGameplayModEvaluationChannel Channel) const
 {
 	bool bSuccess = false;
-	float ReturnValue = 0.f;
-	if (const FGameplayTagInfoFragment_Attribute* Fragment_Attribute = GameplayTagInfo.FindFragmentByType<FGameplayTagInfoFragment_Attribute>())
-	{
-		ReturnValue = UCrimAbilitySystemBlueprintFunctionLibrary::EvaluateAttributeValueWithTagsUpToChannel(
-		   AbilitySystemComponent,
-		   Fragment_Attribute->GameplayAttribute,
-		   Channel,
-		   Fragment_Attribute->SourceTags,
-		   FGameplayTagContainer(),
-		   bSuccess);
-	}
+	float ReturnValue = ReturnValue = UCrimAbilitySystemBlueprintFunctionLibrary::EvaluateAttributeValueWithTagsUpToChannel(
+	   AbilitySystemComponent,
+	   Fragment_Attribute.GameplayAttribute,
+	   Channel,
+	   Fragment_Attribute.SourceTags,
+	   FGameplayTagContainer(),
+	   bSuccess);
 	
 	return bSuccess ? ReturnValue : CurrentValue;
 }
 
 FText UAttributeViewModel::EvaluateAttributeValueTextUpToChannel(EGameplayModEvaluationChannel Channel) const
 {
-	return GetValueText(EvaluateAttributeValueUpToChannel(Channel));
+	return Fragment_NumberFormatingOptions.GetText(EvaluateAttributeValueUpToChannel(Channel));
 }
 
 FText UAttributeViewModel::GetCurrentValueText() const
 {
-	return GetValueText(CurrentValue);
+	return Fragment_NumberFormatingOptions.GetText(CurrentValue);
 }
 
 FText UAttributeViewModel::GetBaseValueText() const
 {
-	return GetValueText(BaseValue);
-}
-
-FText UAttributeViewModel::GetAttributeName() const
-{
-	if (const FGameplayTagInfoFragment_UI* Fragment = GameplayTagInfo.FindFragmentByType<FGameplayTagInfoFragment_UI>())
-	{
-		return Fragment->Name;
-	}
-	return FText();
-}
-
-FText UAttributeViewModel::GetShortName() const
-{
-	if (const FGameplayTagInfoFragment_UI* Fragment = GameplayTagInfo.FindFragmentByType<FGameplayTagInfoFragment_UI>())
-	{
-		return Fragment->ShortName;
-	}
-	return FText();
-}
-
-FText UAttributeViewModel::GetDescription() const
-{
-	if (const FGameplayTagInfoFragment_UI* Fragment = GameplayTagInfo.FindFragmentByType<FGameplayTagInfoFragment_UI>())
-	{
-		return Fragment->Description;
-	}
-	return FText();
-}
-
-TSoftObjectPtr<UTexture2D> UAttributeViewModel::GetIcon() const
-{
-	if (const FGameplayTagInfoFragment_UI* Fragment = GameplayTagInfo.FindFragmentByType<FGameplayTagInfoFragment_UI>())
-	{
-		return Fragment->Icon;
-	}
-	return nullptr;
+	return Fragment_NumberFormatingOptions.GetText(BaseValue);
 }
 
 void UAttributeViewModel::SetCurrentValue(float InValue)
@@ -135,39 +93,41 @@ void UAttributeViewModel::SetBaseValue(float InValue)
 	UE_MVVM_BROADCAST_FIELD_VALUE_CHANGED(GetBaseValueText);
 }
 
-void UAttributeViewModel::FindAndSetGameplayTagTagInfo(const FGameplayTag& AttributeTag)
+void UAttributeViewModel::FindAndSetGameplayTagTagInfo(const FGameplayTag& InAttributeTag)
 {
-	if (GameplayTagInfo.Tag != AttributeTag)
+	if (AttributeTag != InAttributeTag)
 	{
-		GameplayTagInfo = UCrysBlueprintFunctionLibrary::FindCrysGameplayTagInfo(AttributeTag, true);
-	
-		UE_MVVM_BROADCAST_FIELD_VALUE_CHANGED(GetDescription);
-		UE_MVVM_BROADCAST_FIELD_VALUE_CHANGED(GetIcon);
-		UE_MVVM_BROADCAST_FIELD_VALUE_CHANGED(GetAttributeName);
-		UE_MVVM_BROADCAST_FIELD_VALUE_CHANGED(GetShortName);
+		AttributeTag = InAttributeTag;
+		const FCrysGameplayTagInfo* TagInfo = UCrysBlueprintFunctionLibrary::FindCrysGameplayTagInfo(AttributeTag, true);
+		
+		if (TagInfo)
+		{
+			const FGameplayTagInfoFragment_Attribute* Fragment_AttributePtr = TagInfo->FindFragmentByType<FGameplayTagInfoFragment_Attribute>();
+			Fragment_Attribute = Fragment_AttributePtr ? *Fragment_AttributePtr : FGameplayTagInfoFragment_Attribute();
+			
+			const FGameplayTagInfoFragment_NumberFormatingOptions* Fragment_FormattingPtr = TagInfo->FindFragmentByType<FGameplayTagInfoFragment_NumberFormatingOptions>();
+			Fragment_NumberFormatingOptions = Fragment_FormattingPtr ? *Fragment_FormattingPtr : FGameplayTagInfoFragment_NumberFormatingOptions();
+		}
+		else
+		{
+			Fragment_Attribute = FGameplayTagInfoFragment_Attribute();
+			Fragment_NumberFormatingOptions = FGameplayTagInfoFragment_NumberFormatingOptions();
+		}
 	}
 }
 
 void UAttributeViewModel::OnAttributeValueChanged(const FOnAttributeChangeData& Data)
 {
-	const FGameplayTagInfoFragment_Attribute* Fragment_Attribute = GameplayTagInfo.FindFragmentByType<FGameplayTagInfoFragment_Attribute>();
-	
-	if (Fragment_Attribute->SourceTags.IsEmpty())
+	if (Fragment_Attribute.SourceTags.IsEmpty())
 	{
 		SetCurrentValue(Data.NewValue);
 	}
 	else
 	{
 		float NewCurrentValue = AbilitySystemComponent->GetFilteredAttributeValue(
-			Fragment_Attribute->GameplayAttribute, FGameplayTagRequirements(Fragment_Attribute->SourceTags), FGameplayTagContainer());
+			Fragment_Attribute.GameplayAttribute, FGameplayTagRequirements(Fragment_Attribute.SourceTags), FGameplayTagContainer());
 		SetCurrentValue(NewCurrentValue);
 	}
 
-	SetBaseValue(AbilitySystemComponent->GetNumericAttributeBase(Fragment_Attribute->GameplayAttribute));
-}
-
-FText UAttributeViewModel::GetValueText(float Value) const
-{
-	const FGameplayTagInfoFragment_NumberFormatingOptions* Fragment = GameplayTagInfo.FindFragmentByType<FGameplayTagInfoFragment_NumberFormatingOptions>();
-	return Fragment ? Fragment->GetText(Value) : FGameplayTagInfoFragment_NumberFormatingOptions().GetText(Value);
+	SetBaseValue(AbilitySystemComponent->GetNumericAttributeBase(Fragment_Attribute.GameplayAttribute));
 }

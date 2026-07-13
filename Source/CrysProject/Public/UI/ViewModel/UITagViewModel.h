@@ -4,11 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "MVVMViewModelBase.h"
-#include "UI/UITagRelationship.h"
+#include "System/CrysGameplayTagRelationship.h"
+#include "UI/GameplayTagInfoFragment_UI.h"
 #include "UITagViewModel.generated.h"
 
 
 class UTexture2D;
+
 /**
  * Display information on Gameplay Tags.
  */
@@ -18,19 +20,20 @@ class CRYSPROJECT_API UUITagViewModel : public UMVVMViewModelBase
 	GENERATED_BODY()
 	
 public:
-	UFUNCTION(BlueprintCallable, Category = "Viewmodel|GameplayTag")
+	UFUNCTION(BlueprintCallable, Category = "Viewmodel|UI")
 	void SetGameplayTag(const FGameplayTag& InValue);
 	
-	UFUNCTION(BlueprintPure, FieldNotify)
-	FText GetTagName() const {return UITagInfo.Name;}
-	UFUNCTION(BlueprintPure, FieldNotify)
-	FText GetShortName() const {return UITagInfo.ShortName;}
-	UFUNCTION(BlueprintPure, FieldNotify)
-	FText GetDescription() const {return UITagInfo.Description;}
-	UFUNCTION(BlueprintPure, FieldNotify)
-	TSoftObjectPtr<UTexture2D> GetIcon() const {return UITagInfo.Icon;}
-	
+	UFUNCTION(BlueprintPure, FieldNotify, Category = "Viewmodel|UI")
+	FText GetTagName() const;
+	UFUNCTION(BlueprintPure, FieldNotify, Category = "Viewmodel|UI")
+	FText GetShortName() const;
+	UFUNCTION(BlueprintPure, FieldNotify, Category = "Viewmodel|UI")
+	FText GetDescription() const;
+	UFUNCTION(BlueprintPure, FieldNotify, Category = "Viewmodel|UI")
+	TSoftObjectPtr<UTexture2D> GetIcon() const;
+
 private:
-	UPROPERTY()
-	FUITagInfo UITagInfo;
+	FGameplayTag GameplayTag;
+	
+	FGameplayTagInfoFragment_UI Fragment_UI;
 };

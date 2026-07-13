@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "MVVMViewModelBase.h"
+#include "AbilitySystem/GameplayTagInfoFragment_Attribute.h"
 #include "System/CrysGameplayTagRelationship.h"
+#include "UI/GameplayTagInfoFragment_NumberFormattingOptions.h"
 #include "AttributeViewModel.generated.h"
 
 struct FGameplayTagInfoFragment_UI;
@@ -24,11 +26,11 @@ class CRYSPROJECT_API UAttributeViewModel : public UMVVMViewModelBase
 public:
 	/** Will bind to the ASC and listen for attribute changes on the character. */
 	UFUNCTION(BlueprintCallable, Category = "Viewmodel|Attribute")
-	void SetAttributeWithASC(UPARAM(meta = (Categories = "Attribute")) const FGameplayTag AttributeTag, UAbilitySystemComponent* InAbilitySystemComponent);
+	void SetAttributeWithASC(UPARAM(meta = (Categories = "Attribute")) const FGameplayTag InAttributeTag, UAbilitySystemComponent* InAbilitySystemComponent);
 
 	/** Manually initializes the ViewModel with static data. */
 	UFUNCTION(BlueprintCallable, Category = "Viewmodel|Attribute")
-	void SetAttribute(UPARAM(meta = (Categories = "Attribute")) const FGameplayTag AttributeTag, float InCurrentValue, float InBaseValue);
+	void SetAttribute(UPARAM(meta = (Categories = "Attribute")) const FGameplayTag InAttributeTag, float InCurrentValue, float InBaseValue);
 	
 	/** 
 	 * If the attribute was set with an ASC. You can evaluate the attribute up to the specified channel. If there is no
@@ -45,17 +47,8 @@ public:
 	float GetBaseValue() const {return BaseValue;}
 	UFUNCTION(BlueprintPure, FieldNotify, Category = "Viewmodel|Attribute")
 	FText GetBaseValueText() const;
-
-	UFUNCTION(BlueprintPure, FieldNotify, Category = "Viewmodel|Attribute")
-	FText GetAttributeName() const;
-	UFUNCTION(BlueprintPure, FieldNotify, Category = "Viewmodel|Attribute")
-	FText GetShortName() const;
-	UFUNCTION(BlueprintPure, FieldNotify, Category = "Viewmodel|Attribute")
-	FText GetDescription() const;
-	UFUNCTION(BlueprintPure, FieldNotify, Category = "Viewmodel|Attribute")
-	TSoftObjectPtr<UTexture2D> GetIcon() const;
 	
-	FGameplayTag GetAttributeTag() const {return GameplayTagInfo.Tag;}
+	FGameplayTag GetAttributeTag() const {return AttributeTag;}
 	
 protected:
 	void SetCurrentValue(float InValue);
@@ -66,8 +59,10 @@ protected:
 
 private:
 	/** The static details of the attribute. */
-	UPROPERTY()
-	FCrysGameplayTagInfo GameplayTagInfo;
+	FGameplayTag AttributeTag;
+	
+	FGameplayTagInfoFragment_Attribute Fragment_Attribute;
+	FGameplayTagInfoFragment_NumberFormatingOptions Fragment_NumberFormatingOptions;
 
 	/** Cached ASC */
 	UPROPERTY()
@@ -82,5 +77,4 @@ private:
 
 	void FindAndSetGameplayTagTagInfo(const FGameplayTag& AttributeTag);
 	void OnAttributeValueChanged(const FOnAttributeChangeData& Data);
-	FText GetValueText(float Value) const;
 };

@@ -11,13 +11,13 @@ bool FCrysGameplayTagInfo::IsValid() const
 	return Tag.IsValid();
 }
 
-FCrysGameplayTagInfo UCrysGameplayTagRelationship::FindInfo(const FGameplayTag& Tag, bool bLogNotFound) const
+const FCrysGameplayTagInfo* UCrysGameplayTagRelationship::FindInfo(const FGameplayTag& Tag, bool bLogNotFound) const
 {
 	for (const FCrysGameplayTagInfo& Item : GameplayTagInfos)
 	{
 		if (Item.Tag == Tag)
 		{
-			return Item;
+			return &Item;
 		}
 	}
 
@@ -25,7 +25,7 @@ FCrysGameplayTagInfo UCrysGameplayTagRelationship::FindInfo(const FGameplayTag& 
 	{
 		UE_LOG(LogCrys, Error, TEXT("Cannot find info for Tag [%s] in CrysGameplayTagRelationship [%s]"), *Tag.ToString(), *GetNameSafe(this));
 	}
-	return FCrysGameplayTagInfo();
+	return nullptr;
 }
 
 void UCrysGameplayTagRelationship::PreSave(FObjectPreSaveContext SaveContext)

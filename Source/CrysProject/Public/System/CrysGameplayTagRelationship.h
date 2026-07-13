@@ -69,7 +69,7 @@ class CRYSPROJECT_API UCrysGameplayTagRelationship : public UPrimaryDataAsset
 	GENERATED_BODY()
 	
 public:
-	FCrysGameplayTagInfo FindInfo(UPARAM(ref) const FGameplayTag& Tag, bool bLogNotFound = false) const;
+	const FCrysGameplayTagInfo* FindInfo(UPARAM(ref) const FGameplayTag& Tag, bool bLogNotFound = false) const;
 	
 	UPROPERTY(EditDefaultsOnly, meta = (NoResetToDefault, ForceInlineRow, TitleProperty = "{Tag}"))
 	TArray<FCrysGameplayTagInfo> GameplayTagInfos;

@@ -93,34 +93,19 @@ UCrysViewModel* UCrysBlueprintFunctionLibrary::FindOrCreateViewModel(const TSubc
 	return nullptr;
 }
 
-FCrysGameplayTagInfo UCrysBlueprintFunctionLibrary::FindCrysGameplayTagInfo(const FGameplayTag& Tag, bool bLogNotFound)
+const FCrysGameplayTagInfo* UCrysBlueprintFunctionLibrary::FindCrysGameplayTagInfo(const FGameplayTag& Tag, bool bLogNotFound)
 {
-	const UCrysGameplayTagRelationship* GameplayTagRelationship = UCrysAssetManager::GetAsset(GetDefault<UCrysGameData>()->GameplayTagRelationship);
+	const UCrysGameplayTagRelationship* GameplayTagRelationship = UCrysAssetManager::GetAsset(GetDefault<UCrysGameData>()->GameplayTagRelationship, false);
 	if (!GameplayTagRelationship)
 	{
 		if (bLogNotFound)
 		{
 			UE_LOG(LogCrys, Error, TEXT("GameplayTagRelationship is invalid in [%s]"), *GetDefault<UCrysGameData>()->GetName());
 		}
-		return FCrysGameplayTagInfo();
+		return nullptr;
 	}
 
 	return GameplayTagRelationship->FindInfo(Tag, bLogNotFound);
-}
-
-FUITagInfo UCrysBlueprintFunctionLibrary::FindUITagInfo(const FGameplayTag& Tag, bool bLogNotFound)
-{
-	const UUITagRelationship* UITagRelationship = UCrysAssetManager::GetAsset(GetDefault<UCrysGameData>()->UITagRelationship);
-	if (!UITagRelationship)
-	{
-		if (bLogNotFound)
-		{
-			UE_LOG(LogCrys, Error, TEXT("UITagRelationship is invalid in [%s]"), *GetDefault<UCrysGameData>()->GetName());
-		}
-		return FUITagInfo();
-	}
-
-	return UITagRelationship->FindUITagInfo(Tag, bLogNotFound);
 }
 
 ETeamAttitude::Type UCrysBlueprintFunctionLibrary::GetAttitudeTowardsActor(AActor* Source, AActor* Target)

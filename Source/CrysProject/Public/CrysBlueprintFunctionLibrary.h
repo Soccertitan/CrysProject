@@ -5,9 +5,9 @@
 #include "CoreMinimal.h"
 #include "GenericTeamAgentInterface.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
-#include "UI/UITagRelationship.h"
 #include "CrysBlueprintFunctionLibrary.generated.h"
 
+struct FGameplayTag;
 struct FCrysGameplayTagInfo;
 class UCrysViewModel;
 class ACrysCharacter;
@@ -50,8 +50,7 @@ public:
 	// UFUNCTION(BlueprintPure, Category = "CrysFunctionLibrary", meta = (DefaultToSelf = Actor))
 	// static UCombatTextComponent* GetCombatTextComponent(AActor* Actor);
 	
-	static FCrysGameplayTagInfo FindCrysGameplayTagInfo(const FGameplayTag& Tag, bool bLogNotFound = false);
-	static FUITagInfo FindUITagInfo(const FGameplayTag& Tag, bool bLogNotFound = false);
+	static const FCrysGameplayTagInfo* FindCrysGameplayTagInfo(const FGameplayTag& Tag, bool bLogNotFound = false);
 	
 	UFUNCTION(BlueprintPure, Category = "CrysFunctionLibrary")
 	static ETeamAttitude::Type GetAttitudeTowardsActor(AActor* Source, AActor* Target);
