@@ -4,6 +4,7 @@
 #include "EquipmentSystem/UI/EquipmentItemInstanceComponentViewModel.h"
 
 #include "GameplayEffect.h"
+#include "AbilitySystem/GameplayEffect/Component/CrysGameplayEffectUIData.h"
 #include "EquipmentSystem/EquipmentDefinition.h"
 #include "EquipmentSystem/ItemDefinitionFragment_Equipment.h"
 #include "InventorySystem/UI/CrysItemInstanceViewModel.h"
@@ -114,15 +115,17 @@ void UEquipmentItemInstanceComponentViewModel::OnItemDefinitionSet_Implementatio
 			SetDamageTypeViewModel(DamageType);
 		}
 		
+		FText NewAttributeText = FText();
 		if (TSubclassOf<UGameplayEffect> GameplayEffectClass = EquipmentDef->GameplayEffect)
 		{
 			UGameplayEffect* GE = GameplayEffectClass->GetDefaultObject<UGameplayEffect>();
-			// if (const UGameplayEffectUIData_AttributeText* GameplayEffectUIData_AttributeText = GE->FindComponent<UGameplayEffectUIData_AttributeText>())
-			// {
-			// 	const int32 UpgradeLevel = ItemInstanceViewModel ? ItemInstanceViewModel->GetUpgradeLevel() : 0;
-				// SetAttributeText(GameplayEffectUIData_AttributeText->GetAttributeDescription(UpgradeLevel));
-			// }
+			if (const UCrysGameplayEffectUIData* UIData = GE->FindComponent<UCrysGameplayEffectUIData>())
+			{
+				const int32 UpgradeLevel = ItemInstanceViewModel ? ItemInstanceViewModel->GetUpgradeLevel() : 0;
+				NewAttributeText = UIData->GenerateText(UpgradeLevel);
+			}
 		}
+		SetAttributeText(NewAttributeText);
 	}
 }
 
