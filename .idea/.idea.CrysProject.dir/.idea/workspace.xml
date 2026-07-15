@@ -14,15 +14,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="145cc1d0-073c-4181-81b8-120deddf1918" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Plugins/InventorySystem/Source/InventorySystem/Private/UI/ViewModel/Sorting/ItemInstanceViewModelSortingAlgorithm.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/InventorySystem/Source/InventorySystem/Private/UI/ViewModel/Sorting/ItemInstanceViewModelSortingPreset.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/InventorySystem/Source/InventorySystem/Private/UI/ViewModel/Sorting/ItemInstanceViewModelSorting_Quantity.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/InventorySystem/Source/InventorySystem/Public/UI/ViewModel/Sorting/ItemInstanceViewModelSortingAlgorithm.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/InventorySystem/Source/InventorySystem/Public/UI/ViewModel/Sorting/ItemInstanceViewModelSortingPreset.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Plugins/InventorySystem/Source/InventorySystem/Public/UI/ViewModel/Sorting/ItemInstanceViewModelSorting_Quantity.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.CrysProject.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CrysProject.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/CrysProject/Items/ED_Test.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/Items/ED_Test.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/CrysProject/Items/GE_TestItem.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/Items/GE_TestItem.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/CrysProject/Settings/GTR_Default.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/Settings/GTR_Default.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/Items/IS_Test.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/Items/IS_Test.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Component/Attribute/WBP_Attribute.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Component/Attribute/WBP_Attribute.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Component/Attribute/WBP_Attribute_AutoHide.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Component/Attribute/WBP_Attribute_AutoHide.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Component/WBP_InventoryList.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Component/WBP_InventoryList.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Component/WBP_ItemDetails.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Component/WBP_ItemDetails.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Equipment/WBP_Equipment_PlayerStats.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Equipment/WBP_Equipment_PlayerStats.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Status/WBP_Status_Hero.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Status/WBP_Status_Hero.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Private/EquipmentSystem/UI/EquipmentItemInstanceComponentViewModel.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Private/EquipmentSystem/UI/EquipmentItemInstanceComponentViewModel.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Component/WBP_Job_Level.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Component/WBP_Job_Level.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Component/WBP_UINavListView.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/CrysProject/UI/Inventory/WBP_Menu_PlayerInventory.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/CrysProject/UI/Inventory/WBP_Menu_PlayerInventory.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/InventorySystem" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/InventorySystem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/InventorySystem/Source/InventorySystem/Private/UI/InventoryViewModelBlueprintFunctionLibrary.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/InventorySystem/Source/InventorySystem/Private/UI/InventoryViewModelBlueprintFunctionLibrary.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plugins/InventorySystem/Source/InventorySystem/Public/UI/InventoryViewModelBlueprintFunctionLibrary.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/InventorySystem/Source/InventorySystem/Public/UI/InventoryViewModelBlueprintFunctionLibrary.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +42,7 @@
     <option name="firstShow" value="false" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/Plugins/InventorySystem" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -48,17 +57,20 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="cidr-memory-view://50" root0="FORCE_HIGHLIGHTING" />
+    <setting file="cidr-memory-view://54" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Editor/Kismet/Private/BlueprintCompilationManager.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Editor/UMGEditor/Private/WidgetBlueprintCompiler.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Editor/UnrealEd/Private/Kismet2/KismetDebugUtilities.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Core/Private/Internationalization/Text.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Core/Public/Algo/IntroSort.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Core/Public/Algo/Sort.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Core/Public/Containers/Array.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Core/Public/Internationalization/Text.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Core/Public/UObject/NameTypes.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/CoreUObject/Private/Blueprint/BlueprintSupport.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/CoreUObject/Private/UObject/LinkerLoad.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/CoreUObject/Private/UObject/ScriptCore.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/CoreUObject/Public/UObject/Class.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/CoreUObject/Public/UObject/Object.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/CoreUObject/Public/UObject/Script.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Engine/Classes/Engine/DataAsset.h" root0="FORCE_HIGHLIGHTING" />
@@ -69,6 +81,8 @@
     <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/GameplayTags/Classes/GameplayTagContainer.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/Slate/Private/Framework/Application/SlateApplication.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../../Program Files/Epic Games/UE_5.8/Engine/Source/Runtime/UMG/Private/UserWidget.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Plugins/InventorySystem/Source/InventorySystem/Private/UI/ViewModel/Sorting/ItemInstanceViewModelSorting_Quantity.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Plugins/InventorySystem/Source/InventorySystem/Public/UI/ViewModel/Sorting/ItemInstanceViewModelSorting_Quantity.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/CrysProject/Private/AbilitySystem/GameplayTagInfoFragment_Attribute.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/CrysProject/Private/System/CrysGameplayTagRelationship.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/CrysProject/Private/UI/GameplayTagInfoFragment_NumberFormattingOptions.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -84,61 +98,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.0" />
-      <entry key="S2" value="1.0" />
-      <entry key="S5" value="1.0000001188431515" />
-      <entry key="S10" value="1.000933767643295" />
-      <entry key="S30" value="1.4328565331874874" />
-      <entry key="S60" value="3.1913037939808166" />
-      <entry key="M2" value="6.068286890550782" />
-      <entry key="M5" value="9.474829528150492" />
-      <entry key="M10" value="11.07923535065641" />
-      <entry key="M15" value="11.681381887160239" />
-      <entry key="M30" value="12.320836542581606" />
-      <entry key="H1" value="12.655298493410031" />
-      <entry key="H2" value="12.826349861467051" />
-      <entry key="H4" value="12.918092272285183" />
-      <entry key="D1" value="145.67701732981544" />
-      <entry key="W1" value="1165.1604703784933" />
+      <entry key="MS100" value="1.0031162076329045" />
+      <entry key="MS500" value="1.4256236659203578" />
+      <entry key="S2" value="3.58176949761363" />
+      <entry key="S5" value="6.908925287850023" />
+      <entry key="S10" value="9.962475976699382" />
+      <entry key="S30" value="13.863089785656312" />
+      <entry key="S60" value="15.293116623063225" />
+      <entry key="M2" value="16.10781097818714" />
+      <entry key="M5" value="16.63322776178051" />
+      <entry key="M10" value="16.81502702698864" />
+      <entry key="M15" value="16.88560217320125" />
+      <entry key="M30" value="17.839581911792127" />
+      <entry key="H1" value="26.56362923007839" />
+      <entry key="H2" value="48.96012889871791" />
+      <entry key="H4" value="76.30108731301672" />
+      <entry key="D1" value="270.08377386957693" />
+      <entry key="W1" value="1402.4253222225948" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="0.0" />
-      <entry key="MS500" value="5.975139414691826E-71" />
-      <entry key="S2" value="3.4852879226013136E-18" />
-      <entry key="S5" value="1.5014335255496223E-7" />
-      <entry key="S10" value="5.595470933633317E-4" />
-      <entry key="S30" value="0.16510922286146185" />
-      <entry key="S60" value="0.7706721831516796" />
-      <entry key="M2" value="1.728734032404846" />
-      <entry key="M5" value="2.848402412090229" />
-      <entry key="M10" value="3.3731462462183677" />
-      <entry key="M15" value="3.5698002790222465" />
-      <entry key="M30" value="3.7784939713209877" />
-      <entry key="H1" value="3.8875951716847847" />
-      <entry key="H2" value="3.943379195095475" />
-      <entry key="H4" value="3.9774252725606454" />
-      <entry key="D1" value="48.55292447446196" />
-      <entry key="W1" value="319.2714039613023" />
+      <entry key="MS100" value="4.504582573367322E-99" />
+      <entry key="MS500" value="2.5786708466502142E-20" />
+      <entry key="S2" value="2.0228691171939923E-5" />
+      <entry key="S5" value="0.019997269429891648" />
+      <entry key="S10" value="0.19982896250970208" />
+      <entry key="S30" value="0.9278904750408045" />
+      <entry key="S60" value="1.3622406683301664" />
+      <entry key="M2" value="1.6505912551334376" />
+      <entry key="M5" value="1.8521375747275144" />
+      <entry key="M10" value="1.9246676324755383" />
+      <entry key="M15" value="1.951107929506045" />
+      <entry key="M30" value="2.1529473559292973" />
+      <entry key="H1" value="3.9999428314597507" />
+      <entry key="H2" value="8.899010093359673" />
+      <entry key="H4" value="14.944551434889041" />
+      <entry key="D1" value="51.464304327210336" />
+      <entry key="W1" value="329.40453357152336" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="1.0626837930860897E-4" />
-      <entry key="MS500" value="0.16042823719536303" />
-      <entry key="S2" value="0.63287829698514" />
-      <entry key="S5" value="0.8327759934010992" />
-      <entry key="S10" value="0.9139482125793512" />
-      <entry key="S30" value="1.5527446447373765" />
-      <entry key="S60" value="3.906585814705518" />
-      <entry key="M2" value="7.741108875397631" />
-      <entry key="M5" value="12.287023285967214" />
-      <entry key="M10" value="14.430956748723206" />
-      <entry key="M15" value="15.236062739982899" />
-      <entry key="M30" value="16.091325329648935" />
-      <entry key="H1" value="16.538774285001754" />
-      <entry key="H2" value="16.767639465389156" />
-      <entry key="H4" value="16.894464380448024" />
-      <entry key="D1" value="194.22847125158668" />
-      <entry key="W1" value="1484.4305373049178" />
+      <entry key="MS100" value="0.00810541393100365" />
+      <entry key="MS500" value="0.508587815142043" />
+      <entry key="S2" value="2.7703976703289914" />
+      <entry key="S5" value="6.308158973244251" />
+      <entry key="S10" value="9.669553830131395" />
+      <entry key="S30" value="14.512140688403695" />
+      <entry key="S60" value="16.489834225294853" />
+      <entry key="M2" value="17.667647582624614" />
+      <entry key="M5" value="18.44691992551425" />
+      <entry key="M10" value="18.72009395766435" />
+      <entry key="M15" value="18.82354880717478" />
+      <entry key="M30" value="19.985416295644416" />
+      <entry key="H1" value="30.55723897032819" />
+      <entry key="H2" value="57.85205837392821" />
+      <entry key="H4" value="91.23962003895555" />
+      <entry key="D1" value="321.5455466774827" />
+      <entry key="W1" value="1731.828296124094" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
@@ -264,7 +278,7 @@
       <workItem from="1783463331720" duration="2283000" />
       <workItem from="1783518499703" duration="5329000" />
       <workItem from="1783536459790" duration="44229000" />
-      <workItem from="1783715764266" duration="24696000" />
+      <workItem from="1783715764266" duration="42939000" />
     </task>
     <servers />
   </component>
