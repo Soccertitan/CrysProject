@@ -21,5 +21,5 @@ public:
 
 protected:
 	virtual bool ShouldBeginFilter(const UObject* Context, TArray<UItemInstanceViewModel*>& ViewModels) const override;
-	virtual bool DoesItemInstanceViewModelPassFilter(const UObject* Context, UItemInstanceViewModel* ViewModel) const override;
+	virtual bool ShouldFilterItemInstance(const UObject* Context, UItemInstanceViewModel* ViewModel) const override;
 };

@@ -27,15 +27,15 @@ bool UItemInstanceViewModelFilter_EquipableItems::ShouldBeginFilter(const UObjec
 	return true;
 }
 
-bool UItemInstanceViewModelFilter_EquipableItems::DoesItemInstanceViewModelPassFilter(const UObject* Context, UItemInstanceViewModel* ViewModel) const
+bool UItemInstanceViewModelFilter_EquipableItems::ShouldFilterItemInstance(const UObject* Context, UItemInstanceViewModel* ViewModel) const
 {
-	if (!Super::DoesItemInstanceViewModelPassFilter(Context, ViewModel))
+	if (Super::ShouldFilterItemInstance(Context, ViewModel))
 	{
-		return false;
+		return true;
 	}
 
 	const UEquipmentManagerComponent* EquipmentManager = Cast<UEquipmentManagerComponent>(Context);
 	bool bCanEquipItem = EquipmentManager->CanEquipItem(ViewModel->GetItem());
 	bool bCanEquipItemInSlot = EquipmentManager->CanEquipItemInSlot(EquipSlot, ViewModel->GetItem());
-	return bCanEquipItem && bCanEquipItemInSlot;
+	return !(bCanEquipItem && bCanEquipItemInSlot);
 }
