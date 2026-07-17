@@ -47,6 +47,7 @@ public:
 	void UnequipItem(UPARAM(meta = (Categories = "EquipSlot")) FGameplayTag EquipSlot);
 	
 protected:
+	UItemInstanceViewModel* FindItemInstanceViewModel(const FItemInstance* ItemInstance);
 	
 private:
 	UPROPERTY(EditDefaultsOnly, Instanced, NoClear)
@@ -68,6 +69,4 @@ private:
 	void OnItemEquipped(const FEquippedItem& EquippedItem);
 	UFUNCTION()
 	void OnItemUnequipped(const FEquippedItem& EquippedItem);
-	UFUNCTION()
-	void OnItemChanged(const FItemInstance& ItemInstance);
 };

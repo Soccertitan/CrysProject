@@ -5,6 +5,7 @@
 
 #include "InventoryBlueprintFunctionLibrary.h"
 #include "InventoryManagerComponent.h"
+#include "InventorySettings.h"
 #include "AbilitySystem/CrysAbilityBlueprintFunctionLibrary.h"
 #include "Engine/World.h"
 #include "EquipmentSystem/EquipmentManagerComponent.h"
@@ -38,11 +39,6 @@ void UEquipmentManagerViewModel::InitializeViewModel(APlayerController* PlayerCo
 	}
 	
 	InventoryManagerComponent = UInventoryBlueprintFunctionLibrary::GetInventoryManagerComponent(PlayerState);
-	if (InventoryManagerComponent)
-	{
-		InventoryManagerComponent->OnItemAddedDelegate.AddUniqueDynamic(this, &UEquipmentManagerViewModel::OnItemChanged);
-		InventoryManagerComponent->OnItemChangedDelegate.AddUniqueDynamic(this, &UEquipmentManagerViewModel::OnItemChanged);
-	}
 	
 	if (EquipmentManagerComponent && InventoryManagerComponent)
 	{
@@ -124,19 +120,35 @@ void UEquipmentManagerViewModel::UnequipItem(FGameplayTag EquipSlot)
 	}
 }
 
+UItemInstanceViewModel* UEquipmentManagerViewModel::FindItemInstanceViewModel(const FItemInstance* ItemInstance)
+{
+	if (ItemInstance)
+	{
+		for (const TObjectPtr<UItemContainerViewModel>& ContainerViewModel : AllowedItemContainerViewModels)
+		{
+			for (UItemInstanceViewModel* ItemInstanceViewModel : ContainerViewModel->GetItemInstanceViewModels())
+			{
+				if (ItemInstanceViewModel->GetHandle() == ItemInstance->GetHandle())
+				{
+					return ItemInstanceViewModel;
+				}
+			}
+		}
+	}
+	UItemInstanceViewModel* NewViewModel = NewObject<UItemInstanceViewModel>(this, UInventorySettings::GetItemInstanceViewModelClass());
+	if (ItemInstance)
+	{
+		NewViewModel->SetItemInstance(*ItemInstance);
+	}
+	return NewViewModel;
+}
+
 UEquippedItemViewModel* UEquipmentManagerViewModel::InternalCreateEquippedItemViewModel(const FGameplayTag& EquipSlot)
 {
 	UEquippedItemViewModel* NewVM = NewObject<UEquippedItemViewModel>(this);
 	NewVM->SetEquipSlot(EquipSlot);
-	if (FItemInstance* ItemInstance = EquipmentManagerComponent->GetEquippedItem(EquipSlot).ItemInstanceHandle.GetItemInstance())
-	{
-		NewVM->SetItemInstanceViewModel(
-		UInventoryViewModelBlueprintFunctionLibrary::CreateItemInstanceViewModel(this, *ItemInstance));	
-	}
-	else
-	{
-		NewVM->SetItemInstanceViewModel(NewObject<UItemInstanceViewModel>(this));
-	}
+	UItemInstanceViewModel* ItemInstanceViewModel = FindItemInstanceViewModel(EquipmentManagerComponent->GetEquippedItem(EquipSlot).ItemInstanceHandle.GetItemInstance());
+	NewVM->SetItemInstanceViewModel(ItemInstanceViewModel);
 	EquippedItemViewModels.Add(NewVM);
 	return NewVM;
 }
@@ -147,8 +159,7 @@ void UEquipmentManagerViewModel::OnItemEquipped(const FEquippedItem& EquippedIte
 	{
 		if (ViewModel->GetEquipSlot() == EquippedItem.EquipSlot)
 		{
-			UItemInstanceViewModel* ItemInstanceViewModel = UInventoryViewModelBlueprintFunctionLibrary::CreateItemInstanceViewModel(
-				this, *EquippedItem.ItemInstanceHandle.GetItemInstance());
+			UItemInstanceViewModel* ItemInstanceViewModel = FindItemInstanceViewModel(EquippedItem.ItemInstanceHandle.GetItemInstance());
 			ViewModel->SetItemInstanceViewModel(ItemInstanceViewModel);
 			break;
 		}
@@ -161,20 +172,9 @@ void UEquipmentManagerViewModel::OnItemUnequipped(const FEquippedItem& EquippedI
 	{
 		if (ViewModel->GetEquipSlot() == EquippedItem.EquipSlot)
 		{
-			UItemInstanceViewModel* ItemInstanceViewModel = NewObject<UItemInstanceViewModel>(this);
+			UItemInstanceViewModel* ItemInstanceViewModel = NewObject<UItemInstanceViewModel>(this, UInventorySettings::GetItemInstanceViewModelClass());
 			ViewModel->SetItemInstanceViewModel(ItemInstanceViewModel);
 			break;
-		}
-	}
-}
-
-void UEquipmentManagerViewModel::OnItemChanged(const FItemInstance& ItemInstance)
-{
-	for (UEquippedItemViewModel* ViewModel : EquippedItemViewModels)
-	{
-		if (ViewModel->GetItemInstanceViewModel()->GetHandle().GetGuid() == ItemInstance.GetGuid())
-		{
-			ViewModel->GetItemInstanceViewModel()->SetItemInstance(ItemInstance);
 		}
 	}
 }
