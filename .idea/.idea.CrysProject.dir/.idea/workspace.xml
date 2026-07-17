@@ -14,18 +14,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="145cc1d0-073c-4181-81b8-120deddf1918" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Plugins/InventorySystem/Source/InventorySystem/Private/UI/ViewModel/Filter/ItemInstanceViewModelFilter_OwnedTags.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Plugins/InventorySystem/Source/InventorySystem/Public/UI/ViewModel/Filter/ItemInstanceViewModelFilter_OwnedTags.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/CrysProject/Private/JobSystem/ItemDefinitionFragment_JobAbility.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Source/CrysProject/Public/JobSystem/ItemDefinitionFragment_JobAbility.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.CrysProject.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CrysProject.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/InventorySystem" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/InventorySystem" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/InventorySystem/Source/InventorySystem/Private/UI/ViewModel/Filter/ItemInstanceViewModelFilter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/InventorySystem/Source/InventorySystem/Private/UI/ViewModel/Filter/ItemInstanceViewModelFilter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/InventorySystem/Source/InventorySystem/Private/UI/ViewModel/Filter/ItemInstanceViewModelFilter_ItemDefinition.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/InventorySystem/Source/InventorySystem/Private/UI/ViewModel/Filter/ItemInstanceViewModelFilter_ItemDefinition.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/InventorySystem/Source/InventorySystem/Private/UI/ViewModel/Filter/ItemInstanceViewModelFilter_TagStats.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/InventorySystem/Source/InventorySystem/Private/UI/ViewModel/Filter/ItemInstanceViewModelFilter_TagStats.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/InventorySystem/Source/InventorySystem/Public/UI/ViewModel/Filter/ItemInstanceViewModelFilter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/InventorySystem/Source/InventorySystem/Public/UI/ViewModel/Filter/ItemInstanceViewModelFilter.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/InventorySystem/Source/InventorySystem/Public/UI/ViewModel/Filter/ItemInstanceViewModelFilter_ItemDefinition.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/InventorySystem/Source/InventorySystem/Public/UI/ViewModel/Filter/ItemInstanceViewModelFilter_ItemDefinition.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plugins/InventorySystem/Source/InventorySystem/Public/UI/ViewModel/Filter/ItemInstanceViewModelFilter_TagStats.h" beforeDir="false" afterPath="$PROJECT_DIR$/Plugins/InventorySystem/Source/InventorySystem/Public/UI/ViewModel/Filter/ItemInstanceViewModelFilter_TagStats.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Private/InventorySystem/UI/Filter/ItemInstanceViewModelFilter_EquipableItems.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Private/InventorySystem/UI/Filter/ItemInstanceViewModelFilter_EquipableItems.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/CrysProject/Public/InventorySystem/UI/Filter/ItemInstanceViewModelFilter_EquipableItems.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/CrysProject/Public/InventorySystem/UI/Filter/ItemInstanceViewModelFilter_EquipableItems.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,61 +99,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.0" />
-      <entry key="S2" value="1.0000000000025318" />
-      <entry key="S5" value="1.000040532377071" />
-      <entry key="S10" value="1.011583373704258" />
-      <entry key="S30" value="1.719453424423536" />
-      <entry key="S60" value="5.434006580075555" />
-      <entry key="M2" value="17.789007034081504" />
-      <entry key="M5" value="43.16235868324788" />
-      <entry key="M10" value="59.695361928536364" />
-      <entry key="M15" value="67.02061666016859" />
-      <entry key="M30" value="75.99512586406004" />
-      <entry key="H1" value="81.4750743597706" />
-      <entry key="H2" value="84.90163053344243" />
-      <entry key="H4" value="100.49338403661369" />
-      <entry key="D1" value="560.1597866144934" />
-      <entry key="W1" value="1999.5032844851082" />
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="2.6589261878547884E-95" />
+      <entry key="S5" value="4.042088885003344E-38" />
+      <entry key="S10" value="6.161490732671042E-19" />
+      <entry key="S30" value="4.911914835544122E-6" />
+      <entry key="S60" value="0.008846729100715883" />
+      <entry key="M2" value="0.3845698046411823" />
+      <entry key="M5" value="3.887241748666949" />
+      <entry key="M10" value="10.750005809815448" />
+      <entry key="M15" value="18.739743860460326" />
+      <entry key="M30" value="40.26892056109613" />
+      <entry key="H1" value="64.06265097079998" />
+      <entry key="H2" value="82.56662439017488" />
+      <entry key="H4" value="106.17369006770507" />
+      <entry key="D1" value="566.6093760312293" />
+      <entry key="W1" value="2012.0825984439318" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="0.0" />
-      <entry key="MS500" value="1.3993442557873224E-73" />
-      <entry key="S2" value="6.116192450436202E-19" />
-      <entry key="S5" value="5.183134239910561E-8" />
-      <entry key="S10" value="2.2766497999984184E-4" />
-      <entry key="S30" value="0.061642726395497144" />
-      <entry key="S60" value="0.33688728566234794" />
-      <entry key="M2" value="1.6568542260838222" />
-      <entry key="M5" value="6.29064377702992" />
-      <entry key="M10" value="10.351555104141648" />
-      <entry key="M15" value="12.386523119239513" />
-      <entry key="M30" value="15.079053597681481" />
-      <entry key="H1" value="16.82712324510505" />
-      <entry key="H2" value="17.940402927387108" />
-      <entry key="H4" value="22.02966491818498" />
-      <entry key="D1" value="135.3442127793704" />
-      <entry key="W1" value="489.80160844593365" />
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0003999202626268" />
+      <entry key="S2" value="1.1414143078557377" />
+      <entry key="S5" value="1.4572966639551432" />
+      <entry key="S10" value="1.6774390252585376" />
+      <entry key="S30" value="2.0465128053793182" />
+      <entry key="S60" value="2.5374983459197917" />
+      <entry key="M2" value="3.4106877323575375" />
+      <entry key="M5" value="6.5062021932522205" />
+      <entry key="M10" value="10.745106661171691" />
+      <entry key="M15" value="14.020204181130653" />
+      <entry key="M30" value="20.810600993682755" />
+      <entry key="H1" value="27.47167151643681" />
+      <entry key="H2" value="32.47959561033939" />
+      <entry key="H4" value="38.62792239128474" />
+      <entry key="D1" value="152.23245054014583" />
+      <entry key="W1" value="508.21746414866595" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="6.641773706788058E-6" />
-      <entry key="MS500" value="0.09214182608069382" />
-      <entry key="S2" value="0.5509525579397904" />
-      <entry key="S5" value="0.7878848275138152" />
-      <entry key="S10" value="0.8977557988330658" />
-      <entry key="S30" value="1.707463264310068" />
-      <entry key="S60" value="5.69217145577086" />
-      <entry key="M2" value="19.370046349461674" />
-      <entry key="M5" value="49.39578338128282" />
-      <entry key="M10" value="70.00799494977167" />
-      <entry key="M15" value="79.37731457623667" />
-      <entry key="M30" value="91.0561909840808" />
-      <entry key="H1" value="98.2920126638753" />
-      <entry key="H2" value="102.83651879126899" />
-      <entry key="H4" value="122.5194635496592" />
-      <entry key="D1" value="695.499650083878" />
-      <entry key="W1" value="2489.3026885925783" />
+      <entry key="MS100" value="2.564933502135883E-15" />
+      <entry key="MS500" value="0.0012163228179788662" />
+      <entry key="S2" value="0.2412102385459026" />
+      <entry key="S5" value="0.8237114887513132" />
+      <entry key="S10" value="1.2751670813700366" />
+      <entry key="S30" value="1.880217721123968" />
+      <entry key="S60" value="2.450792723463901" />
+      <entry key="M2" value="3.736180117607369" />
+      <entry key="M5" value="10.350372091909811" />
+      <entry key="M10" value="21.459832129792993" />
+      <entry key="M15" value="32.729304181672994" />
+      <entry key="M30" value="61.05663280230609" />
+      <entry key="H1" value="91.51899913488758" />
+      <entry key="H2" value="115.03703612739301" />
+      <entry key="H4" value="144.79591849454465" />
+      <entry key="D1" value="718.8371363464494" />
+      <entry key="W1" value="2520.297802545892" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
@@ -288,7 +280,7 @@
       <workItem from="1783518499703" duration="5329000" />
       <workItem from="1783536459790" duration="44229000" />
       <workItem from="1783715764266" duration="47047000" />
-      <workItem from="1784144365978" duration="34520000" />
+      <workItem from="1784144365978" duration="37076000" />
     </task>
     <servers />
   </component>
