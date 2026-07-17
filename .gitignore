@@ -74,4 +74,4 @@ Plugins/**/Intermediate/*
 DerivedDataCache/*
 
 # JetBrains Rider Files
-.idea/*
+/.idea
