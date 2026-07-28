@@ -10,7 +10,6 @@
 class UGameplayAbility;
 struct FGameplayTag;
 struct FGameplayAbilitySpec;
-class UGameplayAbilityData;
 class UCrimGameplayAbility;
 class UCrimAbilitySystemComponent;
 
@@ -31,9 +30,11 @@ public:
 	UFUNCTION(BlueprintPure, FieldNotify, Category = "Viewmodel|Ability")
 	float GetCooldownTimeRemaining() const;
 	
-	/** Use this to have the viewmodel use live data. */
-	void SetAbilitySystemComponent(UCrimAbilitySystemComponent* NewAbilitySystemComponent);
-	void SetGameplayAbilityData(UGameplayAbilityData* AbilityData);
+	// Sets up the viewmodel with the required data. If using this, it will assume the ability is granted.
+	void SetGameplayAbility(const FGameplayAbilitySpec& Spec, UCrimAbilitySystemComponent* AbilitySystemComponent);
+	// Searches for the Ability from the ASC if possible. If it fails to find, CDO of the AbilityClass is used. 
+	void SetGameplayAbility(TSubclassOf<UGameplayAbility> AbilityClass, UCrimAbilitySystemComponent* AbilitySystemComponent);
+	void SetGameplayAbility(UGameplayAbility* Ability);
 	
 protected:
 	void SetAbilityName(const FText& NewValue);
@@ -44,25 +45,27 @@ protected:
 	UFUNCTION(BlueprintPure, Category = "Viewmodel|Ability")
 	UCrimAbilitySystemComponent* GetAbilitySystemComponent() const { return AbilitySystemComponent; }
 	UFUNCTION(BlueprintPure, Category = "Viewmodel|Ability")
-	UGameplayAbilityData* GetGameplayAbilityData() const { return GameplayAbilityData; }
+	UGameplayAbility* GetGameplayAbility() const { return Ability; }
+
+	virtual void OnGameplayAbilitySet(UGameplayAbility* NewAbility, UGameplayAbility* OldAbility);
 	
-	// Called whenever the ASC or AbilityData is set to a new non-null value. AbilityData is guaranteed to be valid.
-	virtual void UpdateViewModelData(UGameplayAbilityData* AbilityData);
-	
-	virtual void OnAbilitySystemComponentSet(UCrimAbilitySystemComponent* OldAbilitySystemComponent);
+	virtual void OnAbilitySystemComponentSet(UCrimAbilitySystemComponent* NewASC, UCrimAbilitySystemComponent* OldASC);
 	
 	virtual void OnAbilityGiven(const FGameplayAbilitySpec& Spec);
 	virtual void OnAbilityRemoved(const FGameplayAbilitySpec& Spec);
 	
 	// Gets the cooldown tags from the ability.
-	virtual FGameplayTagContainer GenerateCooldownTags(UGameplayAbility* GameplayAbility) const;
+	virtual FGameplayTagContainer GenerateCooldownTags() const;
 	
 private:
-	// Can use the ASC to tailor the data displayed.
+	// The ASC is cached to bind to delegates.
 	UPROPERTY()
 	TObjectPtr<UCrimAbilitySystemComponent> AbilitySystemComponent;
+	// The ability CDO or the PrimaryInstance from a spec.
 	UPROPERTY()
-	TObjectPtr<UGameplayAbilityData> GameplayAbilityData;
+	TObjectPtr<UGameplayAbility> Ability;
+	UPROPERTY()
+	TSubclassOf<UGameplayAbility> AbilityClass;
 	
 	UPROPERTY(BlueprintReadOnly, FieldNotify, Getter, Category = "Viewmodel|Ability", meta = (AllowPrivateAccess = true))
 	FText AbilityName;
@@ -72,14 +75,16 @@ private:
 
 	UPROPERTY(BlueprintReadOnly, FieldNotify, Getter="IsAbilityGranted", Category = "Viewmodel|Ability", meta = (AllowPrivateAccess = true))
 	bool bAbilityGranted = false;
-	void UpdateIsAbilityGranted();
 	
 	UPROPERTY(BlueprintReadOnly, FieldNotify, Getter="IsAbilityOnCooldown", Category = "Viewmodel|Ability", meta = (AllowPrivateAccess = true))
 	bool bAbilityOnCooldown = false;
 	FGameplayTagContainer CooldownTags;
 	TMap<FGameplayTag, FDelegateHandle> BoundCooldownTagsASCHandles;
 	
-	void BindToAbilityCooldownTags(const FGameplayAbilitySpec& Spec);
+	void SetAbilitySystemComponent(UCrimAbilitySystemComponent* NewAbilitySystemComponent);
+	
+	// Binds to the cooldown tags from the ability and ASC.
+	void TryBindToAbilityCooldownTags();
 	void UnbindToAbilityCooldownTags(UCrimAbilitySystemComponent* ASC);
 	
 	void HandleCooldownTagCountChanged(const FGameplayTag GameplayTag, int32 Count);

@@ -45,7 +45,7 @@ private:
 	int32 InputSet = 0;
 	
 	UPROPERTY(EditAnywhere, Category = "Ability", meta = (EditCondition = "bUseInputSlot==false"))
-	TObjectPtr<UAbilityInput> AbilityInput;
+	TSubclassOf<UGameplayAbility> AbilityClass;
 	
 	void InternalAbilityInputPressed();
 	void InternalAbilityInputReleased();

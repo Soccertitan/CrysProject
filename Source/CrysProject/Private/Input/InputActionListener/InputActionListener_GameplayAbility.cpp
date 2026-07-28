@@ -15,7 +15,7 @@ void UInputActionListener_GameplayAbility::PostEditChangeProperty(struct FProper
 	
 	if (bUseInputSlot)
 	{
-		AbilityInput = nullptr;
+		AbilityClass = nullptr;
 	}
 	else
 	{
@@ -62,7 +62,7 @@ void UInputActionListener_GameplayAbility::InternalAbilityInputPressed()
 		}
 		else
 		{
-			AbilityInputManagerComponent->InputPressed(AbilityInput);
+			AbilityInputManagerComponent->InputPressed(AbilityClass);
 		}
 	}
 }
@@ -77,7 +77,7 @@ void UInputActionListener_GameplayAbility::InternalAbilityInputReleased()
 		}
 		else
 		{
-			AbilityInputManagerComponent->InputReleased(AbilityInput);
+			AbilityInputManagerComponent->InputReleased(AbilityClass);
 		}
 	}
 }

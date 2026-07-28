@@ -61,7 +61,16 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Ability")
 	bool DoesTargetMeetTargetTagRequirements(AActor* TargetActor, const FGameplayTagRequirements& Requirements) const;
 
+	FText GetAbilityName() const { return AbilityName; }
+	TSoftObjectPtr<UTexture2D> GetIcon() const { return Icon; }
+	
 protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
+	FText AbilityName;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
+	TSoftObjectPtr<UTexture2D> Icon;
+	
 	/** Applies a GE to the target actor. Setting the Tag for SetByCaller values. */
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Ability")
 	void ApplyGameplayEffectToTarget(AActor* TargetActor, AActor* EffectCauser = nullptr);

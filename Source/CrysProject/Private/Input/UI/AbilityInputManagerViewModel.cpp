@@ -4,10 +4,10 @@
 #include "Input/UI/AbilityInputManagerViewModel.h"
 
 #include "CrimAbilitySystemBlueprintFunctionLibrary.h"
+#include "CrimAbilitySystemComponent.h"
 #include "CrysLogChannels.h"
-#include "AbilitySystem/GameplayAbilityData.h"
+#include "Abilities/GameplayAbility.h"
 #include "AbilitySystem/UI/AbilityViewModel.h"
-#include "Input/AbilityInput.h"
 #include "Input/UI/AbilityInputSlotViewModel.h"
 #include "Input/AbilityInputManagerComponent.h"
 #include "Player/CrysPlayerState.h"
@@ -65,15 +65,15 @@ UAbilityInputSlotViewModel* UAbilityInputManagerViewModel::FindOrCreateInputSlot
 	return Result;
 }
 
-void UAbilityInputManagerViewModel::SetInputSlotAbility(UAbilityInputSlotViewModel* InputSlotViewModel, UAbilityInput* Ability)
+void UAbilityInputManagerViewModel::SetInputSlotAbility(UAbilityInputSlotViewModel* InputSlotViewModel, const TSubclassOf<UGameplayAbility> AbilityClass)
 {
 	if (AbilityInputManagerComponent && InputSlotViewModel)
 	{
-		if (Ability)
+		if (AbilityClass)
 		{
 			FAbilityInputParams Params;
 			Params.Slot = InputSlotViewModel->GetInputSlot();
-			Params.Ability = Ability;
+			Params.AbilityClass = AbilityClass;
 			AbilityInputManagerComponent->SetAbilityInput(Params, InputSlotViewModel->InputSet);
 		}
 		else
@@ -163,15 +163,11 @@ void UAbilityInputManagerViewModel::OnAbilityInputRemoved(const FAbilityInputIns
 
 UAbilityViewModel* UAbilityInputManagerViewModel::CreateAbilityViewModel(const FAbilityInputInstance& AbilityInputInstance)
 {
-	if (AbilityInputInstance.Ability)
+	if (AbilityInputInstance.AbilityClass)
 	{
-		if (UGameplayAbilityData* AbilityData = Cast<UGameplayAbilityData>(AbilityInputInstance.Ability->CustomData))
-		{
-			UAbilityViewModel* NewVM = NewObject<UAbilityViewModel>(this, AbilityData->AbilityViewModel);
-			NewVM->SetAbilitySystemComponent(AbilitySystemComponent);
-			NewVM->SetGameplayAbilityData(AbilityData);
-			return NewVM;
-		}
+		UAbilityViewModel* NewVM = NewObject<UAbilityViewModel>(this);
+		NewVM->SetGameplayAbility(AbilityInputInstance.AbilityClass, AbilitySystemComponent);
+		return NewVM;
 	}
 	return EmptyAbilityViewModel;
 }

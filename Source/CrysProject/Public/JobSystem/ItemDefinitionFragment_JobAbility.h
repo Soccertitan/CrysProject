@@ -4,10 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "EquipmentSystem/ItemDefinitionFragment_Equipment.h"
+#include "ItemDefinitionFragment_JobAbility.generated.h"
 
 
-class UAbilityInput;
-class UGameplayEffect;
 class UJobDefinition;
 
 USTRUCT()
@@ -19,6 +18,6 @@ struct FItemDefinitionFragment_JobAbility : public FItemDefinitionFragment
 	UPROPERTY(EditAnywhere)
 	TMap<TObjectPtr<UJobDefinition>, int32> JobMap;
 	
-	UPROPERTY(EditAnywhere)
-	TSoftObjectPtr<UAbilityInput>
+	// UPROPERTY(EditAnywhere)
+	// TSoftObjectPtr<UAbilityInput>
 };
