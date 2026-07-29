@@ -36,6 +36,8 @@ public:
 	void SetGameplayAbility(TSubclassOf<UGameplayAbility> AbilityClass, UCrimAbilitySystemComponent* AbilitySystemComponent);
 	void SetGameplayAbility(UGameplayAbility* Ability);
 	
+	TSubclassOf<UGameplayAbility> GetGameplayAbilityClass() const { return AbilityClass; }
+	
 protected:
 	void SetAbilityName(const FText& NewValue);
 	void SetIcon(const TSoftObjectPtr<UTexture2D>& NewValue);

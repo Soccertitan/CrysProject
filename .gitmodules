@@ -25,3 +25,6 @@
 [submodule "Plugins/CrimTargetingSystem"]
 	path = Plugins/CrimTargetingSystem
 	url = https://github.com/Soccertitan/CrimTargetingSystem
+[submodule "Plugins/CrimSortAndFilterSystem"]
+	path = Plugins/CrimSortAndFilterSystem
+	url = https://github.com/Soccertitan/CrimSortAndFilterSystem

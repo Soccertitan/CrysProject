@@ -47,7 +47,8 @@ public class CrysProject : ModuleRules
 			"CrimAbilitySystem", 
 			"InventorySystem", 
 			"CrimEnhancedInputSystem", 
-			"InteractionSystem"
+			"InteractionSystem",
+			"CrimSortAndFilterSystem"
 		});
 
 		// Uncomment if you are using Slate UI

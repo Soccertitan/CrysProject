@@ -16,7 +16,7 @@ class UItemContainerViewModel;
 class UEquippedItemViewModel;
 class UInventoryManagerComponent;
 class UEquipmentManagerComponent;
-class UItemInstanceViewModelFilter_EquipableItems;
+class UFilter_EquipableItems;
 
 /**
  * 
@@ -51,7 +51,7 @@ protected:
 	
 private:
 	UPROPERTY(EditDefaultsOnly, Instanced, NoClear)
-	TObjectPtr<UItemInstanceViewModelFilter_EquipableItems> EquippableItemsFilter;
+	TObjectPtr<UFilter_EquipableItems> EquippableItemsFilter;
 
 	UPROPERTY()
 	TObjectPtr<UEquipmentManagerComponent> EquipmentManagerComponent;

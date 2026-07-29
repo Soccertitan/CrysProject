@@ -13,16 +13,15 @@
 #include "EquipmentSystem/UI/EquippedItemViewModel.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/PlayerState.h"
-#include "InventorySystem/UI/Filter/ItemInstanceViewModelFilter_EquipableItems.h"
+#include "InventorySystem/UI/Filter/Filter_EquipableItems.h"
 #include "UI/InventoryUISubsystem.h"
-#include "UI/InventoryViewModelBlueprintFunctionLibrary.h"
 #include "UI/ViewModel/ItemContainerViewModel.h"
 #include "UI/ViewModel/ItemInstanceViewModel.h"
 
 
 UEquipmentManagerViewModel::UEquipmentManagerViewModel()
 {
-	EquippableItemsFilter = CreateDefaultSubobject<UItemInstanceViewModelFilter_EquipableItems>("Filter");
+	EquippableItemsFilter = CreateDefaultSubobject<UFilter_EquipableItems>("Filter");
 }
 
 void UEquipmentManagerViewModel::InitializeViewModel(APlayerController* PlayerController)
@@ -98,7 +97,14 @@ TArray<UItemInstanceViewModel*> UEquipmentManagerViewModel::GetEquippableItems(c
 	{
 		Result = ItemContainerViewModel->GetItemInstanceViewModels();
 		EquippableItemsFilter->EquipSlot = EquipSlot;
-		EquippableItemsFilter->FilterItemInstanceViewModels(EquipmentManagerComponent, Result);
+		
+		for (int32 Index = Result.Num(); Index >= 0; --Index)
+		{
+			if (EquippableItemsFilter->ShouldFilterObject(Result[Index], EquipmentManagerComponent))
+			{
+				Result.RemoveAt(Index);
+			}
+		}
 	}
 	
 	return Result;
