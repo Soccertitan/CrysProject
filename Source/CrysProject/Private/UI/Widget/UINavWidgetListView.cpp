@@ -334,3 +334,5 @@ void UUINavWidgetListView::BroadcastFocusedComponentUpdated(UUINavComponent* Com
 	K2_OnFocusedComponentUpdated(Component);
 	OnFocusedComponentUpdatedDelegate.Broadcast(Component);
 }
+
+#undef LOCTEXT_NAMESPACE

@@ -19,6 +19,5 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (Categories = "EquipSlot"))
 	FGameplayTag EquipSlot;
 
-
 	virtual bool ShouldFilterObject_Implementation(const UObject* Object, const UObject* Context) const override;
 };

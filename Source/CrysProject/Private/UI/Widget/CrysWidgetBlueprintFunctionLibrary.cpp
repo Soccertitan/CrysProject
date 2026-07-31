@@ -8,8 +8,8 @@
 #include "Blueprint/WidgetTree.h"
 #include "Data/SelectorPosition.h"
 
-TArray<UWidget*> UCrysWidgetBlueprintFunctionLibrary::TraverseWidgetHierarchy(UUserWidget* UserWidget,
-                                                                              TSubclassOf<UUserWidget> TestClass)
+
+TArray<UWidget*> UCrysWidgetBlueprintFunctionLibrary::TraverseWidgetHierarchy(UUserWidget* UserWidget, TSubclassOf<UUserWidget> TestClass)
 {
 	TArray<UWidget*> OutWidgets;
 

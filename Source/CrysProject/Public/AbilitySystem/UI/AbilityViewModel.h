@@ -36,6 +36,9 @@ public:
 	void SetGameplayAbility(TSubclassOf<UGameplayAbility> AbilityClass, UCrimAbilitySystemComponent* AbilitySystemComponent);
 	void SetGameplayAbility(UGameplayAbility* Ability);
 	
+	UFUNCTION(BlueprintPure)
+	const UGameplayAbility* GetGameplayAbility() const { return Ability; }
+	UFUNCTION(BlueprintPure)
 	TSubclassOf<UGameplayAbility> GetGameplayAbilityClass() const { return AbilityClass; }
 	
 protected:
@@ -46,8 +49,6 @@ protected:
 	
 	UFUNCTION(BlueprintPure, Category = "Viewmodel|Ability")
 	UCrimAbilitySystemComponent* GetAbilitySystemComponent() const { return AbilitySystemComponent; }
-	UFUNCTION(BlueprintPure, Category = "Viewmodel|Ability")
-	UGameplayAbility* GetGameplayAbility() const { return Ability; }
 
 	virtual void OnGameplayAbilitySet(UGameplayAbility* NewAbility, UGameplayAbility* OldAbility);
 	
