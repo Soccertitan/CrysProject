@@ -10,7 +10,7 @@
 
 class UGameplayAbility;
 class UCrimAbilitySystemComponent;
-class UAbilityViewModel;
+class UCrysAbilityViewModel;
 class AHeroPlayerController;
 struct FAbilityInputSlot;
 struct FAbilityInputInstance;
@@ -74,7 +74,7 @@ private:
 	
 	// Reusable VM to denote an empty ability slot.
 	UPROPERTY()
-	TObjectPtr<UAbilityViewModel> EmptyAbilityViewModel;
+	TObjectPtr<UCrysAbilityViewModel> EmptyAbilityViewModel;
 	
 	UPROPERTY(BlueprintReadOnly, FieldNotify, Getter, Category = "Viewmodel|Ability", meta = (AllowPrivateAccess = true))
 	int32 ActiveInputSet = -1;
@@ -91,7 +91,7 @@ private:
 	UFUNCTION()
 	void OnAbilityInputRemoved(const FAbilityInputInstance& AbilityInputInstance, const int32 InputSet);
 	
-	UAbilityViewModel* CreateAbilityViewModel(const FAbilityInputInstance& AbilityInputInstance);
+	UCrysAbilityViewModel* CreateAbilityViewModel(const FAbilityInputInstance& AbilityInputInstance);
 	
 	friend class UAbilityInputSlotViewModel;
 };

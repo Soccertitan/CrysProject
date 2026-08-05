@@ -8,7 +8,7 @@
 namespace Crys::NativeGameplayTag
 {
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Combat_CombatStance);
-	
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Abillity_Exclude_ViewModel);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_State_MovementRooted);
 	
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_GameplayEvent_AutoAttack);

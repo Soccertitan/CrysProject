@@ -5,9 +5,9 @@
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
 #include "MVVMViewModelBase.h"
-#include "AbilityViewModel.generated.h"
+#include "CrysAbilityViewModel.generated.h"
 
-class UGameplayAbility;
+class UCrysGameplayAbility;
 struct FGameplayTag;
 struct FGameplayAbilitySpec;
 class UCrimGameplayAbility;
@@ -17,7 +17,7 @@ class UCrimAbilitySystemComponent;
  * Details about an ability. This only expects the AbilityData and ASC to be set once. If you need to show new data create a new ViewModel.
  */
 UCLASS()
-class CRYSPROJECT_API UAbilityViewModel : public UMVVMViewModelBase
+class CRYSPROJECT_API UCrysAbilityViewModel : public UMVVMViewModelBase
 {
 	GENERATED_BODY()
 	
@@ -33,13 +33,13 @@ public:
 	// Sets up the viewmodel with the required data. If using this, it will assume the ability is granted.
 	void SetGameplayAbility(const FGameplayAbilitySpec& Spec, UCrimAbilitySystemComponent* AbilitySystemComponent);
 	// Searches for the Ability from the ASC if possible. If it fails to find, CDO of the AbilityClass is used. 
-	void SetGameplayAbility(TSubclassOf<UGameplayAbility> AbilityClass, UCrimAbilitySystemComponent* AbilitySystemComponent);
-	void SetGameplayAbility(UGameplayAbility* Ability);
+	void SetGameplayAbility(TSubclassOf<UCrysGameplayAbility> AbilityClass, UCrimAbilitySystemComponent* AbilitySystemComponent);
+	void SetGameplayAbility(UCrysGameplayAbility* Ability);
 	
 	UFUNCTION(BlueprintPure)
-	const UGameplayAbility* GetGameplayAbility() const { return Ability; }
+	const UCrysGameplayAbility* GetGameplayAbility() const { return Ability; }
 	UFUNCTION(BlueprintPure)
-	TSubclassOf<UGameplayAbility> GetGameplayAbilityClass() const { return AbilityClass; }
+	TSubclassOf<UCrysGameplayAbility> GetGameplayAbilityClass() const { return AbilityClass; }
 	
 protected:
 	void SetAbilityName(const FText& NewValue);
@@ -50,7 +50,7 @@ protected:
 	UFUNCTION(BlueprintPure, Category = "Viewmodel|Ability")
 	UCrimAbilitySystemComponent* GetAbilitySystemComponent() const { return AbilitySystemComponent; }
 
-	virtual void OnGameplayAbilitySet(UGameplayAbility* NewAbility, UGameplayAbility* OldAbility);
+	virtual void OnGameplayAbilitySet(UCrysGameplayAbility* NewAbility, UCrysGameplayAbility* OldAbility);
 	
 	virtual void OnAbilitySystemComponentSet(UCrimAbilitySystemComponent* NewASC, UCrimAbilitySystemComponent* OldASC);
 	
@@ -66,9 +66,9 @@ private:
 	TObjectPtr<UCrimAbilitySystemComponent> AbilitySystemComponent;
 	// The ability CDO or the PrimaryInstance from a spec.
 	UPROPERTY()
-	TObjectPtr<UGameplayAbility> Ability;
+	TObjectPtr<UCrysGameplayAbility> Ability;
 	UPROPERTY()
-	TSubclassOf<UGameplayAbility> AbilityClass;
+	TSubclassOf<UCrysGameplayAbility> AbilityClass;
 	
 	UPROPERTY(BlueprintReadOnly, FieldNotify, Getter, Category = "Viewmodel|Ability", meta = (AllowPrivateAccess = true))
 	FText AbilityName;

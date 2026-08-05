@@ -6,7 +6,7 @@
 #include "UI/Widget/CrysUserWidget.h"
 #include "AbilityInputSlotUserWidget.generated.h"
 
-class UAbilityViewModel;
+class UCrysAbilityViewModel;
 /**
  * A specialized user widget to display information about an ability in a hotbar slot.
  */
@@ -17,5 +17,5 @@ class CRYSPROJECT_API UAbilityInputSlotUserWidget : public UCrysUserWidget
 	
 public:
 	UFUNCTION(BlueprintImplementableEvent, DisplayName = "SetAbilityViewModel")
-	void K2_SetAbilityViewModel(UAbilityViewModel* NewViewModel);
+	void K2_SetAbilityViewModel(UCrysAbilityViewModel* NewViewModel);
 };

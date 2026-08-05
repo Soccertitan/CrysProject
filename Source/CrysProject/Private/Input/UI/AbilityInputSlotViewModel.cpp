@@ -39,7 +39,7 @@ void UAbilityInputSlotViewModel::SetInputSet(const int32 InValue)
 	InputSet = InValue;
 }
 
-void UAbilityInputSlotViewModel::SetAbilityViewModel(UAbilityViewModel* InValue)
+void UAbilityInputSlotViewModel::SetAbilityViewModel(UCrysAbilityViewModel* InValue)
 {
 	UE_MVVM_SET_PROPERTY_VALUE(AbilityViewModel, InValue);
 }

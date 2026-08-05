@@ -1,13 +1,13 @@
 ﻿// Copyright Soccertitan 2026
 
 
-#include "AbilitySystem/UI/AbilityViewModel.h"
+#include "AbilitySystem/UI/CrysAbilityViewModel.h"
 
 #include "CrimAbilitySystemComponent.h"
 #include "AbilitySystem/Ability/CrysGameplayAbility.h"
 
 
-float UAbilityViewModel::GetCooldownTimeRemaining() const
+float UCrysAbilityViewModel::GetCooldownTimeRemaining() const
 {
 	if (IsAbilityOnCooldown() && GetAbilitySystemComponent())
 	{
@@ -30,23 +30,23 @@ float UAbilityViewModel::GetCooldownTimeRemaining() const
 	return 0.f;
 }
 
-void UAbilityViewModel::SetGameplayAbility(const FGameplayAbilitySpec& Spec, UCrimAbilitySystemComponent* NewAbilitySystemComponent)
+void UCrysAbilityViewModel::SetGameplayAbility(const FGameplayAbilitySpec& Spec, UCrimAbilitySystemComponent* NewAbilitySystemComponent)
 {
 	SetAbilitySystemComponent(NewAbilitySystemComponent);
-	UGameplayAbility* NewAbility = Spec.GetPrimaryInstance();
+	UCrysGameplayAbility* NewAbility = Cast<UCrysGameplayAbility>(Spec.GetPrimaryInstance());
 	if (!NewAbility)
 	{
-		NewAbility = Spec.Ability;
+		NewAbility = Cast<UCrysGameplayAbility>(Spec.Ability);
 	}
 	SetIsAbilityGranted(NewAbility ? true : false);
 	SetGameplayAbility(NewAbility);
 }
 
-void UAbilityViewModel::SetGameplayAbility(TSubclassOf<UGameplayAbility> InAbilityClass, UCrimAbilitySystemComponent* NewAbilitySystemComponent)
+void UCrysAbilityViewModel::SetGameplayAbility(TSubclassOf<UCrysGameplayAbility> InAbilityClass, UCrimAbilitySystemComponent* NewAbilitySystemComponent)
 {
 	SetAbilitySystemComponent(NewAbilitySystemComponent);
 	
-	UGameplayAbility* NewAbility = nullptr;
+	UCrysGameplayAbility* NewAbility = nullptr;
 	if (InAbilityClass)
 	{
 		if (NewAbilitySystemComponent)
@@ -58,17 +58,17 @@ void UAbilityViewModel::SetGameplayAbility(TSubclassOf<UGameplayAbility> InAbili
 				return;
 			}
 		}
-		NewAbility = NewObject<UGameplayAbility>(this, InAbilityClass);
+		NewAbility = NewObject<UCrysGameplayAbility>(this, InAbilityClass);
 	}
 	SetIsAbilityGranted(false);
 	SetGameplayAbility(NewAbility);
 }
 
-void UAbilityViewModel::SetGameplayAbility(UGameplayAbility* InAbility)
+void UCrysAbilityViewModel::SetGameplayAbility(UCrysGameplayAbility* InAbility)
 {
 	if (Ability != InAbility)
 	{
-		UGameplayAbility* OldAbility = Ability;
+		UCrysGameplayAbility* OldAbility = Ability;
 		Ability = InAbility;
 		AbilityClass = Ability ? Ability->GetClass() : nullptr;
 		TryBindToAbilityCooldownTags();
@@ -76,7 +76,7 @@ void UAbilityViewModel::SetGameplayAbility(UGameplayAbility* InAbility)
 	}
 }
 
-void UAbilityViewModel::SetAbilitySystemComponent(UCrimAbilitySystemComponent* NewAbilitySystemComponent)
+void UCrysAbilityViewModel::SetAbilitySystemComponent(UCrimAbilitySystemComponent* NewAbilitySystemComponent)
 {
 	if (AbilitySystemComponent != NewAbilitySystemComponent)
 	{
@@ -86,35 +86,42 @@ void UAbilityViewModel::SetAbilitySystemComponent(UCrimAbilitySystemComponent* N
 	}
 }
 
-void UAbilityViewModel::SetAbilityName(const FText& NewValue)
+void UCrysAbilityViewModel::SetAbilityName(const FText& NewValue)
 {
 	UE_MVVM_SET_PROPERTY_VALUE(AbilityName, NewValue);
 }
 
-void UAbilityViewModel::SetIcon(const TSoftObjectPtr<UTexture2D>& NewValue)
+void UCrysAbilityViewModel::SetIcon(const TSoftObjectPtr<UTexture2D>& NewValue)
 {
 	UE_MVVM_SET_PROPERTY_VALUE(Icon, NewValue);
 }
 
-void UAbilityViewModel::SetIsAbilityGranted(const bool NewValue)
+void UCrysAbilityViewModel::SetIsAbilityGranted(const bool NewValue)
 {
 	UE_MVVM_SET_PROPERTY_VALUE(bAbilityGranted, NewValue);
 }
 
-void UAbilityViewModel::SetIsAbilityOnCooldown(const bool NewValue)
+void UCrysAbilityViewModel::SetIsAbilityOnCooldown(const bool NewValue)
 {
 	UE_MVVM_SET_PROPERTY_VALUE(bAbilityOnCooldown, NewValue);
 	UE_MVVM_BROADCAST_FIELD_VALUE_CHANGED(GetCooldownTimeRemaining);
 }
 
-void UAbilityViewModel::OnGameplayAbilitySet(UGameplayAbility* NewAbility, UGameplayAbility* OldAbility)
+void UCrysAbilityViewModel::OnGameplayAbilitySet(UCrysGameplayAbility* NewAbility, UCrysGameplayAbility* OldAbility)
 {
-	UCrysGameplayAbility* CrysGameplayAbility = Cast<UCrysGameplayAbility>(NewAbility);
-	SetAbilityName(CrysGameplayAbility ? CrysGameplayAbility->GetAbilityName() : FText());
-	SetIcon(CrysGameplayAbility ? CrysGameplayAbility->GetIcon() : nullptr);
+	if (NewAbility)
+	{
+		SetAbilityName(NewAbility->GetAbilityName());
+		SetIcon(NewAbility->GetIcon());
+	}
+	else
+	{
+		SetAbilityName(FText());
+		SetIcon(nullptr);
+	}
 }
 
-void UAbilityViewModel::OnAbilitySystemComponentSet(UCrimAbilitySystemComponent* NewASC, UCrimAbilitySystemComponent* OldASC)
+void UCrysAbilityViewModel::OnAbilitySystemComponentSet(UCrimAbilitySystemComponent* NewASC, UCrimAbilitySystemComponent* OldASC)
 {
 	if (OldASC)
 	{
@@ -125,12 +132,12 @@ void UAbilityViewModel::OnAbilitySystemComponentSet(UCrimAbilitySystemComponent*
 	
 	if (AbilitySystemComponent)
 	{
-		AbilitySystemComponent->OnAbilityGivenDelegate.AddUObject(this, &UAbilityViewModel::OnAbilityGiven);
-		AbilitySystemComponent->OnAbilityRemovedDelegate.AddUObject(this, &UAbilityViewModel::OnAbilityRemoved);
+		AbilitySystemComponent->OnAbilityGivenDelegate.AddUObject(this, &UCrysAbilityViewModel::OnAbilityGiven);
+		AbilitySystemComponent->OnAbilityRemovedDelegate.AddUObject(this, &UCrysAbilityViewModel::OnAbilityRemoved);
 	}
 }
 
-void UAbilityViewModel::OnAbilityGiven(const FGameplayAbilitySpec& Spec)
+void UCrysAbilityViewModel::OnAbilityGiven(const FGameplayAbilitySpec& Spec)
 {
 	if (AbilityClass == Spec.Ability->GetClass())
 	{
@@ -138,7 +145,7 @@ void UAbilityViewModel::OnAbilityGiven(const FGameplayAbilitySpec& Spec)
 	}
 }
 
-void UAbilityViewModel::OnAbilityRemoved(const FGameplayAbilitySpec& Spec)
+void UCrysAbilityViewModel::OnAbilityRemoved(const FGameplayAbilitySpec& Spec)
 {
 	if (AbilityClass == Spec.Ability->GetClass())
 	{
@@ -146,7 +153,7 @@ void UAbilityViewModel::OnAbilityRemoved(const FGameplayAbilitySpec& Spec)
 	}
 }
 
-FGameplayTagContainer UAbilityViewModel::GenerateCooldownTags() const
+FGameplayTagContainer UCrysAbilityViewModel::GenerateCooldownTags() const
 {
 	if (Ability)
 	{
@@ -155,7 +162,7 @@ FGameplayTagContainer UAbilityViewModel::GenerateCooldownTags() const
 	return FGameplayTagContainer();
 }
 
-void UAbilityViewModel::TryBindToAbilityCooldownTags()
+void UCrysAbilityViewModel::TryBindToAbilityCooldownTags()
 {
 	if (AbilitySystemComponent)
 	{
@@ -167,13 +174,13 @@ void UAbilityViewModel::TryBindToAbilityCooldownTags()
 			for (const FGameplayTag& Tag : CooldownTags)
 			{
 				HandleCooldownTagCountChanged(Tag, AbilitySystemComponent->GetGameplayTagCount(Tag));
-				BoundCooldownTagsASCHandles.Add(Tag, AbilitySystemComponent->RegisterGameplayTagEvent(Tag, EGameplayTagEventType::NewOrRemoved).AddUObject(this, &UAbilityViewModel::HandleCooldownTagCountChanged));
+				BoundCooldownTagsASCHandles.Add(Tag, AbilitySystemComponent->RegisterGameplayTagEvent(Tag, EGameplayTagEventType::NewOrRemoved).AddUObject(this, &UCrysAbilityViewModel::HandleCooldownTagCountChanged));
 			}
 		}
 	}
 }
 
-void UAbilityViewModel::UnbindToAbilityCooldownTags(UCrimAbilitySystemComponent* ASC)
+void UCrysAbilityViewModel::UnbindToAbilityCooldownTags(UCrimAbilitySystemComponent* ASC)
 {
 	for (auto& Elem : BoundCooldownTagsASCHandles)
 	{
@@ -181,7 +188,7 @@ void UAbilityViewModel::UnbindToAbilityCooldownTags(UCrimAbilitySystemComponent*
 	}
 }
 
-void UAbilityViewModel::HandleCooldownTagCountChanged(const FGameplayTag GameplayTag, int32 Count)
+void UCrysAbilityViewModel::HandleCooldownTagCountChanged(const FGameplayTag GameplayTag, int32 Count)
 {
 	//Cooldown applied
 	if (Count > 0)

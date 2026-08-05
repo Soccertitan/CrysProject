@@ -98,7 +98,7 @@ TArray<UItemInstanceViewModel*> UEquipmentManagerViewModel::GetEquippableItems(c
 		Result = ItemContainerViewModel->GetItemInstanceViewModels();
 		EquippableItemsFilter->EquipSlot = EquipSlot;
 		
-		for (int32 Index = Result.Num(); Index >= 0; --Index)
+		for (int32 Index = Result.Num() - 1; Index >= 0; Index--)
 		{
 			if (EquippableItemsFilter->ShouldFilterObject(Result[Index], EquipmentManagerComponent))
 			{

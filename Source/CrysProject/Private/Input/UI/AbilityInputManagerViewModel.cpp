@@ -7,7 +7,7 @@
 #include "CrimAbilitySystemComponent.h"
 #include "CrysLogChannels.h"
 #include "Abilities/GameplayAbility.h"
-#include "AbilitySystem/UI/AbilityViewModel.h"
+#include "AbilitySystem/UI/CrysAbilityViewModel.h"
 #include "Input/UI/AbilityInputSlotViewModel.h"
 #include "Input/AbilityInputManagerComponent.h"
 #include "Player/CrysPlayerState.h"
@@ -131,7 +131,7 @@ void UAbilityInputManagerViewModel::InitAbilityInputManager(APlayerController* P
 	AbilityInputManagerComponent->OnAbilityInputChangedDelegate.AddUniqueDynamic(this, &UAbilityInputManagerViewModel::OnAbilityInputChanged);
 	AbilityInputManagerComponent->OnAbilityInputRemovedDelegate.AddUniqueDynamic(this, &UAbilityInputManagerViewModel::OnAbilityInputRemoved);
 	
-	EmptyAbilityViewModel = NewObject<UAbilityViewModel>(this);
+	EmptyAbilityViewModel = NewObject<UCrysAbilityViewModel>(this);
 }
 
 void UAbilityInputManagerViewModel::OnAbilityInputAdded(const FAbilityInputInstance& AbilityInputInstance, const int32 InputSet)
@@ -161,11 +161,11 @@ void UAbilityInputManagerViewModel::OnAbilityInputRemoved(const FAbilityInputIns
 	}
 }
 
-UAbilityViewModel* UAbilityInputManagerViewModel::CreateAbilityViewModel(const FAbilityInputInstance& AbilityInputInstance)
+UCrysAbilityViewModel* UAbilityInputManagerViewModel::CreateAbilityViewModel(const FAbilityInputInstance& AbilityInputInstance)
 {
 	if (AbilityInputInstance.AbilityClass)
 	{
-		UAbilityViewModel* NewVM = NewObject<UAbilityViewModel>(this);
+		UCrysAbilityViewModel* NewVM = NewObject<UCrysAbilityViewModel>(this);
 		NewVM->SetGameplayAbility(AbilityInputInstance.AbilityClass, AbilitySystemComponent);
 		return NewVM;
 	}

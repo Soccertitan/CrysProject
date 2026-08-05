@@ -46,3 +46,10 @@ void UCrysImage::SetBrushFromSoftTextureNotMatchSize(TSoftObjectPtr<UTexture2D> 
 {
 	SetBrushFromSoftTexture(SoftTexture, false);
 }
+
+void UCrysImage::SynchronizeProperties()
+{
+	Super::SynchronizeProperties();
+	
+	SetBrushFromTexture(DefaultTexture);
+}

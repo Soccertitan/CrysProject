@@ -7,7 +7,7 @@
 #include "CrysImage.generated.h"
 
 /**
- * Helper functions to be compatible with ViewModels.
+ * Helper functions to be compatible with ViewModels. Automatically updates the brush to the default texture when no image.
  */
 UCLASS()
 class CRYSPROJECT_API UCrysImage : public UImage
@@ -37,4 +37,6 @@ public:
 	/** Calls SetBrushFromSoftTexture internally with bMatchSize = false. */
 	UFUNCTION(BlueprintCallable, Category = "Appearance")
 	void SetBrushFromSoftTextureNotMatchSize(TSoftObjectPtr<UTexture2D> SoftTexture);
+	
+	virtual void SynchronizeProperties() override;
 };

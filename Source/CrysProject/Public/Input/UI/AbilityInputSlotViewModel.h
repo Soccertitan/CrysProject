@@ -7,7 +7,7 @@
 #include "Input/AbilityInputSlot.h"
 #include "AbilityInputSlotViewModel.generated.h"
 
-class UAbilityViewModel;
+class UCrysAbilityViewModel;
 /**
  * A viewmodel with the AbilityInputSlot and the AbilityViewModel.
  */
@@ -18,7 +18,7 @@ class CRYSPROJECT_API UAbilityInputSlotViewModel : public UMVVMViewModelBase
 	
 public:
 	FAbilityInputSlot GetInputSlot() const { return InputSlot; }
-	UAbilityViewModel* GetAbilityViewModel() const { return AbilityViewModel; }
+	UCrysAbilityViewModel* GetAbilityViewModel() const { return AbilityViewModel; }
 	
 	/** Tries to activate the ability from this slot. */
 	UFUNCTION(BlueprintCallable, Category = "Viewmodel|Ability")
@@ -31,7 +31,7 @@ public:
 protected:
 	void SetInputSlot(const FAbilityInputSlot& InValue);
 	void SetInputSet(const int32 InValue);
-	void SetAbilityViewModel(UAbilityViewModel* InValue);
+	void SetAbilityViewModel(UCrysAbilityViewModel* InValue);
 	
 private:
 	UPROPERTY(BlueprintReadOnly, FieldNotify, Getter, Category = "Viewmodel|Ability", meta = (AllowPrivateAccess = true))
@@ -40,7 +40,7 @@ private:
 	int32 InputSet = -1;
 	
 	UPROPERTY(BlueprintReadOnly, FieldNotify, Getter, Category = "Viewmodel|Ability", meta = (AllowPrivateAccess = true))
-	TObjectPtr<UAbilityViewModel> AbilityViewModel;
+	TObjectPtr<UCrysAbilityViewModel> AbilityViewModel;
 	
 	friend class UAbilityInputManagerViewModel;
 };

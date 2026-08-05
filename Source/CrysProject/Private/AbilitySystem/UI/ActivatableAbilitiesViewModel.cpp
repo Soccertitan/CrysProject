@@ -4,7 +4,9 @@
 #include "AbilitySystem/UI/ActivatableAbilitiesViewModel.h"
 
 #include "CrimAbilitySystemComponent.h"
-#include "AbilitySystem/UI/AbilityViewModel.h"
+#include "CrysNativeGameplayTags.h"
+#include "AbilitySystem/Ability/CrysGameplayAbility.h"
+#include "AbilitySystem/UI/CrysAbilityViewModel.h"
 
 void UActivatableAbilitiesViewModel::SetAbilitySystemComponent(UCrimAbilitySystemComponent* ASC)
 {
@@ -26,9 +28,7 @@ void UActivatableAbilitiesViewModel::SetAbilitySystemComponent(UCrimAbilitySyste
 			AbilityViewModels.Reserve(AbilitySystemComponent->GetActivatableAbilities().Num());
 			for (const FGameplayAbilitySpec& Spec : AbilitySystemComponent->GetActivatableAbilities())
 			{
-				UAbilityViewModel* NewVM = NewObject<UAbilityViewModel>(this);
-				NewVM->SetGameplayAbility(Spec.Ability);
-				AbilityViewModels.Add(NewVM);
+				TryCreateViewModel(Spec);
 			}
 		}
 		UE_MVVM_BROADCAST_FIELD_VALUE_CHANGED(GetAbilityViewModels);
@@ -37,7 +37,7 @@ void UActivatableAbilitiesViewModel::SetAbilitySystemComponent(UCrimAbilitySyste
 
 void UActivatableAbilitiesViewModel::OnAbilityGiven(const FGameplayAbilitySpec& Spec)
 {
-	for (UAbilityViewModel* ViewModel : AbilityViewModels)
+	for (UCrysAbilityViewModel* ViewModel : AbilityViewModels)
 	{
 		if (ViewModel->GetGameplayAbilityClass() == Spec.Ability->GetClass())
 		{
@@ -46,16 +46,15 @@ void UActivatableAbilitiesViewModel::OnAbilityGiven(const FGameplayAbilitySpec& 
 		}
 	}
 	
-	// Did not find an existing view model so we create one now.
-	UAbilityViewModel* NewVM = NewObject<UAbilityViewModel>(this);
-	NewVM->SetGameplayAbility(Spec.Ability);
-	AbilityViewModels.Add(NewVM);
-	UE_MVVM_BROADCAST_FIELD_VALUE_CHANGED(GetAbilityViewModels);
+	if (TryCreateViewModel(Spec))
+	{
+		UE_MVVM_BROADCAST_FIELD_VALUE_CHANGED(GetAbilityViewModels);
+	}
 }
 
 void UActivatableAbilitiesViewModel::OnAbilityRemoved(const FGameplayAbilitySpec& Spec)
 {
-	for (int32 Index = AbilityViewModels.Num(); Index >= 0; --Index)
+	for (int32 Index = AbilityViewModels.Num() - 1; Index >= 0; Index--)
 	{
 		if (AbilityViewModels[Index]->GetGameplayAbilityClass() == Spec.Ability->GetClass())
 		{
@@ -65,4 +64,19 @@ void UActivatableAbilitiesViewModel::OnAbilityRemoved(const FGameplayAbilitySpec
 	}
 	
 	UE_MVVM_BROADCAST_FIELD_VALUE_CHANGED(GetAbilityViewModels);
+}
+
+bool UActivatableAbilitiesViewModel::TryCreateViewModel(const FGameplayAbilitySpec& Spec)
+{
+	if (Spec.Ability->IsA(UCrysGameplayAbility::StaticClass()))
+	{
+		if (!Spec.Ability->GetAssetTags().HasTag(Crys::NativeGameplayTag::Abillity_Exclude_ViewModel))
+		{
+			UCrysAbilityViewModel* NewVM = NewObject<UCrysAbilityViewModel>(this);
+			NewVM->SetGameplayAbility(Spec, AbilitySystemComponent);
+			AbilityViewModels.Add(NewVM);
+			return true;
+		}
+	}
+	return false;
 }

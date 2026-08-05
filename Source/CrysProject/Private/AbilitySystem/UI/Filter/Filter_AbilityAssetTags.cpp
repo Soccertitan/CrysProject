@@ -3,19 +3,19 @@
 
 #include "AbilitySystem/UI/Filter/Filter_AbilityAssetTags.h"
 
-#include "Abilities/GameplayAbility.h"
-#include "AbilitySystem/UI/AbilityViewModel.h"
+#include "AbilitySystem/Ability/CrysGameplayAbility.h"
+#include "AbilitySystem/UI/CrysAbilityViewModel.h"
 
 bool UFilter_AbilityAssetTags::ShouldFilterObject_Implementation(const UObject* Object, const UObject* Context) const
 {
-	const UAbilityViewModel* ViewModel = Cast<UAbilityViewModel>(Object);
+	const UCrysAbilityViewModel* ViewModel = Cast<UCrysAbilityViewModel>(Object);
 	
 	if (!ViewModel)
 	{
 		return true;
 	}
 	
-	const UGameplayAbility* Ability = ViewModel->GetGameplayAbility();
+	const UCrysGameplayAbility* Ability = ViewModel->GetGameplayAbility();
 	if (!Ability)
 	{
 		return true;

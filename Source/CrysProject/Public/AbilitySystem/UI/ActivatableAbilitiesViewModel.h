@@ -8,7 +8,7 @@
 
 struct FGameplayAbilitySpec;
 class UCrimAbilitySystemComponent;
-class UAbilityViewModel;
+class UCrysAbilityViewModel;
 
 /**
  * Generates AbilityViewModels of all activatable abilities.
@@ -20,18 +20,18 @@ class CRYSPROJECT_API UActivatableAbilitiesViewModel : public UMVVMViewModelBase
 	
 public:
 	UFUNCTION(BlueprintPure, FieldNotify)
-	TArray<UAbilityViewModel*> GetAbilityViewModels() const { return AbilityViewModels; }
+	TArray<UCrysAbilityViewModel*> GetAbilityViewModels() const { return AbilityViewModels; }
 	
 	void SetAbilitySystemComponent(UCrimAbilitySystemComponent* ASC);
-	
-protected:
 	
 private:
 	UPROPERTY()
 	TObjectPtr<UCrimAbilitySystemComponent> AbilitySystemComponent;
 	UPROPERTY()
-	TArray<TObjectPtr<UAbilityViewModel>> AbilityViewModels;
+	TArray<TObjectPtr<UCrysAbilityViewModel>> AbilityViewModels;
 	
 	void OnAbilityGiven(const FGameplayAbilitySpec& Spec);
 	void OnAbilityRemoved(const FGameplayAbilitySpec& Spec);
+	
+	bool TryCreateViewModel(const FGameplayAbilitySpec& Spec);
 };
