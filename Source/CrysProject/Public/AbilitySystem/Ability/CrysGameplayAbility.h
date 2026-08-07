@@ -62,11 +62,17 @@ public:
 	bool DoesTargetMeetTargetTagRequirements(AActor* TargetActor, const FGameplayTagRequirements& Requirements) const;
 
 	FText GetAbilityName() const { return AbilityName; }
+	UFUNCTION(BlueprintNativeEvent)
+	FText GetAbilityDescription() const;
+	FText GetAbilityDescription_Implementation() const { return AbilityDescription; }
 	TSoftObjectPtr<UTexture2D> GetIcon() const { return Icon; }
 	
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
 	FText AbilityName;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI", meta = (MultiLine))
+	FText AbilityDescription;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
 	TSoftObjectPtr<UTexture2D> Icon;

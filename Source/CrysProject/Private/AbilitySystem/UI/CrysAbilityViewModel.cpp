@@ -91,6 +91,11 @@ void UCrysAbilityViewModel::SetAbilityName(const FText& NewValue)
 	UE_MVVM_SET_PROPERTY_VALUE(AbilityName, NewValue);
 }
 
+void UCrysAbilityViewModel::SetAbilityDescription(const FText& NewValue)
+{
+	UE_MVVM_SET_PROPERTY_VALUE(AbilityDescription, NewValue);
+}
+
 void UCrysAbilityViewModel::SetIcon(const TSoftObjectPtr<UTexture2D>& NewValue)
 {
 	UE_MVVM_SET_PROPERTY_VALUE(Icon, NewValue);
@@ -112,11 +117,13 @@ void UCrysAbilityViewModel::OnGameplayAbilitySet(UCrysGameplayAbility* NewAbilit
 	if (NewAbility)
 	{
 		SetAbilityName(NewAbility->GetAbilityName());
+		SetAbilityDescription(NewAbility->GetAbilityDescription());
 		SetIcon(NewAbility->GetIcon());
 	}
 	else
 	{
 		SetAbilityName(FText());
+		SetAbilityDescription(FText());
 		SetIcon(nullptr);
 	}
 }

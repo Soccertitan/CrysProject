@@ -23,6 +23,7 @@ class CRYSPROJECT_API UCrysAbilityViewModel : public UMVVMViewModelBase
 	
 public:
 	FText GetAbilityName() const { return AbilityName; }
+	FText GetAbilityDescription() const { return AbilityDescription; }
 	TSoftObjectPtr<UTexture2D> GetIcon() const { return Icon; }
 	bool IsAbilityGranted() const { return bAbilityGranted; }
 	bool IsAbilityOnCooldown() const { return bAbilityOnCooldown; }
@@ -43,6 +44,7 @@ public:
 	
 protected:
 	void SetAbilityName(const FText& NewValue);
+	void SetAbilityDescription(const FText& NewValue);
 	void SetIcon(const TSoftObjectPtr<UTexture2D>& NewValue);
 	void SetIsAbilityGranted(const bool NewValue);
 	void SetIsAbilityOnCooldown(const bool NewValue);
@@ -72,6 +74,9 @@ private:
 	
 	UPROPERTY(BlueprintReadOnly, FieldNotify, Getter, Category = "Viewmodel|Ability", meta = (AllowPrivateAccess = true))
 	FText AbilityName;
+	
+	UPROPERTY(BlueprintReadOnly, FieldNotify, Getter, Category = "Viewmodel|Ability", meta = (AllowPrivateAccess = true))
+	FText AbilityDescription;
 	
 	UPROPERTY(BlueprintReadOnly, FieldNotify, Getter, Category = "Viewmodel|Ability", meta = (AllowPrivateAccess = true))
 	TSoftObjectPtr<UTexture2D> Icon;
