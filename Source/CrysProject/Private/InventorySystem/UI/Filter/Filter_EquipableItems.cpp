@@ -14,7 +14,7 @@ bool UFilter_EquipableItems::ShouldFilterObject_Implementation(const UObject* Ob
 		return true;
 	}
 	
-	const UEquipmentManagerComponent* EquipmentManager = Cast<UEquipmentManagerComponent>(Object);
+	const UEquipmentManagerComponent* EquipmentManager = Cast<UEquipmentManagerComponent>(Context);
 	if (!EquipmentManager)
 	{
 		return true;

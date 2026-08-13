@@ -28,3 +28,6 @@
 [submodule "Plugins/CrimSortAndFilterSystem"]
 	path = Plugins/CrimSortAndFilterSystem
 	url = https://github.com/Soccertitan/CrimSortAndFilterSystem
+[submodule "Plugins/UINavigation"]
+	path = Plugins/UINavigation
+	url = https://github.com/Soccertitan/UINavigation
